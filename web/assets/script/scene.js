@@ -1,5 +1,5 @@
 function Scene(wrapper, cb) {
-	var airports;
+	var airports, markers;
 
 	var width = 1024, height = 1024;
 	var scene = new THREE.Scene();
@@ -66,6 +66,8 @@ function Scene(wrapper, cb) {
 	}
 
 	function addAirports() {
+		markers = [];
+
 		var airportGroup = new THREE.Group();
 		globe.add(airportGroup);
 
@@ -91,9 +93,34 @@ function Scene(wrapper, cb) {
 				);
 				marker.lookAt(0,0,0);
 
+				marker.onClick = function () {
+					showAirport(airport);
+				}
+
 				airport.marker = marker;
+				markers.push(marker);
 				airportGroup.add(marker);
 			})
 		})
+
+		var raycaster = new THREE.Raycaster();
+		var mouse = new THREE.Vector2();
+
+		$(document).click(function (event) {
+			event.preventDefault();
+
+			mouse.x =   (event.clientX / width )*2 - 1;
+			mouse.y = - (event.clientY / height)*2 + 1;
+
+			raycaster.setFromCamera(mouse, camera);
+
+			var intersects = raycaster.intersectObjects(markers); 
+
+			if (intersects.length > 0) intersects[0].object.onClick();
+		})
+	}
+
+	function showAirport(airport) {
+		
 	}
 }
