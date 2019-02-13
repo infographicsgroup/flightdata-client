@@ -3,7 +3,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 	var _this = this;
 	var STATE = { NONE: - 1, ROTATE: 0, TOUCH_ROTATE: 3 };
 
-	var maxAngle = 1.2;
+	this.minAngle = -1.2;
+	this.maxAngle =  1.2;
 
 	this.object = object;
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
@@ -118,8 +119,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 				object.rotation.x -= _dy;
 				object.rotation.y += _dx;
 
-				if (object.rotation.x < -maxAngle) object.rotation.x = -maxAngle;
-				if (object.rotation.x >  maxAngle) object.rotation.x =  maxAngle;
+				if (object.rotation.x < _this.minAngle) object.rotation.x = _this.minAngle;
+				if (object.rotation.x > _this.maxAngle) object.rotation.x = _this.maxAngle;
 
 			}
 

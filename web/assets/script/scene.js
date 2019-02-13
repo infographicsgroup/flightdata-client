@@ -1,12 +1,12 @@
 function Scene(wrapper, cb) {
-	var airports, markers;
+	var airports, markers, airportGroup, mapObject, flightObject, controlGlobe, controlAirport;
 
 	var width = 1024, height = 1024;
 	var scene = new THREE.Scene();
 	var clock = new THREE.Clock();
 
 	var camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
-	camera.position.z = 3;
+	camera.position.set(0,0,3);
 
 	scene.add(new THREE.AmbientLight(0x333333));
 
@@ -30,7 +30,7 @@ function Scene(wrapper, cb) {
 
 	globe.add(globeMesh);
 	globe.rotation.x =  0.8;
-	globe.rotation.y = -1.5;
+	globe.rotation.y = -Math.PI/2;
 
 	var renderer = new THREE.WebGLRenderer({antialias: true});
 
@@ -39,8 +39,8 @@ function Scene(wrapper, cb) {
 	$(window).resize(resize);
 	resize();
 
-	var controls = new THREE.TrackballControls(globe);
-	controls.dynamicDampingFactor = 0.99;
+	controlGlobe = new THREE.TrackballControls(globe);
+	controlGlobe.dynamicDampingFactor = 0.99;
 
 	render();
 
@@ -50,7 +50,10 @@ function Scene(wrapper, cb) {
 
 	function render() {
 		var delta = clock.getDelta();
-		controls.update(delta); 
+
+		if (controlGlobe) controlGlobe.update(delta);
+		if (controlAirport) controlAirport.update(delta);
+
 		requestAnimationFrame(render);
 		renderer.render(scene, camera);
 	}
@@ -78,23 +81,27 @@ function Scene(wrapper, cb) {
 			});
 			airports = _airports;
 			airports.forEach(function (airport) {
-				var geometry = new THREE.CircleGeometry(0.02, 32);
+				var geometry = new THREE.CircleGeometry(1/90, 32);
 
 				var marker = new THREE.Mesh( geometry, material );
 
-				var lonRad = -airport.lng * Math.PI / 180;
-				var latRad =  airport.lat * Math.PI / 180;
+				airport.lonRad = -airport.lng * Math.PI / 180;
+				airport.latRad =  airport.lat * Math.PI / 180;
 				var r = 1.0001;
 
-				marker.position.set(
-					r * Math.cos(latRad) * Math.cos(lonRad),
-					r * Math.sin(latRad),
-					r * Math.cos(latRad) * Math.sin(lonRad)
-				);
+				airport.rotX = airport.latRad;
+				airport.rotY = airport.lonRad-Math.PI/2;
+
+				airport.x = r * Math.cos(airport.latRad) * Math.cos(airport.lonRad),
+				airport.y = r * Math.sin(airport.latRad),
+				airport.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad)
+
+				marker.position.set(airport.x, airport.y, airport.z);
 				marker.lookAt(0,0,0);
 
 				marker.onClick = function () {
 					showAirport(airport);
+					hideGlobe();
 				}
 
 				airport.marker = marker;
@@ -121,6 +128,41 @@ function Scene(wrapper, cb) {
 	}
 
 	function showAirport(airport) {
-		
+		/*
+		var easeInOut = function(p) {
+			return -0.5 * (Math.cos(Math.PI * p) - 1);
+		}
+		TweenLite.to(globe.rotation, 2, {x:airport.rotX, y:airport.rotY, ease:easeInOut})
+		TweenLite.to(globe.position, 2, {z:1.99, ease:easeInOut})
+		*/
+
+		if (!airportGroup) {
+			airportGroup = new THREE.Group();
+			scene.add(airportGroup);
+
+			var geometry = new THREE.CircleGeometry(1, 64);
+			var material = new THREE.MeshBasicMaterial({
+				map: new THREE.TextureLoader().load('assets/map/adelaide.jpg'),
+				side: THREE.DoubleSide
+			});
+			mapObject = new THREE.Mesh( geometry, material );
+			airportGroup.add(mapObject);
+
+			controlAirport = new THREE.TrackballControls(airportGroup);
+			controlAirport.dynamicDampingFactor = 0.99;
+		}
+		airportGroup.visible = true;
+	}
+
+	function hideAirport() {
+		airportGroup.visible = false;
+	}
+
+	function showGlobe() {
+		globe.visible = true;
+	}
+
+	function hideGlobe() {
+		globe.visible = false;
 	}
 }
