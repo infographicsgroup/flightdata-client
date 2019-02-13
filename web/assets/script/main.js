@@ -19,7 +19,6 @@ $(function () {
 				scene.closeAirport();
 			})
 			scene.toggleBackButton = function (toggle) {
-				console.log(toggle);
 				if (toggle) {
 					$('#btnBack').css('display', 'inline');
 				} else {
