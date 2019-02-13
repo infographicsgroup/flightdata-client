@@ -1,13 +1,9 @@
-/**
- * @author Eberhard Graether / http://egraether.com/
- * @author Mark Lundin 	/ http://mark-lundin.com
- * @author Simone Manini / http://daron1337.github.io
- * @author Luca Antiga 	/ http://lantiga.github.io
- */
 
 THREE.TrackballControls = function ( object, domElement ) {
 	var _this = this;
 	var STATE = { NONE: - 1, ROTATE: 0, TOUCH_ROTATE: 3 };
+
+	var maxAngle = 1.2;
 
 	this.object = object;
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
@@ -122,8 +118,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 				object.rotation.x -= _dy;
 				object.rotation.y += _dx;
 
-				if (object.rotation.x < -Math.PI/2) object.rotation.x = -Math.PI/2;
-				if (object.rotation.x >  Math.PI/2) object.rotation.x =  Math.PI/2;
+				if (object.rotation.x < -maxAngle) object.rotation.x = -maxAngle;
+				if (object.rotation.x >  maxAngle) object.rotation.x =  maxAngle;
 
 			}
 
