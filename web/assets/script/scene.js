@@ -1,11 +1,12 @@
 function Scene(wrapper, cb) {
+	var airports;
+
 	var width = 1024, height = 1024;
 	var scene = new THREE.Scene();
 	var clock = new THREE.Clock();
 
-
 	var camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
-	camera.position.z = 1.5;
+	camera.position.z = 3;
 
 	scene.add(new THREE.AmbientLight(0x333333));
 
@@ -13,8 +14,11 @@ function Scene(wrapper, cb) {
 	light.position.set(5,3,5);
 	scene.add(light);
 	
-	var globe = new THREE.Mesh(
-		new THREE.SphereGeometry(0.5, 32, 32),
+	var globe = new THREE.Group();
+	scene.add(globe);
+
+	var globeMesh = new THREE.Mesh(
+		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
 			map: new THREE.TextureLoader().load('assets/texture/globe.jpg'),
 			bumpMap: new THREE.TextureLoader().load('assets/texture/globe_bump.jpg'),
@@ -23,43 +27,33 @@ function Scene(wrapper, cb) {
 			specular: new THREE.Color('grey')
 		})
 	);
-	scene.add(globe);
 
+	globe.add(globeMesh);
+	globe.rotation.x =  0.8;
+	globe.rotation.y = -1.5;
 
+	var renderer = new THREE.WebGLRenderer({antialias: true});
 
-
-
-	var renderer = new THREE.WebGLRenderer();
 	wrapper.append(renderer.domElement);
+
+	$(window).resize(resize);
 	resize();
 
-	//console.log(globe);
-	//globe.rotation.x = 3;
 	var controls = new THREE.TrackballControls(globe);
-	//controls.rotateSpeed = 1.0;
-	//controls.zoomSpeed = 1.0;
-	//controls.panSpeed = 1.0;
-	//        controls.noZoom=false;
 	controls.dynamicDampingFactor = 0.99;
-	controls.noPan = true;
-	//controls.staticMoving = true;
-
 
 	render();
 
+	cb({
+		addAirports:addAirports,
+	});
+
 	function render() {
 		var delta = clock.getDelta();
-		controls.update(delta);
-		//globe.updateMatrix();
-		//console.log(globe.up);
-		//globe.rotation.y += 0.0005;
-		//clouds.rotation.y += 0.0005;  
+		controls.update(delta); 
 		requestAnimationFrame(render);
 		renderer.render(scene, camera);
 	}
-
-
-	$(window).resize(resize);
 
 	function resize() {
 		width = wrapper.width();
@@ -69,5 +63,37 @@ function Scene(wrapper, cb) {
 		camera.updateProjectionMatrix();
 
 		renderer.setSize(width, height);
+	}
+
+	function addAirports() {
+		var airportGroup = new THREE.Group();
+		globe.add(airportGroup);
+
+		$.getJSON('assets/data/airports.json', function (_airports) {
+			var material = new THREE.MeshPhongMaterial({
+				color: 0xffff00,
+				side: THREE.DoubleSide
+			});
+			airports = _airports;
+			airports.forEach(function (airport) {
+				var geometry = new THREE.CircleGeometry(0.02, 32);
+
+				var marker = new THREE.Mesh( geometry, material );
+
+				var lonRad = -airport.lng * Math.PI / 180;
+				var latRad =  airport.lat * Math.PI / 180;
+				var r = 1.0001;
+
+				marker.position.set(
+					r * Math.cos(latRad) * Math.cos(lonRad),
+					r * Math.sin(latRad),
+					r * Math.cos(latRad) * Math.sin(lonRad)
+				);
+				marker.lookAt(0,0,0);
+
+				airport.marker = marker;
+				airportGroup.add(marker);
+			})
+		})
 	}
 }
