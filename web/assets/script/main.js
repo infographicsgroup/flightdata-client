@@ -14,5 +14,18 @@ $(function () {
 		function (cb) {
 			scene.addAirports(cb);
 		},
+		function (cb) {
+			$('#btnBack').click(function () {
+				scene.closeAirport();
+			})
+			scene.toggleBackButton = function (toggle) {
+				console.log(toggle);
+				if (toggle) {
+					$('#btnBack').css('display', 'inline');
+				} else {
+					$('#btnBack').css('display', 'none');
+				}
+			}
+		},
 	])
 })

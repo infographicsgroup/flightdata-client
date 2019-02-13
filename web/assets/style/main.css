@@ -17,3 +17,15 @@ body {
 	left:0px;
 	overflow: hidden;
 }
+
+.button {
+	color: #fff;
+	font-family: sans-serif;
+	position: absolute;
+	bottom: 20%;
+	right: 10%;
+	display: none;
+	cursor: pointer;
+	background: #555;
+	padding: 10px;
+}

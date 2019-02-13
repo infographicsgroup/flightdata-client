@@ -1,5 +1,17 @@
 function Scene(wrapper, cb) {
-	var airports, markers, airportGroup, mapObject, flightObject, controlGlobe, controlAirport;
+	var airports,
+	    airportGroup,
+	    controlAirport,
+	    controlGlobe,
+	    flightsObject,
+	    mapMaterial,
+	    mapObject,
+	    markers;
+
+	var me = {
+		addAirports:addAirports,
+		closeAirport:closeAirport
+	}
 
 	var width = 1024, height = 1024;
 	var scene = new THREE.Scene();
@@ -44,10 +56,6 @@ function Scene(wrapper, cb) {
 
 	render();
 
-	cb({
-		addAirports:addAirports,
-	});
-
 	function render() {
 		var delta = clock.getDelta();
 
@@ -68,11 +76,27 @@ function Scene(wrapper, cb) {
 		renderer.setSize(width, height);
 	}
 
-	function addAirports() {
+	function addAirports(cb) {
 		markers = [];
 
 		var airportGroup = new THREE.Group();
 		globe.add(airportGroup);
+
+		var raycaster = new THREE.Raycaster();
+		var mouse = new THREE.Vector2();
+
+		$(document).click(function (event) {
+			event.preventDefault();
+
+			mouse.x =   (event.clientX / width )*2 - 1;
+			mouse.y = - (event.clientY / height)*2 + 1;
+
+			raycaster.setFromCamera(mouse, camera);
+
+			var intersects = raycaster.intersectObjects(markers); 
+
+			if (intersects.length > 0) intersects[0].object.onClick();
+		})
 
 		$.getJSON('assets/data/airports.json', function (_airports) {
 			var material = new THREE.MeshPhongMaterial({
@@ -108,23 +132,13 @@ function Scene(wrapper, cb) {
 				markers.push(marker);
 				airportGroup.add(marker);
 			})
+			cb();
 		})
+	}
 
-		var raycaster = new THREE.Raycaster();
-		var mouse = new THREE.Vector2();
-
-		$(document).click(function (event) {
-			event.preventDefault();
-
-			mouse.x =   (event.clientX / width )*2 - 1;
-			mouse.y = - (event.clientY / height)*2 + 1;
-
-			raycaster.setFromCamera(mouse, camera);
-
-			var intersects = raycaster.intersectObjects(markers); 
-
-			if (intersects.length > 0) intersects[0].object.onClick();
-		})
+	function closeAirport() {
+		hideAirport();
+		showGlobe();
 	}
 
 	function showAirport(airport) {
@@ -141,17 +155,83 @@ function Scene(wrapper, cb) {
 			scene.add(airportGroup);
 
 			var geometry = new THREE.CircleGeometry(1, 64);
-			var material = new THREE.MeshBasicMaterial({
-				map: new THREE.TextureLoader().load('assets/map/adelaide.jpg'),
-				side: THREE.DoubleSide
+			mapMaterial = new THREE.MeshBasicMaterial({
+				map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.jpg'),
+				transparent: true,
+				opacity: 0.5,
 			});
-			mapObject = new THREE.Mesh( geometry, material );
+			mapObject = new THREE.Mesh(geometry, mapMaterial);
+			mapObject.rotation.set(-Math.PI/2,0,0);
+			mapObject.position.set(0,-0.2,0);
 			airportGroup.add(mapObject);
 
 			controlAirport = new THREE.TrackballControls(airportGroup);
 			controlAirport.dynamicDampingFactor = 0.99;
+			controlAirport.minAngle = -Math.PI/2;
+			controlAirport.maxAngle =  Math.PI/2;
+			controlAirport.rotateSpeed = 5;
 		}
+		airportGroup.rotation.set(Math.PI/2,0,0);
 		airportGroup.visible = true;
+
+		if (flightsObject) airportGroup.remove(flightsObject);
+		flightsObject = new THREE.Group();
+		flightsObject.rotation.set(-Math.PI/2,0,0);
+		flightsObject.position.set(0,-0.2,0);
+		airportGroup.add(flightsObject);
+
+		var index, buffer;
+		$.getJSON('assets/data/airports/'+airport.name+'.json', function (data) {
+			index = data;
+			checkFlightData();
+		})
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'assets/data/airports/'+airport.name+'.bin', true);
+		xhr.responseType = 'arraybuffer';
+		xhr.onload = function(e) {
+			buffer = new Uint16Array(this.response); 
+			checkFlightData();
+		};
+		xhr.send();
+
+		function checkFlightData() {
+			if (!index) return;
+			if (!buffer) return;
+
+			for (var i = 0; i < buffer.length; i+=4) {
+				var idx = buffer[i+0];
+
+				if (!index[idx].segments) index[idx].segments = [];
+
+				index[idx].segments.push(new THREE.Vector3(
+					(buffer[i+1]/32768-1)*1.05,
+					(buffer[i+2]/32768-1)*1.05,
+					(buffer[i+3]/32768-1)*4
+				));
+			}
+
+			index.forEach(function (flight) {
+				var curve = new THREE.CatmullRomCurve3(flight.segments);
+				var points = curve.getPoints(flight.segments.length*3);
+				var cmlgeometry = new THREE.BufferGeometry().setFromPoints(points);
+				//var color = flight.c;
+				var color = flight.takeOff ? '#ff0000' : '#0064b5';
+
+				var material = new THREE.LineBasicMaterial( {
+					color: color,
+					transparent: true,
+					premultipliedAlpha: false,
+					opacity: 0.3,
+				});
+
+				var curveObject = new THREE.Line(cmlgeometry, material);
+
+				flightsObject.add(curveObject)
+			})
+		}
+
+
 	}
 
 	function hideAirport() {
@@ -159,10 +239,15 @@ function Scene(wrapper, cb) {
 	}
 
 	function showGlobe() {
+		if (me.toggleBackButton) me.toggleBackButton(false);
 		globe.visible = true;
 	}
 
 	function hideGlobe() {
+		if (me.toggleBackButton) me.toggleBackButton(true);
 		globe.visible = false;
 	}
+
+
+	cb(me);
 }
