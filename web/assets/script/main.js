@@ -25,6 +25,9 @@ $(function () {
 					$('#btnBack').css('display', 'none');
 				}
 			}
+			scene.setAirportTitle = function (title) {
+				$('#airport_title').text(title);
+			}
 		},
 	])
 })
