@@ -157,7 +157,6 @@ function Scene(wrapper, cb) {
 
 			var geometry = new THREE.CircleGeometry(1, 64);
 			mapMaterial = new THREE.MeshBasicMaterial({
-				map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.jpg'),
 				transparent: true,
 				opacity: 0.5,
 			});
@@ -174,6 +173,10 @@ function Scene(wrapper, cb) {
 		}
 		airportGroup.rotation.set(Math.PI/2,0,0);
 		airportGroup.visible = true;
+
+		mapMaterial.map = new THREE.TextureLoader().load('assets/map/'+airport.name+'.jpg')
+
+
 
 		if (flightsObject) airportGroup.remove(flightsObject);
 		flightsObject = new THREE.Group();
