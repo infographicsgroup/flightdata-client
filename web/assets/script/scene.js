@@ -142,7 +142,7 @@ function Scene(wrapper, cb) {
 	}
 
 	function showAirport(airport) {
-		me.setAirportTitle(airport.name);
+		me.setAirport(airport);
 		/*
 		var easeInOut = function(p) {
 			return -0.5 * (Math.cos(Math.PI * p) - 1);
@@ -239,17 +239,15 @@ function Scene(wrapper, cb) {
 	}
 
 	function hideAirport() {
-		me.setAirportTitle('');
+		me.setAirport(false);
 		airportGroup.visible = false;
 	}
 
 	function showGlobe() {
-		me.toggleBackButton(false);
 		globe.visible = true;
 	}
 
 	function hideGlobe() {
-		me.toggleBackButton(true);
 		globe.visible = false;
 	}
 

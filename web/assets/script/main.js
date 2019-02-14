@@ -18,15 +18,14 @@ $(function () {
 			$('#btnBack').click(function () {
 				scene.closeAirport();
 			})
-			scene.toggleBackButton = function (toggle) {
-				if (toggle) {
+			scene.setAirport = function (airport) {
+				if (airport) {
+					$('#airport_title').text(airport.name);
 					$('#btnBack').css('display', 'inline');
 				} else {
+					$('#airport_title').text('');
 					$('#btnBack').css('display', 'none');
 				}
-			}
-			scene.setAirportTitle = function (title) {
-				$('#airport_title').text(title);
 			}
 		},
 	])
