@@ -35,11 +35,11 @@ function Scene(wrapper, cb) {
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globe.jpg'),
-			bumpMap: new THREE.TextureLoader().load('assets/texture/globe_bump.jpg'),
-			bumpScale: 0.005,
-			specularMap: new THREE.TextureLoader().load('assets/texture/globe_spec.png'),
-			specular: new THREE.Color('grey')
+			map: new THREE.TextureLoader().load('assets/texture/globe_4k.png'),
+			//bumpMap: new THREE.TextureLoader().load('assets/texture/globe_bump.jpg'),
+			//bumpScale: 0.005,
+			//specularMap: new THREE.TextureLoader().load('assets/texture/globe_spec.png'),
+			//specular: new THREE.Color('grey')
 		})
 	);
 
