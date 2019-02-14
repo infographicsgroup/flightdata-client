@@ -1,57 +1,272 @@
 [
-	{ "name":"adelaide", "lat":-34.9449, "lng":138.5310 },
-	{ "name":"amsterdam", "lat":52.3086, "lng":4.7638 },
-	{ "name":"atlanta", "lat":33.6366, "lng":-84.4281 },
-	{ "name":"bangkok", "lat":13.6810, "lng":100.7470 },
-	{ "name":"beijing", "lat":40.0801, "lng":116.5850 },
-	{ "name":"berlin", "lat":52.5597, "lng":13.2876 },
-	{ "name":"boston", "lat":42.3642, "lng":-71.0052 },
-	{ "name":"brisbane", "lat":-27.3841, "lng":153.1170 },
-	{ "name":"bucharest", "lat":44.5722, "lng":26.1022 },
-	{ "name":"chennai", "lat":12.9900, "lng":80.1692 },
-	{ "name":"chicago", "lat":41.9785, "lng":-87.9048 },
-	{ "name":"copenhagen", "lat":55.6179, "lng":12.6560 },
-	{ "name":"dallas", "lat":32.8968, "lng":-97.0380 },
-	{ "name":"denver", "lat":39.8617, "lng":-104.6730 },
-	{ "name":"dubai", "lat":24.4330, "lng":54.6511 },
-	{ "name":"frankfurt", "lat":50.0264, "lng":8.5431 },
-	{ "name":"hamburg", "lat":53.6304, "lng":9.9882 },
-	{ "name":"helsinki", "lat":60.3171, "lng":24.9633 },
-	{ "name":"hong_kong", "lat":22.3089, "lng":113.9150 },
-	{ "name":"incheon", "lat":37.4691, "lng":126.4510 },
-	{ "name":"istanbul", "lat":40.9769, "lng":28.8146 },
-	{ "name":"jakarta", "lat":-6.1255, "lng":106.6559 },
-	{ "name":"kuala_lumpur", "lat":2.7455, "lng":101.7099 },
-	{ "name":"kunming", "lat":24.9924, "lng":102.7440 },
-	{ "name":"lisbon", "lat":38.7812, "lng":-9.1359 },
-	{ "name":"london", "lat":51.4706, "lng":-0.4619 },
-	{ "name":"los_angeles", "lat":33.9425, "lng":-118.4079 },
-	{ "name":"madrid", "lat":40.4936, "lng":-3.56676 },
-	{ "name":"manila", "lat":14.5086, "lng":121.0199 },
-	{ "name":"mexico", "lat":19.4363, "lng":-99.0721 },
-	{ "name":"miami", "lat":25.7932, "lng":-80.2906 },
-	{ "name":"minneapolis", "lat":44.8819, "lng":-93.2218 },
-	{ "name":"moscow", "lat":55.4088, "lng":37.9063 },
-	{ "name":"mumbai", "lat":19.0887, "lng":72.8679 },
-	{ "name":"munich", "lat":48.3538, "lng":11.7861 },
-	{ "name":"new_delhi", "lat":28.5664, "lng":77.1031 },
-	{ "name":"new_york", "lat":40.6398, "lng":-73.7789 },
-	{ "name":"orlando", "lat":28.4293, "lng":-81.3089 },
-	{ "name":"paranaque", "lat":14.5086, "lng":121.0200 },
-	{ "name":"paris", "lat":49.0127, "lng":2.5499 },
-	{ "name":"phoenix", "lat":33.4342, "lng":-112.0120 },
-	{ "name":"rome", "lat":41.8045, "lng":12.2508 },
-	{ "name":"san_francisco", "lat":37.6189, "lng":-122.375 },
-	{ "name":"sao_paulo", "lat":-23.4355, "lng":-46.4730 },
-	{ "name":"shanghai", "lat":36.7802, "lng":-76.4488 },
-	{ "name":"singapore", "lat":1.3501, "lng":103.9940 },
-	{ "name":"stockholm", "lat":59.6519, "lng":17.9186 },
-	{ "name":"sydney", "lat":-33.9460, "lng":151.1770 },
-	{ "name":"tel_aviv", "lat":32.0113, "lng":34.8866 },
-	{ "name":"tokyo", "lat":35.5523, "lng":139.7800 },
-	{ "name":"toronto", "lat":43.6772, "lng":-79.6306 },
-	{ "name":"vienna", "lat":48.1102, "lng":16.5697 },
-	{ "name":"warsaw", "lat":52.1656, "lng":20.9671 },
-	{ "name":"washington", "lat":38.9444, "lng":-77.4558 },
-	{ "name":"zurich", "lat":47.4646, "lng":8.5491 }
+	{
+		"name": "adelaide",
+		"lat": -34.9449,
+		"lng": 138.531
+	},
+	{
+		"name": "amsterdam",
+		"lat": 52.3086,
+		"lng": 4.7638
+	},
+	{
+		"name": "atlanta",
+		"lat": 33.6366,
+		"lng": -84.4281
+	},
+	{
+		"name": "bangkok",
+		"lat": 13.681,
+		"lng": 100.747
+	},
+	{
+		"name": "beijing",
+		"lat": 40.0801,
+		"lng": 116.585
+	},
+	{
+		"name": "berlin",
+		"lat": 52.5597,
+		"lng": 13.2876
+	},
+	{
+		"name": "boston",
+		"lat": 42.3642,
+		"lng": -71.0052
+	},
+	{
+		"name": "brisbane",
+		"lat": -27.3841,
+		"lng": 153.117
+	},
+	{
+		"name": "bucharest",
+		"lat": 44.5722,
+		"lng": 26.1022
+	},
+	{
+		"name": "chennai",
+		"lat": 12.99,
+		"lng": 80.1692
+	},
+	{
+		"name": "chicago",
+		"lat": 41.9785,
+		"lng": -87.9048
+	},
+	{
+		"name": "copenhagen",
+		"lat": 55.6179,
+		"lng": 12.656
+	},
+	{
+		"name": "dallas",
+		"lat": 32.8968,
+		"lng": -97.038
+	},
+	{
+		"name": "denver",
+		"lat": 39.8617,
+		"lng": -104.673
+	},
+	{
+		"name": "dubai",
+		"lat": 24.433,
+		"lng": 54.6511
+	},
+	{
+		"name": "frankfurt",
+		"lat": 50.0264,
+		"lng": 8.5431
+	},
+	{
+		"name": "hamburg",
+		"lat": 53.6304,
+		"lng": 9.9882
+	},
+	{
+		"name": "helsinki",
+		"lat": 60.3171,
+		"lng": 24.9633
+	},
+	{
+		"name": "hong_kong",
+		"lat": 22.3089,
+		"lng": 113.915
+	},
+	{
+		"name": "incheon",
+		"lat": 37.4691,
+		"lng": 126.451
+	},
+	{
+		"name": "istanbul",
+		"lat": 40.9769,
+		"lng": 28.8146
+	},
+	{
+		"name": "jakarta",
+		"lat": -6.1255,
+		"lng": 106.6559
+	},
+	{
+		"name": "kuala_lumpur",
+		"lat": 2.7455,
+		"lng": 101.7099
+	},
+	{
+		"name": "kunming",
+		"lat": 24.9924,
+		"lng": 102.744
+	},
+	{
+		"name": "lisbon",
+		"lat": 38.7812,
+		"lng": -9.1359
+	},
+	{
+		"name": "london",
+		"lat": 51.4706,
+		"lng": -0.4619
+	},
+	{
+		"name": "los_angeles",
+		"lat": 33.9425,
+		"lng": -118.4079
+	},
+	{
+		"name": "madrid",
+		"lat": 40.4936,
+		"lng": -3.56676
+	},
+	{
+		"name": "manila",
+		"lat": 14.5086,
+		"lng": 121.0199
+	},
+	{
+		"name": "mexico",
+		"lat": 19.4363,
+		"lng": -99.0721
+	},
+	{
+		"name": "miami",
+		"lat": 25.7932,
+		"lng": -80.2906
+	},
+	{
+		"name": "minneapolis",
+		"lat": 44.8819,
+		"lng": -93.2218
+	},
+	{
+		"name": "moscow",
+		"lat": 55.4088,
+		"lng": 37.9063
+	},
+	{
+		"name": "mumbai",
+		"lat": 19.0887,
+		"lng": 72.8679
+	},
+	{
+		"name": "munich",
+		"lat": 48.3538,
+		"lng": 11.7861
+	},
+	{
+		"name": "new_delhi",
+		"lat": 28.5664,
+		"lng": 77.1031
+	},
+	{
+		"name": "new_york",
+		"lat": 40.6398,
+		"lng": -73.7789
+	},
+	{
+		"name": "orlando",
+		"lat": 28.4293,
+		"lng": -81.3089
+	},
+	{
+		"name": "paranaque",
+		"lat": 14.5086,
+		"lng": 121.02
+	},
+	{
+		"name": "paris",
+		"lat": 49.0127,
+		"lng": 2.5499
+	},
+	{
+		"name": "phoenix",
+		"lat": 33.4342,
+		"lng": -112.012
+	},
+	{
+		"name": "rome",
+		"lat": 41.8045,
+		"lng": 12.2508
+	},
+	{
+		"name": "san_francisco",
+		"lat": 37.6189,
+		"lng": -122.375
+	},
+	{
+		"name": "sao_paulo",
+		"lat": -23.4355,
+		"lng": -46.473
+	},
+	{
+		"name": "singapore",
+		"lat": 1.3501,
+		"lng": 103.994
+	},
+	{
+		"name": "stockholm",
+		"lat": 59.6519,
+		"lng": 17.9186
+	},
+	{
+		"name": "sydney",
+		"lat": -33.946,
+		"lng": 151.177
+	},
+	{
+		"name": "tel_aviv",
+		"lat": 32.0113,
+		"lng": 34.8866
+	},
+	{
+		"name": "tokyo",
+		"lat": 35.5523,
+		"lng": 139.78
+	},
+	{
+		"name": "toronto",
+		"lat": 43.6772,
+		"lng": -79.6306
+	},
+	{
+		"name": "vienna",
+		"lat": 48.1102,
+		"lng": 16.5697
+	},
+	{
+		"name": "warsaw",
+		"lat": 52.1656,
+		"lng": 20.9671
+	},
+	{
+		"name": "washington",
+		"lat": 38.9444,
+		"lng": -77.4558
+	},
+	{
+		"name": "zurich",
+		"lat": 47.4646,
+		"lng": 8.5491
+	}
 ]
