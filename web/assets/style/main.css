@@ -20,24 +20,42 @@ body {
 	overflow: hidden;
 }
 
-.button {
-	position: absolute;
-	bottom: 20%;
-	right: 10%;
-	display: none;
-	cursor: pointer;
-	background: #555;
-	padding: 10px;
-}
-
-#airport_title {
-	position: absolute;
-	font-size: 20px;
+#wrapper_html {
 	pointer-events: none;
-	top: 5%;
-	left: 10%;
 }
 
+	#airport_overlay {
+		display: none;
+		pointer-events: all;
+	}
+
+		.button {
+			position: absolute;
+			bottom: 20%;
+			right: 10%;
+			cursor: pointer;
+			background: #555;
+			padding: 10px;
+		}
+
+		#airport_title {
+			position: absolute;
+			font-size: 20px;
+			pointer-events: none;
+			top: 5%;
+			left: 10%;
+		}
+
+		#airport_colormode {
+			position: absolute;
+			top: 20%;
+			left: 1%;
+		}
+
+			#airport_colormode p {
+				margin: 0;
+				font-size: 12px;
+			}
 
 
 

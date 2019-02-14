@@ -6,11 +6,14 @@ function Scene(wrapper, cb) {
 	    flightsObject,
 	    mapMaterial,
 	    mapObject,
-	    markers;
+	    markers,
+	    colormode,
+	    flights;
 
 	var me = {
 		addAirports:addAirports,
-		closeAirport:closeAirport
+		closeAirport:closeAirport,
+		setColormode:setColormode,
 	}
 
 	var width = 1024, height = 1024;
@@ -85,7 +88,8 @@ function Scene(wrapper, cb) {
 		var raycaster = new THREE.Raycaster();
 		var mouse = new THREE.Vector2();
 
-		$(document).click(function (event) {
+		$(renderer.domElement).click(function (event) {
+			console.log(event);
 			event.preventDefault();
 
 			mouse.x =   (event.clientX / width )*2 - 1;
@@ -184,9 +188,11 @@ function Scene(wrapper, cb) {
 		flightsObject.position.set(0,-0.2,0);
 		airportGroup.add(flightsObject);
 
-		var index, buffer;
+		var buffer;
+		flights = false;
+
 		$.getJSON('assets/data/airports/'+airport.name+'.json', function (data) {
-			index = data;
+			flights = data;
 			checkFlightData();
 		})
 
@@ -200,42 +206,62 @@ function Scene(wrapper, cb) {
 		xhr.send();
 
 		function checkFlightData() {
-			if (!index) return;
+			if (!flights) return;
 			if (!buffer) return;
 
 			for (var i = 0; i < buffer.length; i+=4) {
 				var idx = buffer[i+0];
 
-				if (!index[idx].segments) index[idx].segments = [];
+				if (!flights[idx].segments) flights[idx].segments = [];
 
-				index[idx].segments.push(new THREE.Vector3(
+				flights[idx].segments.push(new THREE.Vector3(
 					(buffer[i+1]/32768-1)*1.05,
 					(buffer[i+2]/32768-1)*1.05,
 					(buffer[i+3]/32768-1)*4
 				));
 			}
 
-			index.forEach(function (flight) {
+			flights.forEach(function (flight) {
 				var curve = new THREE.CatmullRomCurve3(flight.segments);
 				var points = curve.getPoints(flight.segments.length*3);
 				var cmlgeometry = new THREE.BufferGeometry().setFromPoints(points);
-				//var color = flight.c;
-				var color = flight.takeOff ? '#ff0000' : '#0064b5';
 
-				var material = new THREE.LineBasicMaterial( {
-					color: color,
+				var material = new THREE.LineBasicMaterial({
+					color: '#000000',
 					transparent: true,
 					premultipliedAlpha: false,
 					opacity: 0.3,
 				});
+				flight.material = material;
 
 				var curveObject = new THREE.Line(cmlgeometry, material);
 
 				flightsObject.add(curveObject)
 			})
+
+			updateColormode();
 		}
+	}
 
+	function updateColormode() {
+		if (!flights) return;
+		switch (colormode) {
+			case 'takeoff': 
+				flights.forEach(function (flight) {
+					flight.material.color = new THREE.Color(flight.takeOff ? '#ff0000' : '#0064b5');
+				})
+			break;
+			case 'destination': 
+				flights.forEach(function (flight) {
+					flight.material.color = new THREE.Color(flight.c);
+				})
+			break;
+		}
+	}
 
+	function setColormode(_colormode) {
+		colormode = _colormode;
+		updateColormode();
 	}
 
 	function hideAirport() {

@@ -18,13 +18,20 @@ $(function () {
 			$('#btnBack').click(function () {
 				scene.closeAirport();
 			})
+
+			$('#airport_colormode input').change(updateColormode);
+			updateColormode();
+			function updateColormode() {
+            scene.setColormode($('#airport_colormode input:checked').val());
+			}
+
 			scene.setAirport = function (airport) {
 				if (airport) {
 					$('#airport_title').text(airport.name);
-					$('#btnBack').css('display', 'inline');
+					$('#airport_overlay').css('display', 'block');
 				} else {
 					$('#airport_title').text('');
-					$('#btnBack').css('display', 'none');
+					$('#airport_overlay').css('display', 'none');
 				}
 			}
 		},
