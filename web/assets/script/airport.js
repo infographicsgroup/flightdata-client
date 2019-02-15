@@ -50,7 +50,7 @@ FlightGlobal.Airport = function (airport) {
 		flightData = false;
 
 		$.getJSON('assets/data/airports/'+airport.name+'.json', function (data) {
-			flightData = data;
+			flightData = oa2ao(data);
 			checkFlightData();
 		})
 
@@ -58,7 +58,7 @@ FlightGlobal.Airport = function (airport) {
 		xhr.open('GET', 'assets/data/airports/'+airport.name+'.bin', true);
 		xhr.responseType = 'arraybuffer';
 		xhr.onload = function(e) {
-			buffer = new Uint16Array(this.response); 
+			buffer = new Int16Array(this.response); 
 			checkFlightData();
 		};
 		xhr.send();
@@ -67,17 +67,21 @@ FlightGlobal.Airport = function (airport) {
 			if (!flightData) return;
 			if (!buffer) return;
 
-			for (var i = 0; i < buffer.length; i+=4) {
-				var idx = buffer[i+0];
+			diffDecoding(buffer, 3);
 
-				if (!flightData[idx].segments) flightData[idx].segments = [];
-
-				flightData[idx].segments.push(new THREE.Vector3(
-					(buffer[i+1]/32768-1)*1.05,
-					(buffer[i+2]/32768-1)*1.05,
-					(buffer[i+3]/32768-1)*4
-				));
-			}
+			flightData.forEach(flight => {
+				var path = [];
+				var i0 = flight.pos0;
+				var i1 = flight.pos1;
+				for (var i = i0; i < i1; i += 3) {
+					path.push(new THREE.Vector3(
+						buffer[i+0]/4000*2.1,
+						buffer[i+1]/4000*2.1,
+						buffer[i+2]/4000*2
+					))
+				}
+				flight.segments = path;
+			})
 
 			flightData.forEach(function (flight) {
 				var curve = new THREE.CatmullRomCurve3(flight.segments);
@@ -120,5 +124,24 @@ FlightGlobal.Airport = function (airport) {
 	function setColormode(_colormode) {
 		colormode = _colormode;
 		updateColormode();
+	}
+
+	function diffDecoding(data, stepSize) {
+		var n = data.length;
+		for (var i = stepSize; i < n; i++) {
+			data[i] += data[i-stepSize];
+		}
+	}
+
+	function oa2ao(obj) {
+		var list = [];
+		var keys = Object.keys(obj);
+		var n = obj[keys[0]].length;
+		for (var i = 0; i < n; i++) {
+			var entry = {};
+			keys.forEach(key => entry[key] = obj[key][i]);
+			list.push(entry)
+		}
+		return list;
 	}
 }
