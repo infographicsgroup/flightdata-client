@@ -1,18 +1,19 @@
+"use strict"
 
 document.addEventListener('touchmove', function(e) { e.preventDefault(); }, {passive:false});
+
+var FlightGlobal = {};
 
 $(function () {
 	var scene;
 
-	helper.series([
+	FlightGlobal.helper.series([
 		function (cb) {
-			Scene($('#wrapper_canvas'), function (_scene) {
-				scene = _scene;
-				cb();
-			});
+			scene = new FlightGlobal.Scene($('#wrapper_canvas'));
+			cb();
 		},
 		function (cb) {
-			scene.addAirports(cb);
+			scene.addAirportMarkers(cb);
 		},
 		function (cb) {
 			$('#btnBack').click(function () {
@@ -25,7 +26,7 @@ $(function () {
             scene.setColormode($('#airport_colormode input:checked').val());
 			}
 
-			scene.setAirport = function (airport) {
+			scene.onAirport = function (airport) {
 				if (airport) {
 					$('#airport_title').text(airport.name);
 					$('#airport_overlay').css('display', 'block');

@@ -1,6 +1,6 @@
+"use strict"
 
-
-helper = (function () {
+FlightGlobal.helper = (function () {
 	return {
 		series:series
 	}
@@ -16,5 +16,3 @@ helper = (function () {
 	}
 
 })()
-	
-
