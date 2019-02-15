@@ -77,7 +77,7 @@ FlightGlobal.Airport = function (airport) {
 					path.push(new THREE.Vector3(
 						buffer[i+0]/4000*2.1,
 						buffer[i+1]/4000*2.1,
-						buffer[i+2]/4000*2
+						buffer[i+2]/4000*1
 					))
 				}
 				flight.segments = path;
