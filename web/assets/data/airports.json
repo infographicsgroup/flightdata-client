@@ -20,6 +20,11 @@
 		"lng": 100.747
 	},
 	{
+		"name": "beijing",
+		"lat": 40.0801,
+		"lng": 116.585
+	},
+	{
 		"name": "berlin",
 		"lat": 52.5597,
 		"lng": 13.2876
@@ -33,6 +38,11 @@
 		"name": "brisbane",
 		"lat": -27.3841,
 		"lng": 153.117
+	},
+	{
+		"name": "bucharest",
+		"lat": 44.5722,
+		"lng": 26.1022
 	},
 	{
 		"name": "chicago",
@@ -75,6 +85,21 @@
 		"lng": 113.915
 	},
 	{
+		"name": "incheon",
+		"lat": 37.4691,
+		"lng": 126.451
+	},
+	{
+		"name": "istanbul",
+		"lat": 40.9769,
+		"lng": 28.8146
+	},
+	{
+		"name": "jakarta",
+		"lat": -6.1255,
+		"lng": 106.6559
+	},
+	{
 		"name": "kuala_lumpur",
 		"lat": 2.7455,
 		"lng": 101.7099
@@ -110,6 +135,11 @@
 		"lng": -99.0721
 	},
 	{
+		"name": "minneapolis",
+		"lat": 44.8819,
+		"lng": -93.2218
+	},
+	{
 		"name": "moscow",
 		"lat": 55.4088,
 		"lng": 37.9063
@@ -118,6 +148,11 @@
 		"name": "munich",
 		"lat": 48.3538,
 		"lng": 11.7861
+	},
+	{
+		"name": "new_delhi",
+		"lat": 28.5664,
+		"lng": 77.1031
 	},
 	{
 		"name": "new_york",
@@ -193,6 +228,11 @@
 		"name": "warsaw",
 		"lat": 52.1656,
 		"lng": 20.9671
+	},
+	{
+		"name": "washington",
+		"lat": 38.9444,
+		"lng": -77.4558
 	},
 	{
 		"name": "zurich",
