@@ -2,7 +2,8 @@
 
 FlightGlobal.helper = (function () {
 	return {
-		series:series
+		series:series,
+		diffDecoding:diffDecoding,
 	}
 
 	function series(list) {
@@ -12,6 +13,13 @@ FlightGlobal.helper = (function () {
 			todos.shift()(function () {
 				setTimeout(run, 0);
 			})
+		}
+	}
+
+	function diffDecoding(data, stepSize) {
+		var n = data.length;
+		for (var i = stepSize; i < n; i++) {
+			data[i] += data[i-stepSize];
 		}
 	}
 

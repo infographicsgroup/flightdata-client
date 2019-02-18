@@ -67,7 +67,7 @@ FlightGlobal.Airport = function (airport) {
 			if (!flightData) return;
 			if (!buffer) return;
 
-			diffDecoding(buffer, 3);
+			FlightGlobal.helper.diffDecoding(buffer, 3);
 
 			flightData.forEach(function (flight) {
 				var path = [];
@@ -124,13 +124,6 @@ FlightGlobal.Airport = function (airport) {
 	function setColormode(_colormode) {
 		colormode = _colormode;
 		updateColormode();
-	}
-
-	function diffDecoding(data, stepSize) {
-		var n = data.length;
-		for (var i = stepSize; i < n; i++) {
-			data[i] += data[i-stepSize];
-		}
 	}
 
 	function oa2ao(obj) {
