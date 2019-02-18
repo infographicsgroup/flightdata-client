@@ -69,7 +69,7 @@ FlightGlobal.Airport = function (airport) {
 
 			diffDecoding(buffer, 3);
 
-			flightData.forEach(flight => {
+			flightData.forEach(function (flight) {
 				var path = [];
 				var i0 = flight.pos0;
 				var i1 = flight.pos1;
@@ -139,7 +139,7 @@ FlightGlobal.Airport = function (airport) {
 		var n = obj[keys[0]].length;
 		for (var i = 0; i < n; i++) {
 			var entry = {};
-			keys.forEach(key => entry[key] = obj[key][i]);
+			keys.forEach(function (key) { entry[key] = obj[key][i] });
 			list.push(entry)
 		}
 		return list;
