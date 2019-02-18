@@ -15,7 +15,7 @@ FlightGlobal.Globe = function (opt) {
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globe_4k.png')
+			map: new THREE.TextureLoader().load('assets/texture/globe.jpg')
 		})
 	);
 
@@ -23,10 +23,75 @@ FlightGlobal.Globe = function (opt) {
 	me.object3D.rotation.x =  0.8;
 	me.object3D.rotation.y = -Math.PI/2;
 
+	addRoutes()
+
 	me.control = new THREE.TrackballControls(me.object3D);
 	me.control.dynamicDampingFactor = 0.99;
 
 	return me;
+
+	function addRoutes() {
+		var curves = new THREE.Group();
+		curves.rotation.set(0,0,0);
+		curves.position.set(0,0,0);
+		me.object3D.add(curves);
+
+		var buffer;
+		var segments;
+
+		$.getJSON('assets/data/globe/globe.json', function (data) {
+			segments = data;
+			checkRouteData();
+		})
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'assets/data/globe/globe.bin', true);
+		xhr.responseType = 'arraybuffer';
+		xhr.onload = function(e) {
+			buffer = new Int16Array(this.response); 
+			checkRouteData();
+		};
+		xhr.send();
+
+		function checkRouteData() {
+			if (!segments) return;
+			if (!buffer) return;
+
+			FlightGlobal.helper.diffDecoding(buffer, 3);
+
+			var material;
+			setMaterial(0.2);
+
+			segments = segments.map(function(segment) {
+				var path = [];
+				var i0 = segment[0];
+				var i1 = segment[1];
+				for (var i = i0; i < i1; i += 3) {
+					path.push(new THREE.Vector3(
+						1.001*buffer[i+0]/16000,
+						1.001*buffer[i+1]/16000,
+						1.001*buffer[i+2]/16000,
+					))
+				}
+				return path;
+			})
+
+			segments.forEach(function (path) {
+				var cmlgeometry = new THREE.BufferGeometry().setFromPoints(path);
+				var curveObject = new THREE.Line(cmlgeometry, material);
+				curves.add(curveObject)
+			})
+
+			function setMaterial(opacity) {
+				material = new THREE.LineBasicMaterial({
+					color: '#ffffff',
+					transparent: true,
+					premultipliedAlpha: false,
+					opacity: opacity,
+				});
+			}
+		}
+	}
 
 	function show() {
 		me.object3D.visible = true;
@@ -56,7 +121,7 @@ FlightGlobal.Globe = function (opt) {
 
 			airport.lonRad = -airport.lng * Math.PI / 180;
 			airport.latRad =  airport.lat * Math.PI / 180;
-			var r = 1.0001;
+			var r = 1.002;
 
 			airport.rotX = airport.latRad;
 			airport.rotY = airport.lonRad-Math.PI/2;
