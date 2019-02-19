@@ -68,9 +68,9 @@ FlightGlobal.Globe = function (opt) {
 				var i1 = segment[1];
 				for (var i = i0; i < i1; i += 3) {
 					path.push(new THREE.Vector3(
-						1.001*buffer[i+0]/16000,
-						1.001*buffer[i+1]/16000,
-						1.001*buffer[i+2]/16000,
+						buffer[i+0]/4000,
+						buffer[i+1]/4000,
+						buffer[i+2]/4000,
 					))
 				}
 				return path;
