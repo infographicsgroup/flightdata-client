@@ -29,17 +29,16 @@ FlightGlobal.Airport = function (airport) {
 		me.control.maxAngle =  Math.PI/2;
 		me.control.rotateSpeed = 5;
 
-		var geometry = new THREE.CircleGeometry(1, 64);
+		var planeSize = 2*4096/2560;
+		var geometry = new THREE.PlaneGeometry(planeSize, planeSize);
 		var mapMaterial = new THREE.MeshBasicMaterial({
+			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png'),
 			transparent: true,
-			opacity: 0.5,
 		});
 		var mapObject = new THREE.Mesh(geometry, mapMaterial);
 		mapObject.rotation.set(-Math.PI/2,0,0);
 		mapObject.position.set(0,-0.2,0);
 		me.object3D.add(mapObject);
-
-		mapMaterial.map = new THREE.TextureLoader().load('assets/map/'+airport.name+'.jpg')
 
 		curves = new THREE.Group();
 		curves.rotation.set(-Math.PI/2,0,0);
