@@ -12,10 +12,16 @@ FlightGlobal.Globe = function (opt) {
 
 	me.object3D = new THREE.Group();
 
+    var material    = new THREE.SpriteMaterial( { map: new THREE.TextureLoader().load('assets/texture/earth-glow.png'), transparent: true, depthWrite:false } );
+    var atmosphericalSprite = new THREE.Sprite( material );
+    atmosphericalSprite.scale.set(3.6,3.6);
+
+    me.object3D.add( atmosphericalSprite );
+
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse.png')
+			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse01.png')
 		})
 	);
 
