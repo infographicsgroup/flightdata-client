@@ -113,12 +113,26 @@ FlightGlobal.Globe = function (opt) {
 		airports
 		var material = new THREE.MeshPhongMaterial({
 			color: 0xffff00,
-			side: THREE.DoubleSide
+			side: THREE.DoubleSide,
+			transparent:true,
+			opacity:0
 		});
+		var planeMaterial = new THREE.MeshBasicMaterial( { 
+			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png'), 
+			transparent:true, 
+			side:THREE.DoubleSide 
+		});
+
 		airports.forEach(function (airport) {
+			
 			var geometry = new THREE.CircleGeometry(1/90, 32);
 
+            var planeGeometry = new THREE.PlaneGeometry( 0.025, 0.5 + Math.random() * 0.5 );
+            var planeMesh = new THREE.Mesh( planeGeometry, planeMaterial );
+            planeMesh.rotation.x = Math.PI / 2;
+
 			var marker = new THREE.Mesh( geometry, material );
+			marker.add( planeMesh )
 
 			airport.lonRad = -airport.lng * Math.PI / 180;
 			airport.latRad =  airport.lat * Math.PI / 180;
