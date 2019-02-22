@@ -15,7 +15,7 @@ FlightGlobal.Globe = function (opt) {
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globe.jpg')
+			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse.png')
 		})
 	);
 
@@ -75,8 +75,9 @@ FlightGlobal.Globe = function (opt) {
 				}
 				return path;
 			})
-
+			var i = 0;
 			segments.forEach(function (path) {
+
 				var cmlgeometry = new THREE.BufferGeometry().setFromPoints(path);
 				var curveObject = new THREE.Line(cmlgeometry, material);
 				curves.add(curveObject)
@@ -84,7 +85,7 @@ FlightGlobal.Globe = function (opt) {
 
 			function setMaterial(opacity) {
 				material = new THREE.LineBasicMaterial({
-					color: '#ffffff',
+					color: '#C1A464',
 					transparent: true,
 					premultipliedAlpha: false,
 					opacity: opacity,
