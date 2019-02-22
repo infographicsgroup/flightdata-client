@@ -76,11 +76,25 @@ FlightGlobal.Globe = function (opt) {
 				return path;
 			})
 			var i = 0;
+			var blueMaterial= new THREE.LineBasicMaterial({
+					color: '#37579b',
+					transparent: true,
+					premultipliedAlpha: false,
+					opacity: 0.2
+			});
+
 			segments.forEach(function (path) {
+				i++;
+
 
 				var cmlgeometry = new THREE.BufferGeometry().setFromPoints(path);
 				var curveObject = new THREE.Line(cmlgeometry, material);
-				curves.add(curveObject)
+				
+				if( i > segments.length / 2 ) curveObject = new THREE.Line(cmlgeometry, blueMaterial);
+				
+				curves.add(curveObject);
+
+				i++;
 			})
 
 			function setMaterial(opacity) {
