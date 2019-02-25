@@ -5,7 +5,8 @@ FlightGlobal.Scene = function (wrapper) {
 
 	var width = 1024, height = 1024;
 	var scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0x0c1a22 );
+	//scene.background = new THREE.Color( 0x0c1a22 );
+	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
 
 	var camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
 	camera.position.set(0,0,3);
