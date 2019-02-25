@@ -20,7 +20,8 @@ FlightGlobal.Scene = function (wrapper) {
 	var globe = new FlightGlobal.Globe();
 	scene.add(globe.object3D);
 
-	var renderer = new THREE.WebGLRenderer({antialias: true});
+	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
+	renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
 
 	wrapper.append(renderer.domElement);
 

@@ -91,9 +91,10 @@ FlightGlobal.Airport = function (airport) {
 				var material = new THREE.LineBasicMaterial({
 					color: '#000000',
 					transparent: true,
-					opacity: 0.3,
-					blending: THREE.AdditiveBlending,
+					opacity: 0.2,
+					depthWrite: false,
 				});
+
 				flight.material = material;
 
 				var curveObject = new THREE.Line(cmlgeometry, material);
