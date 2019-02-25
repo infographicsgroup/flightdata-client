@@ -35,6 +35,7 @@ FlightGlobal.Airport = function (airport) {
 			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png'),
 			transparent: true,
 		});
+		mapMaterial.map.encoding = THREE.sRGBEncoding;
 		var mapObject = new THREE.Mesh(geometry, mapMaterial);
 		mapObject.rotation.set(-Math.PI/2,0,0);
 		mapObject.position.set(0,-0.2,0);
@@ -90,8 +91,8 @@ FlightGlobal.Airport = function (airport) {
 				var material = new THREE.LineBasicMaterial({
 					color: '#000000',
 					transparent: true,
-					premultipliedAlpha: false,
 					opacity: 0.3,
+					blending: THREE.AdditiveBlending,
 				});
 				flight.material = material;
 
@@ -109,7 +110,7 @@ FlightGlobal.Airport = function (airport) {
 		switch (colormode) {
 			case 'takeoff': 
 				flightData.forEach(function (flight) {
-					flight.material.color = new THREE.Color(flight.takeOff ? '#ff0000' : '#0064b5');
+					flight.material.color = new THREE.Color(flight.takeOff ? '#33ddff' : '#ffff33');
 				})
 			break;
 			case 'destination': 
