@@ -16,13 +16,8 @@
 	},
 	{
 		"name": "bangkok",
-		"lat": 13.681,
+		"lat": 13.6811,
 		"lng": 100.747
-	},
-	{
-		"name": "beijing",
-		"lat": 40.0801,
-		"lng": 116.585
 	},
 	{
 		"name": "berlin",
@@ -40,11 +35,6 @@
 		"lng": 153.117
 	},
 	{
-		"name": "bucharest",
-		"lat": 44.5722,
-		"lng": 26.1022
-	},
-	{
 		"name": "chicago",
 		"lat": 41.9785,
 		"lng": -87.9048
@@ -60,19 +50,14 @@
 		"lng": -97.038
 	},
 	{
-		"name": "denver",
-		"lat": 39.8617,
-		"lng": -104.673
-	},
-	{
 		"name": "frankfurt",
 		"lat": 50.0264,
 		"lng": 8.5431
 	},
 	{
-		"name": "hamburg",
-		"lat": 53.6304,
-		"lng": 9.9882
+		"name": "gatwick",
+		"lat": 51.1481,
+		"lng": -0.1903
 	},
 	{
 		"name": "helsinki",
@@ -83,26 +68,6 @@
 		"name": "hong_kong",
 		"lat": 22.3089,
 		"lng": 113.915
-	},
-	{
-		"name": "incheon",
-		"lat": 37.4691,
-		"lng": 126.451
-	},
-	{
-		"name": "istanbul",
-		"lat": 40.9769,
-		"lng": 28.8146
-	},
-	{
-		"name": "jakarta",
-		"lat": -6.1255,
-		"lng": 106.6559
-	},
-	{
-		"name": "kuala_lumpur",
-		"lat": 2.7455,
-		"lng": 101.7099
 	},
 	{
 		"name": "lisbon",
@@ -122,12 +87,7 @@
 	{
 		"name": "madrid",
 		"lat": 40.4936,
-		"lng": -3.56676
-	},
-	{
-		"name": "manila",
-		"lat": 14.5086,
-		"lng": 121.0199
+		"lng": -3.5668
 	},
 	{
 		"name": "mexico",
@@ -135,24 +95,14 @@
 		"lng": -99.0721
 	},
 	{
-		"name": "minneapolis",
-		"lat": 44.8819,
-		"lng": -93.2218
-	},
-	{
 		"name": "moscow",
-		"lat": 55.4088,
-		"lng": 37.9063
+		"lat": 55.9726,
+		"lng": 37.4146
 	},
 	{
 		"name": "munich",
 		"lat": 48.3538,
 		"lng": 11.7861
-	},
-	{
-		"name": "new_delhi",
-		"lat": 28.5664,
-		"lng": 77.1031
 	},
 	{
 		"name": "new_york",
@@ -171,8 +121,8 @@
 	},
 	{
 		"name": "paris",
-		"lat": 49.0127,
-		"lng": 2.5499
+		"lat": 49.0128,
+		"lng": 2.55
 	},
 	{
 		"name": "rome",
@@ -190,8 +140,13 @@
 		"lng": -46.473
 	},
 	{
+		"name": "seattle",
+		"lat": 47.449,
+		"lng": -122.309
+	},
+	{
 		"name": "singapore",
-		"lat": 1.3501,
+		"lat": 1.3502,
 		"lng": 103.994
 	},
 	{
@@ -228,11 +183,6 @@
 		"name": "warsaw",
 		"lat": 52.1656,
 		"lng": 20.9671
-	},
-	{
-		"name": "washington",
-		"lat": 38.9444,
-		"lng": -77.4558
 	},
 	{
 		"name": "zurich",

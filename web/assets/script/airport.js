@@ -29,7 +29,7 @@ FlightGlobal.Airport = function (airport) {
 		me.control.maxAngle =  Math.PI/2;
 		me.control.rotateSpeed = 5;
 
-		var planeSize = 2*4096/2560;
+		var planeSize = 2*4096/3840;
 		var geometry = new THREE.PlaneGeometry(planeSize, planeSize);
 		var mapMaterial = new THREE.MeshBasicMaterial({
 			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png'),
