@@ -23,6 +23,19 @@ FlightGlobal.Scene = function (wrapper) {
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
 	renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
 
+	
+	
+	var rtParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, stencilBuffer: true };
+	var renderTarget = new THREE.WebGLRenderTarget( width, height, rtParameters );
+	var postProComposer = new THREE.EffectComposer( renderer, renderTarget );
+    var renderPass = new THREE.RenderPass(scene, camera);
+    renderPass.clearColor = new THREE.Color(0, 0, 0);
+    renderPass.clearAlpha = 0;
+    renderPass.renderToScreen = true;
+
+    postProComposer.addPass( renderPass );
+
+
 	wrapper.append(renderer.domElement);
 
 	var raycaster = new THREE.Raycaster();
@@ -77,7 +90,8 @@ FlightGlobal.Scene = function (wrapper) {
 		if (airportGroup && airportGroup.control) airportGroup.control.update();
 
 		requestAnimationFrame(render);
-		renderer.render(scene, camera);
+		postProComposer.render(1 / 60);
+		//renderer.render(scene, camera);
 	}
 
 	function showAirport(airport) {
@@ -97,6 +111,13 @@ FlightGlobal.Scene = function (wrapper) {
 		camera.updateProjectionMatrix();
 
 		renderer.setSize(width, height);
+
+
+    	if (postProComposer) postProComposer.setSize(width, height);
+    	
+   		if (fxaaPass) fxaaPass.uniforms['resolution'].value.set(1 / width, 1 / height);
+
+
 	}
 
 	function closeAirport() {
