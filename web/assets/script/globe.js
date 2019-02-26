@@ -66,7 +66,8 @@ FlightGlobal.Globe = function (opt) {
 			FlightGlobal.helper.diffDecoding(buffer, 3);
 
 			var material;
-			setMaterial(0.2);
+			var materialOpacity = 0.5;
+			setMaterial(materialOpacity);
 
 			segments = segments.map(function(segment) {
 				var path = [];
@@ -86,7 +87,7 @@ FlightGlobal.Globe = function (opt) {
 					color: '#37579b',
 					transparent: true,
 					premultipliedAlpha: false,
-					opacity: 0.2
+					opacity: materialOpacity
 			});
 
 			segments.forEach(function (path) {

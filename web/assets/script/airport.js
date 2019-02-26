@@ -25,7 +25,7 @@ FlightGlobal.Airport = function (airport) {
 
 		me.control = new THREE.TrackballControls(me.object3D);
 		me.control.dynamicDampingFactor = 0.99;
-		me.control.minAngle = -Math.PI/2;
+		me.control.minAngle =  0.2;
 		me.control.maxAngle =  Math.PI/2;
 		me.control.rotateSpeed = 5;
 
