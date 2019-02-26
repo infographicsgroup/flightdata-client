@@ -20,8 +20,11 @@ FlightGlobal.Scene = function (wrapper) {
 	var globe = new FlightGlobal.Globe();
 	scene.add(globe.object3D);
 
+    var dpr = window.devicePixelRatio;
+   	dpr *= .80;
+
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
-	renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+	renderer.setPixelRatio(dpr ? dpr : 1);
 
 	
 	
@@ -114,8 +117,8 @@ FlightGlobal.Scene = function (wrapper) {
 
 
     	if (postProComposer) postProComposer.setSize(width, height);
-    	
-   		if (fxaaPass) fxaaPass.uniforms['resolution'].value.set(1 / width, 1 / height);
+
+   		//if (fxaaPass) fxaaPass.uniforms['resolution'].value.set(1 / width, 1 / height);
 
 
 	}
