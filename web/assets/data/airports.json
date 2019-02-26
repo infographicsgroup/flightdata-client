@@ -6,7 +6,9 @@
 		"title": "Adelaide Airport",
 		"city": "Adelaide",
 		"country": "Australia",
-		"passengersPerYear": 8090000
+		"passengersPerYear": 8090000,
+		"spriteOffset": 0,
+		"spriteHeight": 55
 	},
 	{
 		"name": "amsterdam",
@@ -15,7 +17,9 @@
 		"title": "Amsterdam Airport Schiphol",
 		"city": "Amsterdam",
 		"country": "Netherlands",
-		"passengersPerYear": 71053157
+		"passengersPerYear": 71053157,
+		"spriteOffset": 55,
+		"spriteHeight": 55
 	},
 	{
 		"name": "atlanta",
@@ -24,7 +28,9 @@
 		"title": "Hartsfield–Jackson Atlanta International Airport",
 		"city": "Atlanta",
 		"country": "United States",
-		"passengersPerYear": 107394029
+		"passengersPerYear": 107394029,
+		"spriteOffset": 110,
+		"spriteHeight": 55
 	},
 	{
 		"name": "bangkok",
@@ -33,7 +39,9 @@
 		"title": "Suvarnabhumi Airport",
 		"city": "Bangkok",
 		"country": "Thailand",
-		"passengersPerYear": 63378923
+		"passengersPerYear": 63378923,
+		"spriteOffset": 165,
+		"spriteHeight": 55
 	},
 	{
 		"name": "berlin",
@@ -42,7 +50,9 @@
 		"title": "Berlin Tegel Airport",
 		"city": "Berlin",
 		"country": "Germany",
-		"passengersPerYear": 22000430
+		"passengersPerYear": 22000430,
+		"spriteOffset": 220,
+		"spriteHeight": 55
 	},
 	{
 		"name": "boston",
@@ -51,7 +61,9 @@
 		"title": "Logan International Airport",
 		"city": "Boston",
 		"country": "United States",
-		"passengersPerYear": 40941925
+		"passengersPerYear": 40941925,
+		"spriteOffset": 275,
+		"spriteHeight": 55
 	},
 	{
 		"name": "brisbane",
@@ -60,7 +72,9 @@
 		"title": "Brisbane Airport",
 		"city": "Brisbane",
 		"country": "Australia",
-		"passengersPerYear": 23205702
+		"passengersPerYear": 23205702,
+		"spriteOffset": 330,
+		"spriteHeight": 55
 	},
 	{
 		"name": "chicago",
@@ -69,7 +83,9 @@
 		"title": "O'Hare International Airport",
 		"city": "Chicago",
 		"country": "United States",
-		"passengersPerYear": 79828183
+		"passengersPerYear": 79828183,
+		"spriteOffset": 385,
+		"spriteHeight": 55
 	},
 	{
 		"name": "copenhagen",
@@ -78,7 +94,9 @@
 		"title": "Copenhagen Airport",
 		"city": "Copenhagen",
 		"country": "Denmark",
-		"passengersPerYear": 30298531
+		"passengersPerYear": 30298531,
+		"spriteOffset": 440,
+		"spriteHeight": 55
 	},
 	{
 		"name": "dallas",
@@ -87,7 +105,9 @@
 		"title": "Dallas/Fort Worth International Airport",
 		"city": "Dallas",
 		"country": "United States",
-		"passengersPerYear": 69112607
+		"passengersPerYear": 69112607,
+		"spriteOffset": 495,
+		"spriteHeight": 55
 	},
 	{
 		"name": "frankfurt",
@@ -96,7 +116,9 @@
 		"title": "Frankfurt Airport",
 		"city": "Frankfurt",
 		"country": "Germany",
-		"passengersPerYear": 69514414
+		"passengersPerYear": 69514414,
+		"spriteOffset": 550,
+		"spriteHeight": 55
 	},
 	{
 		"name": "helsinki",
@@ -105,7 +127,9 @@
 		"title": "Helsinki Airport",
 		"city": "Helsinki",
 		"country": "Finland",
-		"passengersPerYear": 20848838
+		"passengersPerYear": 20848838,
+		"spriteOffset": 605,
+		"spriteHeight": 55
 	},
 	{
 		"name": "hong_kong",
@@ -114,7 +138,9 @@
 		"title": "Hong Kong International Airport",
 		"city": "Hong Kong",
 		"country": "Hong Kong",
-		"passengersPerYear": 74700000
+		"passengersPerYear": 74700000,
+		"spriteOffset": 660,
+		"spriteHeight": 55
 	},
 	{
 		"name": "lisbon",
@@ -123,7 +149,9 @@
 		"title": "Lisbon Airport",
 		"city": "Lisbon",
 		"country": "Portugal",
-		"passengersPerYear": 29006042
+		"passengersPerYear": 29006042,
+		"spriteOffset": 715,
+		"spriteHeight": 55
 	},
 	{
 		"name": "london",
@@ -132,7 +160,9 @@
 		"title": "Heathrow Airport",
 		"city": "London",
 		"country": "United Kingdom",
-		"passengersPerYear": 80102017
+		"passengersPerYear": 80102017,
+		"spriteOffset": 770,
+		"spriteHeight": 55
 	},
 	{
 		"name": "los_angeles",
@@ -141,7 +171,9 @@
 		"title": "Los Angeles International Airport",
 		"city": "Los Angeles",
 		"country": "United States",
-		"passengersPerYear": 87534384
+		"passengersPerYear": 87534384,
+		"spriteOffset": 825,
+		"spriteHeight": 55
 	},
 	{
 		"name": "madrid",
@@ -150,7 +182,9 @@
 		"title": "Adolfo Suárez Madrid–Barajas Airport",
 		"city": "Madrid",
 		"country": "Spain",
-		"passengersPerYear": 57891340
+		"passengersPerYear": 57891340,
+		"spriteOffset": 880,
+		"spriteHeight": 55
 	},
 	{
 		"name": "mexico",
@@ -159,7 +193,9 @@
 		"title": "Mexico City International Airport",
 		"city": "Mexico City",
 		"country": "Mexico",
-		"passengersPerYear": 47700547
+		"passengersPerYear": 47700547,
+		"spriteOffset": 935,
+		"spriteHeight": 55
 	},
 	{
 		"name": "moscow",
@@ -168,7 +204,9 @@
 		"title": "Sheremetyevo International Airport",
 		"city": "Moscow",
 		"country": "Russia",
-		"passengersPerYear": 45836000
+		"passengersPerYear": 45836000,
+		"spriteOffset": 990,
+		"spriteHeight": 55
 	},
 	{
 		"name": "munich",
@@ -177,7 +215,9 @@
 		"title": "Munich Airport",
 		"city": "Munich",
 		"country": "Germany",
-		"passengersPerYear": 46253623
+		"passengersPerYear": 46253623,
+		"spriteOffset": 1045,
+		"spriteHeight": 55
 	},
 	{
 		"name": "new_york",
@@ -186,7 +226,9 @@
 		"title": "John F. Kennedy International Airport",
 		"city": "New York City",
 		"country": "United States",
-		"passengersPerYear": 61909148
+		"passengersPerYear": 61909148,
+		"spriteOffset": 1100,
+		"spriteHeight": 55
 	},
 	{
 		"name": "orlando",
@@ -195,7 +237,9 @@
 		"title": "Orlando International Airport",
 		"city": "Orlando",
 		"country": "United States",
-		"passengersPerYear": 47696627
+		"passengersPerYear": 47696627,
+		"spriteOffset": 1155,
+		"spriteHeight": 55
 	},
 	{
 		"name": "paranaque",
@@ -204,7 +248,9 @@
 		"title": "Ninoy Aquino International Airport",
 		"city": "Manila",
 		"country": "Philippines",
-		"passengersPerYear": 45082544
+		"passengersPerYear": 45082544,
+		"spriteOffset": 1210,
+		"spriteHeight": 55
 	},
 	{
 		"name": "paris",
@@ -213,7 +259,9 @@
 		"title": "Charles de Gaulle Airport",
 		"city": "Paris",
 		"country": "France",
-		"passengersPerYear": 72229723
+		"passengersPerYear": 72229723,
+		"spriteOffset": 1265,
+		"spriteHeight": 55
 	},
 	{
 		"name": "rome",
@@ -222,7 +270,9 @@
 		"title": "Leonardo da Vinci–Fiumicino Airport",
 		"city": "Rome",
 		"country": "Italy",
-		"passengersPerYear": 42995119
+		"passengersPerYear": 42995119,
+		"spriteOffset": 1320,
+		"spriteHeight": 55
 	},
 	{
 		"name": "san_francisco",
@@ -231,7 +281,9 @@
 		"title": "San Francisco International Airport",
 		"city": "San Francisco",
 		"country": "United States",
-		"passengersPerYear": 57793313
+		"passengersPerYear": 57793313,
+		"spriteOffset": 1375,
+		"spriteHeight": 55
 	},
 	{
 		"name": "sao_paulo",
@@ -240,7 +292,9 @@
 		"title": "São Paulo–Guarulhos International Airport",
 		"city": "Sao Paulo",
 		"country": "Brazil",
-		"passengersPerYear": 42831981
+		"passengersPerYear": 42831981,
+		"spriteOffset": 1430,
+		"spriteHeight": 55
 	},
 	{
 		"name": "seattle",
@@ -249,7 +303,9 @@
 		"title": "Seattle–Tacoma International Airport",
 		"city": "Seattle",
 		"country": "United States",
-		"passengersPerYear": 49849520
+		"passengersPerYear": 49849520,
+		"spriteOffset": 1485,
+		"spriteHeight": 55
 	},
 	{
 		"name": "singapore",
@@ -258,7 +314,9 @@
 		"title": "Singapore Changi Airport",
 		"city": "Changi",
 		"country": "Singapore",
-		"passengersPerYear": 65600000
+		"passengersPerYear": 65600000,
+		"spriteOffset": 1540,
+		"spriteHeight": 55
 	},
 	{
 		"name": "stockholm",
@@ -267,16 +325,20 @@
 		"title": "Stockholm Arlanda Airport",
 		"city": "Stockholm",
 		"country": "Sweden",
-		"passengersPerYear": 26642034
+		"passengersPerYear": 26642034,
+		"spriteOffset": 1595,
+		"spriteHeight": 55
 	},
 	{
 		"name": "sydney",
 		"lat": -33.946,
 		"lng": 151.177,
-		"title": "Sydney Kingsford Smith International Airport",
+		"title": "Sydney Airport",
 		"city": "Sydney",
 		"country": "Australia",
-		"passengersPerYear": 44443927
+		"passengersPerYear": 44443927,
+		"spriteOffset": 1650,
+		"spriteHeight": 55
 	},
 	{
 		"name": "tel_aviv",
@@ -285,7 +347,9 @@
 		"title": "Ben Gurion Airport",
 		"city": "Tel Aviv",
 		"country": "Israel",
-		"passengersPerYear": 22949676
+		"passengersPerYear": 22949676,
+		"spriteOffset": 1705,
+		"spriteHeight": 55
 	},
 	{
 		"name": "tokyo",
@@ -294,7 +358,9 @@
 		"title": "Haneda Airport",
 		"city": "Tokyo",
 		"country": "Japan",
-		"passengersPerYear": 87098683
+		"passengersPerYear": 87098683,
+		"spriteOffset": 1760,
+		"spriteHeight": 55
 	},
 	{
 		"name": "toronto",
@@ -303,7 +369,9 @@
 		"title": "Toronto Pearson International Airport",
 		"city": "Toronto",
 		"country": "Canada",
-		"passengersPerYear": 47130358
+		"passengersPerYear": 47130358,
+		"spriteOffset": 1815,
+		"spriteHeight": 55
 	},
 	{
 		"name": "vienna",
@@ -312,7 +380,9 @@
 		"title": "Vienna International Airport",
 		"city": "Vienna",
 		"country": "Austria",
-		"passengersPerYear": 27037349
+		"passengersPerYear": 27037349,
+		"spriteOffset": 1870,
+		"spriteHeight": 55
 	},
 	{
 		"name": "warsaw",
@@ -321,7 +391,9 @@
 		"title": "Warsaw Chopin Airport",
 		"city": "Warsaw",
 		"country": "Poland",
-		"passengersPerYear": 17755500
+		"passengersPerYear": 17755500,
+		"spriteOffset": 1925,
+		"spriteHeight": 55
 	},
 	{
 		"name": "zurich",
@@ -330,6 +402,8 @@
 		"title": "Zurich Airport",
 		"city": "Zurich",
 		"country": "Switzerland",
-		"passengersPerYear": 31113488
+		"passengersPerYear": 31113488,
+		"spriteOffset": 1980,
+		"spriteHeight": 55
 	}
 ]
