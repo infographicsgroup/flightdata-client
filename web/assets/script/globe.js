@@ -21,7 +21,7 @@ FlightGlobal.Globe = function (opt) {
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse01.png')
+			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png')
 		})
 	);
 

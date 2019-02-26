@@ -45,7 +45,7 @@ $(function () {
 			$('#airport_colormode input').change(updateColormode);
 			updateColormode();
 			function updateColormode() {
-            scene.setColormode($('#airport_colormode input:checked').val());
+				scene.setColormode($('#airport_colormode input:checked').val());
 			}
 
 			scene.onAirport = function (airport) {
