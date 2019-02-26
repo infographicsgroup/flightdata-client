@@ -4,6 +4,7 @@ FlightGlobal.Scene = function (wrapper) {
 	var airportGroup, airports;
 
 	var width = 1024, height = 1024;
+	var oneTime = false;
 	var scene = new THREE.Scene();
 	//scene.background = new THREE.Color( 0x0c1a22 );
 	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
@@ -21,22 +22,80 @@ FlightGlobal.Scene = function (wrapper) {
 	scene.add(globe.object3D);
 
     var dpr = window.devicePixelRatio;
-   	dpr *= .80;
+   	dpr *= 0.80;
 
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
 	renderer.setPixelRatio(dpr ? dpr : 1);
 
-	
-	
 	var rtParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, stencilBuffer: true };
 	var renderTarget = new THREE.WebGLRenderTarget( width, height, rtParameters );
-	var postProComposer = new THREE.EffectComposer( renderer, renderTarget );
+	var globeComposer = new THREE.EffectComposer( renderer, renderTarget );
+    
     var renderPass = new THREE.RenderPass(scene, camera);
     renderPass.clearColor = new THREE.Color(0, 0, 0);
     renderPass.clearAlpha = 0;
-    renderPass.renderToScreen = true;
+    //renderPass.renderToScreen = true;
 
-    postProComposer.addPass( renderPass );
+    var glowPass = new THREE.ShaderPass( THREE.SuperShader );
+    glowPass.uniforms.glowAmount.value = 0.1;
+    glowPass.uniforms.glowSize.value = 3;
+    glowPass.uniforms.vigOffset.value = 0.9;
+    glowPass.uniforms.saturation.value = 0.0;
+    glowPass.uniforms.contrast.value = 0.0;
+    glowPass.uniforms.brightness.value = 0;
+    //glowPass.renderToScreen = true;
+
+
+    var shiftPass = new THREE.ShaderPass( THREE.CustomTiltShiftShader );
+    shiftPass.uniforms.focusPos.value = 0.51;
+    shiftPass.uniforms.range.value = 0.43;
+    shiftPass.uniforms.offset.value = 0.021;
+    shiftPass.uniforms.strength.value = 1.0;
+    shiftPass.renderToScreen = true;
+
+    var fxaaPass = new THREE.ShaderPass( THREE.FXAAShader );
+    fxaaPass.uniforms['resolution'].value.set(1 / width / dpr , 1 / height / dpr);
+    fxaaPass.renderToScreen = true;
+
+    var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 1.5, .85, 0.65 );//1.0, 0.3, 0.5);
+	//var bloom = new THREE.BloomPass(1.5, 1.0, 25, 4.0);
+	
+	var raysPass = new THREE.RaysPass(1.0, 0.0, 0.0, false );
+    raysPass.renderToScreen = true;
+
+
+    globeComposer.addPass( renderPass );
+    globeComposer.addPass( glowPass );
+    globeComposer.addPass( bloom );
+    globeComposer.addPass( raysPass );
+    //globeComposer.addPass( fxaaPass );
+
+
+
+    var airportComposer = new THREE.EffectComposer( renderer, renderTarget );
+
+    var renderAirportPass = new THREE.RenderPass(scene, camera);
+    renderAirportPass.clearColor = new THREE.Color(0, 0, 0);
+    renderAirportPass.clearAlpha = 0;
+    
+
+    var airportBloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 0.15, 0.5, 0.5 );//1.0, 0.3, 0.5);
+
+	var airportRaysPass = new THREE.RaysPass(0.05, 1.0, 0.0, false );
+    airportRaysPass.renderToScreen = true;
+
+    var airportGlowPass = new THREE.ShaderPass( THREE.SuperShader );
+    airportGlowPass.uniforms.glowAmount.value = 0.3;
+    airportGlowPass.uniforms.glowSize.value = 3;
+    airportGlowPass.uniforms.vigOffset.value = 0.9;
+    airportGlowPass.uniforms.saturation.value = 0.0;
+    airportGlowPass.uniforms.contrast.value = 0.0;
+    airportGlowPass.uniforms.brightness.value = 0;
+
+    airportComposer.addPass( renderAirportPass );
+    airportComposer.addPass( fxaaPass );
+
+
 
 
 	wrapper.append(renderer.domElement);
@@ -68,6 +127,13 @@ FlightGlobal.Scene = function (wrapper) {
 		setColormode:function (colormode) {
 			if (airportGroup) airportGroup.setColormode(colormode)
 		},
+		updateFov:function(value, airport) {
+			 camera.fov = value.fov; 
+		},
+		onCompleteFov:function(airport) {
+			 camera.fov = 45;
+			 globe.hide(); 
+		}		
 	}
 
 	return me;
@@ -81,6 +147,7 @@ FlightGlobal.Scene = function (wrapper) {
 				globe.clickableObjects.push(airport.marker);
 				airport.marker.onClick = function () {
 					showAirport(airport);
+					//showAirport(airport);
 					globe.hide();
 				}
 			})
@@ -89,12 +156,22 @@ FlightGlobal.Scene = function (wrapper) {
 	}
 
 	function render() {
+
+		camera.updateProjectionMatrix();
+		
 		if (globe.control) globe.control.update();
 		if (airportGroup && airportGroup.control) airportGroup.control.update();
 
 		requestAnimationFrame(render);
-		postProComposer.render(1 / 60);
-		//renderer.render(scene, camera);
+		if (globe.object3D.visible) {
+			globeComposer.render(1 / 60);
+		} else if ( !oneTime ) {
+			globeComposer.render(1 / 60);
+			oneTime = true;
+		}
+		if (airportGroup && airportGroup.control && oneTime) {
+			airportComposer.render(1 / 60);
+		}
 	}
 
 	function showAirport(airport) {
@@ -104,6 +181,10 @@ FlightGlobal.Scene = function (wrapper) {
 
 		airportGroup = new FlightGlobal.Airport(airport);
 		scene.add(airportGroup.object3D);
+		
+		//var currentFov = { fov: 45};
+        //TweenLite.to( currentFov, 0.5, { delay:0.35, fov:10, onUpdate:me.updateFov, onUpdateParams:[ currentFov ], onComplete:me.onCompleteFov } );        
+
 	}
 
 	function resize() {
@@ -116,9 +197,10 @@ FlightGlobal.Scene = function (wrapper) {
 		renderer.setSize(width, height);
 
 
-    	if (postProComposer) postProComposer.setSize(width, height);
+    	if (globeComposer) globeComposer.setSize(width, height);
+    	if (airportComposer) airportComposer.setSize(width, height);
 
-   		//if (fxaaPass) fxaaPass.uniforms['resolution'].value.set(1 / width, 1 / height);
+   		if (fxaaPass) fxaaPass.uniforms['resolution'].value.set(1 / width / dpr, 1 / height / dpr);
 
 
 	}
