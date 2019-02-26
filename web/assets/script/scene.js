@@ -116,9 +116,6 @@ FlightGlobal.Scene = function (wrapper) {
 		}
 	})
 
-	$(window).resize(resize);
-	resize();
-
 	render();
 
 	var me = {
@@ -133,7 +130,8 @@ FlightGlobal.Scene = function (wrapper) {
 		onCompleteFov:function(airport) {
 			 camera.fov = 45;
 			 globe.hide(); 
-		}		
+		},
+		resize: resize,
 	}
 
 	return me;

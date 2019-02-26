@@ -7,9 +7,31 @@ var FlightGlobal = {};
 $(function () {
 	var scene;
 
+	var resizeTimeout = false;
+	$(window).resize(resize);
+	resize();
+	function resize() {
+		var wrapperWidth  = $('#wrapper_container').innerWidth();
+		var wrapperHeight = $('#wrapper_container').innerHeight();
+		var containerWidth  = Math.min(wrapperWidth,  Math.round(wrapperHeight*16/9));
+		var containerHeight = Math.min(wrapperHeight, Math.round(wrapperWidth /16*9));
+		$('#container').css({
+			width: containerWidth,
+			height: containerHeight,
+			left: Math.round((wrapperWidth-containerWidth)/2),
+			top: Math.round((wrapperHeight-containerHeight)/2),
+			'font-size': containerHeight/100,
+		})
+		if (!scene) return;
+		if (resizeTimeout) clearTimeout(resizeTimeout);
+		resizeTimeout = setTimeout(scene.resize, 250);
+	}
+
+
 	FlightGlobal.helper.series([
 		function (cb) {
 			scene = new FlightGlobal.Scene($('#wrapper_canvas'));
+			scene.resize();
 			cb();
 		},
 		function (cb) {
@@ -36,5 +58,8 @@ $(function () {
 				}
 			}
 		},
+		function (cb) {
+			resize();
+		}
 	])
 })

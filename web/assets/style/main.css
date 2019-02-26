@@ -5,6 +5,7 @@ html, body, .container {
 	padding: 0;
 	color: #fff;
 	font-family: sans-serif;
+	position: absolute;
 }
 
 body {
