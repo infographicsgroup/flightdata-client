@@ -12,11 +12,15 @@ FlightGlobal.Globe = function (opt) {
 
 	me.object3D = new THREE.Group();
 
-    var material    = new THREE.SpriteMaterial( { map: new THREE.TextureLoader().load('assets/texture/earth-glow.png'), transparent: true, depthWrite:false } );
-    var atmosphericalSprite = new THREE.Sprite( material );
-    atmosphericalSprite.scale.set(3.6,3.6);
+	var material = new THREE.SpriteMaterial({
+		map: new THREE.TextureLoader().load('assets/texture/earth-glow.png'),
+		transparent: true,
+		depthWrite:false
+	});
+	var atmosphericalSprite = new THREE.Sprite( material );
+	atmosphericalSprite.scale.set(3.6,3.6);
 
-    me.object3D.add( atmosphericalSprite );
+	me.object3D.add( atmosphericalSprite );
 
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
@@ -65,9 +69,13 @@ FlightGlobal.Globe = function (opt) {
 
 			FlightGlobal.helper.diffDecoding(buffer, 3);
 
-			var material;
-			var materialOpacity = 0.5;
-			setMaterial(materialOpacity);
+			var materials = [
+				getMaterial('hsl(220, 80%, 20%)', 0.1),
+				getMaterial('hsl(290, 80%, 25%)', 0.2),
+				getMaterial('hsl(  0, 80%, 30%)', 0.3),
+				getMaterial('hsl( 20, 80%, 35%)', 0.4),
+				getMaterial('hsl( 40, 80%, 40%)', 0.5),
+			];
 
 			segments = segments.map(function(segment) {
 				var path = [];
@@ -82,34 +90,26 @@ FlightGlobal.Globe = function (opt) {
 				}
 				return path;
 			})
-			var i = 0;
-			var blueMaterial= new THREE.LineBasicMaterial({
-					color: '#37579b',
-					transparent: true,
-					premultipliedAlpha: false,
-					opacity: materialOpacity
-			});
 
 			segments.forEach(function (path) {
-				i++;
-
-
 				var cmlgeometry = new THREE.BufferGeometry().setFromPoints(path);
+				var p0 = path[0];
+				var p1 = path[path.length-1];
+				var distance = Math.sqrt(Math.pow(p0.x-p1.x,2) + Math.pow(p0.y-p1.y,2) + Math.pow(p0.z-p1.z,2));
+				distance = Math.max(0, Math.min(0.999, Math.pow(distance/1.7, 0.8)));
+				var index = Math.floor(distance*materials.length);
+				material = materials[index];
 				var curveObject = new THREE.Line(cmlgeometry, material);
-				
-				if( i > segments.length / 2 ) curveObject = new THREE.Line(cmlgeometry, blueMaterial);
-				
 				curves.add(curveObject);
-
-				i++;
 			})
 
-			function setMaterial(opacity) {
-				material = new THREE.LineBasicMaterial({
-					color: '#C1A464',
+			function getMaterial(color, opacity) {
+				return new THREE.LineBasicMaterial({
+					color: color,
 					transparent: true,
 					premultipliedAlpha: false,
 					opacity: opacity,
+					depthWrite: false,
 				});
 			}
 		}
@@ -148,9 +148,9 @@ FlightGlobal.Globe = function (opt) {
 			
 			var geometry = new THREE.CircleGeometry(1/90, 32);
 
-            var planeGeometry = new THREE.PlaneGeometry( 0.025, 0.5 + Math.random() * 0.5 );
-            var planeMesh = new THREE.Mesh( planeGeometry, planeMaterial );
-            planeMesh.rotation.x = Math.PI / 2;
+			var planeGeometry = new THREE.PlaneGeometry( 0.025, 0.5 + Math.random() * 0.5 );
+			var planeMesh = new THREE.Mesh( planeGeometry, planeMaterial );
+			planeMesh.rotation.x = Math.PI / 2;
 
 			var marker = new THREE.Mesh( geometry, material );
 			marker.add( planeMesh )
