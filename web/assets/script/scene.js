@@ -102,13 +102,13 @@ FlightGlobal.Scene = function (wrapper) {
 	$(renderer.domElement).click(function (event) {
 		event.preventDefault();
 
-		mouse.x =  (event.clientX / width )*2 - 1;
-		mouse.y = -(event.clientY / height)*2 + 1;
+		mouse.x =  (event.offsetX / width )*2 - 1;
+		mouse.y = -(event.offsetY / height)*2 + 1;
 
 		raycaster.setFromCamera(mouse, camera);
 
 		if (globe.clickableObjects) {
-			var intersects = raycaster.intersectObjects(globe.clickableObjects); 
+			var intersects = raycaster.intersectObjects(globe.clickableObjects);
 			if (intersects.length > 0) intersects[0].object.onClick();
 		}
 	})
@@ -137,6 +137,8 @@ FlightGlobal.Scene = function (wrapper) {
 		$.getJSON('assets/data/airports.json', function (_airports) {
 			airports = _airports;
 			globe.addAirportMarkers(airports);
+
+			globe.clickableObjects = [];
 
 			airports.forEach(function (airport) {
 				globe.clickableObjects.push(airport.marker);
