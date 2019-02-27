@@ -27,6 +27,18 @@ body {
 	display: none;
 }
 
+
+	.btn_icon {
+		width:3em;
+		position: absolute;
+		opacity: 0.5;
+		transition: opacity 0.2s;
+		cursor: pointer;
+	}
+
+		.btn_icon:hover {
+			opacity: 1.0;
+		}
 	#airport_overlay {
 		display: none;
 		pointer-events: all;
