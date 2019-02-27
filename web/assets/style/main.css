@@ -25,6 +25,7 @@ body {
 
 #wrapper_html {
 	display: none;
+	pointer-events: none;
 }
 
 	.textbox {
