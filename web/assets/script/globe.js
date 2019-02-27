@@ -131,7 +131,6 @@ FlightGlobal.Globe = function (opt) {
 
 		me.clickableObjects = [];
 
-		airports
 		var material = new THREE.MeshPhongMaterial({
 			color: 0xffff00,
 			side: THREE.DoubleSide,
