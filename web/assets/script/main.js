@@ -90,7 +90,7 @@ $(function () {
 			})
 		},
 		function (cb) {
-			stateController.showAirport(airports[3]);
+			//stateController.showAirport(airports[3]);
 			cb();
 		},
 		function (cb) {
