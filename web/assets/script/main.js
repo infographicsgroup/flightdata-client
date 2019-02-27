@@ -50,6 +50,10 @@ $(function () {
 		$('#text_credit').toggle(visible);
 	})
 
+	$('#switch').click(function () {
+		$('#switch').toggleClass('right');
+	})
+
 	FlightGlobal.helper.series([
 		function (cb) {
 			scene = new FlightGlobal.Scene($('#wrapper_canvas'));
