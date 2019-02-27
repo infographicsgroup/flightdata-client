@@ -170,7 +170,7 @@ FlightGlobal.Globe = function (opt) {
 
 			var marker1 = new THREE.Object3D();
 
-			var spriteMaterial = new THREE.SpriteMaterial( { color: 0xffffff, transparent:true, opacity:0.5, fog:true } );
+			var spriteMaterial = new THREE.SpriteMaterial( { color: 0xffffff, transparent:true, opacity:0.05, fog:true } );
             var sprite = new THREE.Sprite( spriteMaterial );
 
             sprite.scale.set( 0.05, 0.05 );
