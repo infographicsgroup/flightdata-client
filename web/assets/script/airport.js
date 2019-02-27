@@ -5,17 +5,12 @@ FlightGlobal.Airport = function (airport) {
 	var colormode = 'takeoff';
 
 	var me = {
-		destroy: destroy,
 		setColormode: setColormode,
 	}
 
 	init();
 
 	return me;
-
-	function destroy() {
-		me.object3D.parent.remove(me.object3D);
-	}
 
 	function init() {
 		me.object3D = new THREE.Group();

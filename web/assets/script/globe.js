@@ -6,8 +6,6 @@ FlightGlobal.Globe = function (opt) {
 	var me = {
 		clickableObjects:[],
 		addAirportMarkers:addAirportMarkers,
-		show:show,
-		hide:hide,
 	}
 
 	me.object3D = new THREE.Group();
@@ -37,6 +35,13 @@ FlightGlobal.Globe = function (opt) {
 
 	me.control = new THREE.TrackballControls(me.object3D);
 	me.control.dynamicDampingFactor = 0.99;
+
+	stateController.onChange('globe', function (visible) {
+		me.object3D.visible = visible;
+		me.object3D.enabled = visible;
+		me.control.enabled = visible;
+		me.enabled = visible;
+	})
 
 	return me;
 
@@ -115,14 +120,6 @@ FlightGlobal.Globe = function (opt) {
 		}
 	}
 
-	function show() {
-		me.object3D.visible = true;
-	}
-
-	function hide() {
-		me.object3D.visible = false;
-	}
-
 	function addAirportMarkers(airports) {
 		markers = [];
 
@@ -137,7 +134,8 @@ FlightGlobal.Globe = function (opt) {
 			transparent:true,
 			opacity:0
 		});
-		var planeMaterial = new THREE.MeshBasicMaterial( { 
+
+		var planeMaterial = new THREE.MeshBasicMaterial({
 			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png'), 
 			transparent:true, 
 			side:THREE.DoubleSide 
