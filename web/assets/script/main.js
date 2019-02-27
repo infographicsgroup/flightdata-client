@@ -69,6 +69,7 @@ $(function () {
 			$.getJSON('assets/data/airports.json', function (_airports) {
 				airports = _airports;
 				scene.addAirportMarkers(airports);
+				cb();
 			})
 		},
 		function (cb) {
@@ -76,6 +77,7 @@ $(function () {
 		},
 		function (cb) {
 			resize();
-		}
+			cb();
+		},
 	])
 })

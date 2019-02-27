@@ -10,6 +10,7 @@ FlightGlobal.helper = (function () {
 		var todos = list.slice(0);
 		run();
 		function run() {
+			if (todos.length === 0) return;
 			todos.shift()(function () {
 				setTimeout(run, 0);
 			})
