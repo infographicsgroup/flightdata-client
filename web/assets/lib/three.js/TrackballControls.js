@@ -17,11 +17,13 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	this.drag = false;
 
-	this.dynamicDampingFactor = 0.9;
+	this.dynamicDampingFactor = 0.99;
 
 	// internals
 
 	this.target = new THREE.Vector3();
+
+	this.enabled = true;
 
 
 	var lastPosition = new THREE.Vector3();
@@ -33,6 +35,21 @@ THREE.TrackballControls = function ( object, domElement ) {
 		_moveCurr = new THREE.Vector2(),
 		_dx = 0,
 		_dy = 0;
+
+	this.setMomentum = function(x,y) {
+		_dx = x;
+		_dy = y;
+	}
+
+	var minSpeed = 1e-4;
+	this.calcMomentumResult = function(r) {
+		var sum = 0;
+		while (r > minSpeed) {
+			sum += r;
+			r *= _this.dynamicDampingFactor;
+		}
+		return sum;
+	}
 
 
 	// events
@@ -112,21 +129,21 @@ THREE.TrackballControls = function ( object, domElement ) {
 			}
 			_movePrev.copy(_moveCurr);
 
-			angle = _dx*_dx + _dy*_dy;
+			angle = Math.sqrt(_dx*_dx + _dy*_dy);
 
-			if ( angle > 1e-6 ) {
-
+			if ( angle < minSpeed ) {
+				_dx = 0;
+				_dy = 0;
+			} else {
 				object.rotation.x -= _dy;
 				object.rotation.y += _dx;
 
 				if (object.rotation.x < _this.minAngle) object.rotation.x = _this.minAngle;
 				if (object.rotation.x > _this.maxAngle) object.rotation.x = _this.maxAngle;
 
+				_dx *= _this.dynamicDampingFactor;
+				_dy *= _this.dynamicDampingFactor;
 			}
-
-			_dx *= _this.dynamicDampingFactor;
-			_dy *= _this.dynamicDampingFactor;
-
 		};
 
 	}() );
@@ -154,7 +171,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	};
 
 	this.update = function () {
-
+		if (!this.enabled) return;
 		_this.rotateObject();
 	};
 

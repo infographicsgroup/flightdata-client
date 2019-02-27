@@ -13,16 +13,18 @@ FlightGlobal.Airport = function (airport) {
 	return me;
 
 	function init() {
+		var momentum = 0.005;
+
 		me.object3D = new THREE.Group();
 
-		me.object3D.rotation.set(Math.PI/2,0,0);
-		me.object3D.visible = true;
-
 		me.control = new THREE.TrackballControls(me.object3D);
-		me.control.dynamicDampingFactor = 0.99;
-		me.control.minAngle =  0.2;
-		me.control.maxAngle =  Math.PI/2;
+		me.control.minAngle = 0.2;
+		me.control.maxAngle = Math.PI/2;
 		me.control.rotateSpeed = 5;
+		me.control.setMomentum(momentum, 0);
+
+		me.object3D.rotation.set(0.6,-me.control.calcMomentumResult(momentum),0);
+		me.object3D.visible = true;
 
 		var planeSize = 2*4096/3840;
 		var geometry = new THREE.PlaneGeometry(planeSize, planeSize);
