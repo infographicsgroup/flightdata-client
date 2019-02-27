@@ -21,11 +21,11 @@ FlightGlobal.Scene = function (wrapper) {
 	var globe = new FlightGlobal.Globe();
 	scene.add(globe.object3D);
 
-    var dpr = window.devicePixelRatio;
    	dpr *= 0.80;
+    var dpr = window.devicePixelRatio || 1;
 
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
-	renderer.setPixelRatio(dpr ? dpr : 1);
+	renderer.setPixelRatio(dpr);
 
 	var rtParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, stencilBuffer: true };
 	var renderTarget = new THREE.WebGLRenderTarget( width, height, rtParameters );
@@ -94,9 +94,6 @@ FlightGlobal.Scene = function (wrapper) {
 
     airportComposer.addPass( renderAirportPass );
     airportComposer.addPass( fxaaPass );
-
-
-
 
 	wrapper.append(renderer.domElement);
 
