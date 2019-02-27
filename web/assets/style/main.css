@@ -95,4 +95,36 @@ body {
 			}
 
 
+#switch, #switch * {
+	position:absolute;
+}
+	#switch #switch_button {
+		left: 0em;
+		transition: left 0.2s;
+	}
+		#switch.right #switch_button {
+			left: 2em;
+		}
+
+	#switch .text_left {
+		opacity: 1.0;
+		transition: opacity 0.2s;
+	}
+	#switch .text_right {
+		opacity: 0.5;
+		transition: opacity 0.2s;
+	}
+	#switch.right .text_left {
+		opacity: 0.5;
+	}
+	#switch.right .text_right {
+		opacity: 1.0;
+	}
+
+
+
+
+
+
+
 
