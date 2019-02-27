@@ -27,6 +27,26 @@ body {
 	display: none;
 }
 
+	.textbox {
+		background: rgba(0,86,89,0.5);
+		position: absolute;
+		left: 4em;
+		top: 18em;
+		width: 12em;
+		padding: 1.5em;
+	}
+		.textbox h2 {
+			font-size: 1.5em;
+			line-height: 1.5em;
+			text-transform: uppercase;
+			font-weight: normal;
+			margin: 0 0 0;
+		}
+		.textbox p {
+			font-size: 1.2em;
+			line-height: 1.5em;
+			margin: 1em 0 0;
+		}
 
 	.btn_icon {
 		width:3em;
@@ -39,6 +59,7 @@ body {
 		.btn_icon:hover {
 			opacity: 1.0;
 		}
+
 	#airport_overlay {
 		display: none;
 		pointer-events: all;
