@@ -57,7 +57,7 @@ FlightGlobal.Scene = function (wrapper) {
 	fxaaPass.uniforms['resolution'].value.set(1 / width / dpr , 1 / height / dpr);
 	fxaaPass.renderToScreen = true;
 
-	var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 1.5, .85, 0.65 );//1.0, 0.3, 0.5);
+	var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 1.5, .85, 0.61 );//1.0, 0.3, 0.5);
 	//var bloom = new THREE.BloomPass(1.5, 1.0, 25, 4.0);
 	
 	var raysPass = new THREE.RaysPass(1.0, 0.0, 0.0, false );
