@@ -146,20 +146,17 @@ FlightGlobal.Scene = function (wrapper) {
 
 	return me;
 
-	function addAirportMarkers(cb) {
-		$.getJSON('assets/data/airports.json', function (_airports) {
-			airports = _airports;
-			globe.addAirportMarkers(airports);
+	function addAirportMarkers(_airports) {
+		airports = _airports;
+		globe.addAirportMarkers(airports);
 
-			globe.clickableObjects = [];
+		globe.clickableObjects = [];
 
-			airports.forEach(function (airport) {
-				globe.clickableObjects.push(airport.marker);
-				airport.marker.onClick = function () {
-					stateController.showAirport(airport);
-				}
-			})
-			cb();
+		airports.forEach(function (airport) {
+			globe.clickableObjects.push(airport.marker);
+			airport.marker.onClick = function () {
+				stateController.showAirport(airport);
+			}
 		})
 	}
 

@@ -5,7 +5,7 @@ document.addEventListener('touchmove', function(e) { e.preventDefault(); }, {pas
 var FlightGlobal = {};
 
 $(function () {
-	var scene;
+	var scene, airports;
 
 	var resizeTimeout = false;
 	$(window).resize(resize);
@@ -30,17 +30,25 @@ $(function () {
 		resizeTimeout = setTimeout(scene.resize, 250);
 	}
 
-		$('#btnBack').click(stateController.showGlobe)
+	$('#btn_globe').click(stateController.showGlobe)
 
-		stateController.onChange('airport', function (airport) {
-			if (airport) {
-				$('#airport_title').text(airport.name);
-				$('#airport_overlay').css('display', 'block');
-			} else {
-				$('#airport_title').text('');
-				$('#airport_overlay').css('display', 'none');
-			}
-		})
+	stateController.onChange('airport', function (airport) {
+		if (airport) {
+			$('#airport_title').text(airport.name);
+			$('#airport_overlay').css('display', 'block');
+		} else {
+			$('#airport_title').text('');
+			$('#airport_overlay').css('display', 'none');
+		}
+	})
+
+	stateController.onChange('intro', function (visible) {
+		$('#text_intro').toggle(visible);
+	})
+
+	stateController.onChange('credit', function (visible) {
+		$('#text_credit').toggle(visible);
+	})
 
 	FlightGlobal.helper.series([
 		function (cb) {
@@ -58,7 +66,10 @@ $(function () {
 			cb();
 		},
 		function (cb) {
-			scene.addAirportMarkers(cb);
+			$.getJSON('assets/data/airports.json', function (_airports) {
+				airports = _airports;
+				scene.addAirportMarkers(airports);
+			})
 		},
 		function (cb) {
 			cb();
