@@ -55,7 +55,7 @@
 			</div>
 			<div id="wrapper_html" class="container">
 				<div class="container">
-					<img src="assets/images/logo.svg" style="pointer-events: none; width:18em; position: absolute; left:1em; top:1em;">
+					<img src="assets/images/logo.svg" style="pointer-events:none; width:18em; position:absolute; left:1em; top:1em;">
 					<img src="assets/images/button_fullscreen.svg" class="btn_icon" style="left:1em; bottom:1em;">
 					<div class="textbox" id="text_intro">
 						<h2>In 88 Stunden<br>um die Welt</h2>
@@ -64,21 +64,15 @@
 				</div>
 				<div id="airport_overlay" class="container">
 					<img src="assets/images/button_earth.svg" class="btn_icon" id="btn_globe" style="right:1em; bottom:1em;">
-					<div id="airport_title"></div>
-					<div id="airport_colormode">
-						<p>color mode</p>
-						<p>
-							<input type="radio" name="colormode" id="colormode1" value="takeoff" checked>
-							<label for="colormode1"> Takeoff/Landing</label>
-						</p>
-						<p>
-							<input type="radio" name="colormode" id="colormode2" value="destination">
-							<label for="colormode2"> Coming from/Flying to<br>
-								<img src="assets/temporary/world_colors.png" width="180"/>
-							</label>
-						</p>
+					<div style="position:absolute; left:4em; top:14em; width:15em; padding:0em 1em 0.5em; box-sizing:border-box; border-left:0.1em solid #fff; transition: height 1s">
+						<h2 id="airport_title" style="font-size:2em"></h2>
+						<p id="airport_text" style="margin-top:0;font-size:1em"></p>
+						<div id="airport_colormode_0" style="margin-top: 3em;">
+							<p style="font-size:1em; opacity:0.8; margin-bottom: 1em;">Colors show the continent of origin/destination for each flight</p>
+							<img src="assets/images/mini_globe.svg" style="width: 12em;">
+						</div>
 					</div>
-					<div id="switch" style="width:40em; height:2em; bottom:1em; left:30em; cursor: pointer;">
+					<div id="switch" style="width:40em; height:2em; bottom:1em; left:30em; cursor:pointer;">
 						<p class="text_left" style="right:23em; text-align:right; top:0.5em; width:15em; margin:0; padding:0;">CONNECTING TO WHICH CONTINENT</p>
 						<div style="left:18em; width:4em; height:2em;">
 							<div style="width:2.5em; height:0.5em; border-radius:0.5em; background:#fff; top:0.75em; left:0.75em"></div>

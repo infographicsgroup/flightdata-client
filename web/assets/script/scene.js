@@ -113,7 +113,7 @@ FlightGlobal.Scene = function (wrapper) {
 		}
 	})
 
-	stateController.onChange('airport', function (airport) {
+	stateController.on('airport', function (airport) {
 		if (airportGroup) {
 			scene.remove(airportGroup.object3D);
 			airportGroup = false;

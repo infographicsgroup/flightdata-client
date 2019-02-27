@@ -32,26 +32,39 @@ $(function () {
 
 	$('#btn_globe').click(stateController.showGlobe)
 
-	stateController.onChange('airport', function (airport) {
+	stateController.on('airport', function (airport) {
 		if (airport) {
-			$('#airport_title').text(airport.name);
+			$('#airport_title').text(airport.iata);
+			$('#airport_text').html([
+				airport.title,
+				'near '+airport.city+'/'+airport.country,
+				'',
+				'passengers/year: '+(airport.passengersPerYear/1e6).toFixed(1)+'m'
+			].join('<br>').toUpperCase());
 			$('#airport_overlay').css('display', 'block');
 		} else {
 			$('#airport_title').text('');
+			$('#airport_text').text('');
 			$('#airport_overlay').css('display', 'none');
 		}
 	})
 
-	stateController.onChange('intro', function (visible) {
+	stateController.on('intro', function (visible) {
 		$('#text_intro').toggle(visible);
 	})
 
-	stateController.onChange('credit', function (visible) {
+	stateController.on('credit', function (visible) {
 		$('#text_credit').toggle(visible);
+	})
+
+	stateController.on('colorMode', function (value) {
+		$('#airport_colormode_0').toggle(value === 0);
+		$('#airport_colormode_1').toggle(value === 1);
 	})
 
 	$('#switch').click(function () {
 		$('#switch').toggleClass('right');
+		stateController.setColorMode($('#switch').hasClass('right') ? 1 : 0)
 	})
 
 	FlightGlobal.helper.series([
@@ -77,6 +90,7 @@ $(function () {
 			})
 		},
 		function (cb) {
+			stateController.showAirport(airports[3]);
 			cb();
 		},
 		function (cb) {

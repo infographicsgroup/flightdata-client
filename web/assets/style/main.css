@@ -15,6 +15,20 @@ body {
 	font-weight: normal;
 }
 
+h2 {
+	font-size: 1.5em;
+	line-height: 1.5em;
+	text-transform: uppercase;
+	font-weight: normal;
+	margin: 0 0 0;
+}
+
+p {
+	font-size: 1.2em;
+	line-height: 1.5em;
+	margin: 1em 0 0;
+}
+
 .container {
 	position: absolute;
 	top:0px;
@@ -33,21 +47,10 @@ body {
 		position: absolute;
 		left: 4em;
 		top: 18em;
-		width: 12em;
+		width: 15em;
 		padding: 1.5em;
+		box-sizing: border-box;
 	}
-		.textbox h2 {
-			font-size: 1.5em;
-			line-height: 1.5em;
-			text-transform: uppercase;
-			font-weight: normal;
-			margin: 0 0 0;
-		}
-		.textbox p {
-			font-size: 1.2em;
-			line-height: 1.5em;
-			margin: 1em 0 0;
-		}
 
 	.btn_icon {
 		width:3em;
@@ -65,34 +68,6 @@ body {
 		display: none;
 		pointer-events: all;
 	}
-
-		.button {
-			position: absolute;
-			bottom: 20%;
-			right: 10%;
-			cursor: pointer;
-			background: #555;
-			padding: 10px;
-		}
-
-		#airport_title {
-			position: absolute;
-			font-size: 20px;
-			pointer-events: none;
-			top: 5%;
-			left: 10%;
-		}
-
-		#airport_colormode {
-			position: absolute;
-			top: 20%;
-			left: 1%;
-		}
-
-			#airport_colormode p {
-				margin: 0;
-				font-size: 12px;
-			}
 
 
 #switch, #switch * {

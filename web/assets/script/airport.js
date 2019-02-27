@@ -2,11 +2,15 @@
 
 FlightGlobal.Airport = function (airport) {
 	var curves, flightData;
-	var colormode = 'takeoff';
+	var colormode = stateController.get('colorMode');
 
-	var me = {
-		setColormode: setColormode,
-	}
+	var me = {}
+
+	stateController.on('colorMode', function (value) {
+		// memory leak in stateController!!!
+		colormode = value;
+		updateColormode();
+	})
 
 	init();
 
@@ -25,6 +29,7 @@ FlightGlobal.Airport = function (airport) {
 
 		me.object3D.rotation.set(0.6,-me.control.calcMomentumResult(momentum),0);
 		me.object3D.visible = true;
+		me.object3D.position.set(0,0.2,0);
 
 		var planeSize = 2*4096/3840;
 		var geometry = new THREE.PlaneGeometry(planeSize, planeSize);
@@ -106,22 +111,17 @@ FlightGlobal.Airport = function (airport) {
 	function updateColormode() {
 		if (!flightData) return;
 		switch (colormode) {
-			case 'takeoff': 
-				flightData.forEach(function (flight) {
-					flight.material.color = new THREE.Color(flight.takeOff ? '#33ddff' : '#ffff33');
-				})
-			break;
-			case 'destination': 
+			case 0: 
 				flightData.forEach(function (flight) {
 					flight.material.color = new THREE.Color(flight.c);
 				})
 			break;
+			case 1: 
+				flightData.forEach(function (flight) {
+					flight.material.color = new THREE.Color(flight.takeOff ? '#33ddff' : '#ffff33');
+				})
+			break;
 		}
-	}
-
-	function setColormode(_colormode) {
-		colormode = _colormode;
-		updateColormode();
 	}
 
 	function oa2ao(obj) {

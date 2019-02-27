@@ -2,21 +2,26 @@
 
 var stateController = (function () {
 	var state = {
-		globe:  true,
-		airport:false,
-		intro:  true,
-		credits:false,
+		globe:    true,
+		airport:  false,
+		intro:    true,
+		credits:  false,
+		colorMode:0,
 	}
 
 	var listeners = {};
 
 	return {
-		onChange: function (event, cb) { addListener(event, cb) },
+		on: function (event, cb) { addListener(event, cb) },
+		get: function (key) { return state[key] },
 		showGlobe: function () {
-			if (!state.globe) changeState({ globe: true, airport: false })
+			if (!state.globe) changeState({globe:true, airport:false, intro:false, })
 		},
 		showAirport: function (airport) {
-			if (state.airport !== airport) changeState({globe: !airport, airport: airport})
+			if (state.airport !== airport) changeState({globe:!airport, airport:airport, intro:false, })
+		},
+		setColorMode: function (colorMode) {
+			changeState({colorMode:colorMode})
 		},
 	}
 

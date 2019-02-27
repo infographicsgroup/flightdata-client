@@ -36,7 +36,7 @@ FlightGlobal.Globe = function (opt) {
 	me.control = new THREE.TrackballControls(me.object3D);
 	me.control.dynamicDampingFactor = 0.99;
 
-	stateController.onChange('globe', function (visible) {
+	stateController.on('globe', function (visible) {
 		me.object3D.visible = visible;
 		me.object3D.enabled = visible;
 		me.control.enabled = visible;
