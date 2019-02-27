@@ -79,7 +79,7 @@ FlightGlobal.Scene = function (wrapper) {
 	renderAirportPass.clearAlpha = 0;
 	
 
-	var airportBloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 0.15, 0.5, 0.5 );//1.0, 0.3, 0.5);
+	var airportBloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 0.09, 0.5, 0.71 );//1.0, 0.3, 0.5);
 
 	var airportRaysPass = new THREE.RaysPass(0.05, 1.0, 0.0, false );
 	airportRaysPass.renderToScreen = true;
@@ -91,9 +91,11 @@ FlightGlobal.Scene = function (wrapper) {
 	airportGlowPass.uniforms.saturation.value = 0.0;
 	airportGlowPass.uniforms.contrast.value = 0.0;
 	airportGlowPass.uniforms.brightness.value = 0;
+	airportGlowPass.renderToScreen = true;
 
 	airportComposer.addPass( renderAirportPass );
-	airportComposer.addPass( fxaaPass );
+	airportComposer.addPass( airportRaysPass );
+	//airportComposer.addPass( fxaaPass );
 
 	wrapper.append(renderer.domElement);
 
