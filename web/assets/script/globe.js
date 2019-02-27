@@ -43,8 +43,6 @@ FlightGlobal.Globe = function (opt) {
 	mapObject.scale.set(0.1,0.1,0.1);
 	me.object3D.add(mapObject);
 
-	me.object3D.add( mapObject );
-
 	me.object3D.add(globeMesh);
 	me.object3D.rotation.x =  0.8;
 	me.object3D.rotation.y = -Math.PI/2;
