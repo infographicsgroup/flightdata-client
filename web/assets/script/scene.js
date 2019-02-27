@@ -135,12 +135,13 @@ FlightGlobal.Scene = function (wrapper) {
 		updateFov:function(value, airport) {
 			camera.fov = value.fov; 
 		},
-		/*
 		onCompleteFov:function(airport) {
-			camera.fov = 45;
-			globe.hide(); 
+			stateController.showAirport(airport);
+
+			var currentFov = { fov: 10};
+        	TweenLite.to( currentFov, 0.5, { delay:0.2, fov:45, onUpdate:me.updateFov, onUpdateParams:[ currentFov ], ease:Expo.easeOut } );   
 		},
-		*/
+		
 		resize: resize,
 	}
 
@@ -154,8 +155,9 @@ FlightGlobal.Scene = function (wrapper) {
 
 		airports.forEach(function (airport) {
 			globe.clickableObjects.push(airport.marker);
-			airport.marker.onClick = function () {
-				stateController.showAirport(airport);
+			airport.marker.onClick = function () {						
+				var currentFov = { fov: 45};
+        		TweenLite.to( currentFov, 0.5, { fov:10, onUpdate:me.updateFov, onUpdateParams:[ currentFov ], onComplete:me.onCompleteFov, onCompleteParams:[airport], ease: Back.easeOut } );   
 			}
 		})
 	}
