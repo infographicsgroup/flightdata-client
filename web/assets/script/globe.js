@@ -27,6 +27,22 @@ FlightGlobal.Globe = function (opt) {
 		})
 	);
 
+
+
+
+	var planeSize = 2*4096/3840;
+	var geometry = new THREE.PlaneGeometry(planeSize, planeSize);
+	var mapMaterial = new THREE.MeshBasicMaterial({
+		map: new THREE.TextureLoader().load('assets/map/adelaide.png'),
+		transparent: true,
+	});
+	mapMaterial.map.encoding = THREE.sRGBEncoding;
+	var mapObject = new THREE.Mesh(geometry, mapMaterial);
+	mapObject.rotation.set(-Math.PI/2,0,0);
+	mapObject.position.set(0,-0.2,0);
+	mapObject.scale.set(0.1,0.1,0.1);
+	me.object3D.add(mapObject);
+
 	me.object3D.add(globeMesh);
 	me.object3D.rotation.x =  0.8;
 	me.object3D.rotation.y = -Math.PI/2;
