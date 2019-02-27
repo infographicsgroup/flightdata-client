@@ -4,14 +4,15 @@ html, body, .container {
 	margin: 0;
 	padding: 0;
 	color: #fff;
-	font-family: sans-serif;
 	position: absolute;
 }
 
 body {
 	background: #000;
 	overflow: hidden;
-	position: fixed; 
+	position: fixed;
+	font-family: 'Gravur LL';
+	font-weight: normal;
 }
 
 .container {
@@ -19,10 +20,11 @@ body {
 	top:0px;
 	left:0px;
 	overflow: hidden;
+	font-size:1vw;
 }
 
 #wrapper_html {
-	pointer-events: none;
+	display: none;
 }
 
 	#airport_overlay {

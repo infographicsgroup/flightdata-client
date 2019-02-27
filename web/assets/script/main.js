@@ -32,6 +32,7 @@ $(function () {
 		function (cb) {
 			scene = new FlightGlobal.Scene($('#wrapper_canvas'));
 			scene.resize();
+			$('#wrapper_html').css('display', 'block');
 			cb();
 		},
 		function (cb) {
@@ -57,6 +58,7 @@ $(function () {
 					$('#airport_overlay').css('display', 'none');
 				}
 			}
+			cb();
 		},
 		function (cb) {
 			resize();
