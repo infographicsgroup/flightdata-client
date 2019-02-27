@@ -145,7 +145,7 @@ FlightGlobal.Globe = function (opt) {
 
 		airports.forEach(function (airport) {
 			
-			var geometry = new THREE.CircleGeometry(1/90, 32);
+			var geometry = new THREE.CircleGeometry(1/40, 32);
 
 			var planeGeometry = new THREE.PlaneGeometry( 0.025, 0.5 + Math.random() * 0.5 );
 			var planeMesh = new THREE.Mesh( planeGeometry, planeMaterial );
