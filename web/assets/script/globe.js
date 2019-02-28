@@ -146,10 +146,10 @@ FlightGlobal.Globe = function (opt) {
 		me.clickableObjects = [];
 
 		var material = new THREE.MeshBasicMaterial({
-			color: 0xffffff,
+			color: 0xf3f3f3,
 			side: THREE.DoubleSide,
 			transparent:true,
-			opacity:0.1/*,
+			opacity:0.15/*,
 						blending:THREE.AdditiveBlending*/
 		});
 
@@ -161,7 +161,7 @@ FlightGlobal.Globe = function (opt) {
 
 		airports.forEach(function (airport) {
 			
-			var geometry = new THREE.CircleGeometry(1/40, 32);
+			var geometry = new THREE.CircleGeometry(1/50, 32);
 
 			var planeGeometry = new THREE.PlaneBufferGeometry( 0.025, 0.5 + Math.random() * 0.5, 8 );
 			var planeMesh = new THREE.Mesh( planeGeometry, planeMaterial );

@@ -171,7 +171,7 @@ FlightGlobal.Scene = function (wrapper) {
 			FlightGlobal.helper.series([
 				function (cb) {
 					TweenLite.to(currentFov, 0.5, {
-						fov:120,
+						fov:10,
 						onUpdate:updateFov,
 						onComplete:cb,
 						ease:Expo.easeOut
@@ -186,8 +186,8 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
+					oneTime = false;
 					TweenLite.to(currentFov, 0.5, {
-						delay:0.5,
 						fov:45,
 						onUpdate:updateFov,
 						ease:Expo.easeOut
@@ -235,7 +235,6 @@ FlightGlobal.Scene = function (wrapper) {
 		if (airportGroup && airportGroup.control) airportGroup.control.update();
 
 		requestAnimationFrame(render);
-		
 		if (globe.object3D.visible) {
 
 			globeComposer.render(1 / 60);
