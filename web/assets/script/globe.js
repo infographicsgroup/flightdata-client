@@ -10,7 +10,6 @@ FlightGlobal.Globe = function (opt) {
 	}
 
 	me.object3D = new THREE.Group();
-	me.object3D.name = "globe";
 
 	var material = new THREE.SpriteMaterial({
 		map: new THREE.TextureLoader().load('assets/texture/earth-glow.png'),
@@ -142,22 +141,22 @@ FlightGlobal.Globe = function (opt) {
 		markers = [];
 
 		var markerGroup = new THREE.Group();
-		markerGroup.name = "globeMarker";
 		me.object3D.add(markerGroup);
 
 		me.clickableObjects = [];
 
 		var material = new THREE.MeshBasicMaterial({
-			color: 0xffff00,
+			color: 0xffffff,
 			side: THREE.DoubleSide,
 			transparent:true,
-			opacity:0
+			opacity:0.1/*,
+						blending:THREE.AdditiveBlending*/
 		});
 
 		var planeMaterial = new THREE.MeshBasicMaterial({
 			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png'),
 			transparent:true, 
-			side:THREE.DoubleSide 
+			side:THREE.DoubleSide
 		});			
 
 		airports.forEach(function (airport) {
