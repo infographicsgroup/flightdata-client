@@ -9,7 +9,7 @@
 		"iata": "ADL",
 		"passengersPerYear": 8090000,
 		"spriteOffset": 0,
-		"spriteHeight": 55
+		"spriteHeight": 64
 	},
 	{
 		"name": "amsterdam",
@@ -20,8 +20,8 @@
 		"country": "Netherlands",
 		"iata": "AMS",
 		"passengersPerYear": 71053157,
-		"spriteOffset": 55,
-		"spriteHeight": 55
+		"spriteOffset": 64,
+		"spriteHeight": 64
 	},
 	{
 		"name": "atlanta",
@@ -32,8 +32,8 @@
 		"country": "United States",
 		"iata": "ATL",
 		"passengersPerYear": 107394029,
-		"spriteOffset": 110,
-		"spriteHeight": 55
+		"spriteOffset": 128,
+		"spriteHeight": 64
 	},
 	{
 		"name": "bangkok",
@@ -44,8 +44,8 @@
 		"country": "Thailand",
 		"iata": "BKK",
 		"passengersPerYear": 63378923,
-		"spriteOffset": 165,
-		"spriteHeight": 55
+		"spriteOffset": 192,
+		"spriteHeight": 64
 	},
 	{
 		"name": "berlin",
@@ -56,8 +56,8 @@
 		"country": "Germany",
 		"iata": "TXL",
 		"passengersPerYear": 22000430,
-		"spriteOffset": 220,
-		"spriteHeight": 55
+		"spriteOffset": 256,
+		"spriteHeight": 64
 	},
 	{
 		"name": "boston",
@@ -68,8 +68,8 @@
 		"country": "United States",
 		"iata": "BOS",
 		"passengersPerYear": 40941925,
-		"spriteOffset": 275,
-		"spriteHeight": 55
+		"spriteOffset": 320,
+		"spriteHeight": 64
 	},
 	{
 		"name": "brisbane",
@@ -80,8 +80,8 @@
 		"country": "Australia",
 		"iata": "BNE",
 		"passengersPerYear": 23205702,
-		"spriteOffset": 330,
-		"spriteHeight": 55
+		"spriteOffset": 384,
+		"spriteHeight": 64
 	},
 	{
 		"name": "chicago",
@@ -92,8 +92,8 @@
 		"country": "United States",
 		"iata": "ORD",
 		"passengersPerYear": 79828183,
-		"spriteOffset": 385,
-		"spriteHeight": 55
+		"spriteOffset": 448,
+		"spriteHeight": 64
 	},
 	{
 		"name": "copenhagen",
@@ -104,8 +104,8 @@
 		"country": "Denmark",
 		"iata": "CPH",
 		"passengersPerYear": 30298531,
-		"spriteOffset": 440,
-		"spriteHeight": 55
+		"spriteOffset": 512,
+		"spriteHeight": 64
 	},
 	{
 		"name": "dallas",
@@ -116,8 +116,8 @@
 		"country": "United States",
 		"iata": "DFW",
 		"passengersPerYear": 69112607,
-		"spriteOffset": 495,
-		"spriteHeight": 55
+		"spriteOffset": 576,
+		"spriteHeight": 64
 	},
 	{
 		"name": "frankfurt",
@@ -128,8 +128,8 @@
 		"country": "Germany",
 		"iata": "FRA",
 		"passengersPerYear": 69514414,
-		"spriteOffset": 550,
-		"spriteHeight": 55
+		"spriteOffset": 640,
+		"spriteHeight": 64
 	},
 	{
 		"name": "helsinki",
@@ -140,8 +140,8 @@
 		"country": "Finland",
 		"iata": "HEL",
 		"passengersPerYear": 20848838,
-		"spriteOffset": 605,
-		"spriteHeight": 55
+		"spriteOffset": 704,
+		"spriteHeight": 64
 	},
 	{
 		"name": "hong_kong",
@@ -152,8 +152,8 @@
 		"country": "Hong Kong",
 		"iata": "HKG",
 		"passengersPerYear": 74700000,
-		"spriteOffset": 660,
-		"spriteHeight": 55
+		"spriteOffset": 768,
+		"spriteHeight": 64
 	},
 	{
 		"name": "lisbon",
@@ -164,8 +164,8 @@
 		"country": "Portugal",
 		"iata": "LIS",
 		"passengersPerYear": 29006042,
-		"spriteOffset": 715,
-		"spriteHeight": 55
+		"spriteOffset": 832,
+		"spriteHeight": 64
 	},
 	{
 		"name": "london",
@@ -176,8 +176,8 @@
 		"country": "United Kingdom",
 		"iata": "LHR",
 		"passengersPerYear": 80102017,
-		"spriteOffset": 770,
-		"spriteHeight": 55
+		"spriteOffset": 896,
+		"spriteHeight": 64
 	},
 	{
 		"name": "los_angeles",
@@ -188,8 +188,8 @@
 		"country": "United States",
 		"iata": "LAX",
 		"passengersPerYear": 87534384,
-		"spriteOffset": 825,
-		"spriteHeight": 55
+		"spriteOffset": 960,
+		"spriteHeight": 64
 	},
 	{
 		"name": "madrid",
@@ -200,8 +200,8 @@
 		"country": "Spain",
 		"iata": "MAD",
 		"passengersPerYear": 57891340,
-		"spriteOffset": 880,
-		"spriteHeight": 55
+		"spriteOffset": 1024,
+		"spriteHeight": 64
 	},
 	{
 		"name": "mexico",
@@ -212,8 +212,8 @@
 		"country": "Mexico",
 		"iata": "MEX",
 		"passengersPerYear": 47700547,
-		"spriteOffset": 935,
-		"spriteHeight": 55
+		"spriteOffset": 1088,
+		"spriteHeight": 64
 	},
 	{
 		"name": "moscow",
@@ -224,8 +224,8 @@
 		"country": "Russia",
 		"iata": "SVO",
 		"passengersPerYear": 45836000,
-		"spriteOffset": 990,
-		"spriteHeight": 55
+		"spriteOffset": 1152,
+		"spriteHeight": 64
 	},
 	{
 		"name": "munich",
@@ -236,8 +236,8 @@
 		"country": "Germany",
 		"iata": "MUC",
 		"passengersPerYear": 46253623,
-		"spriteOffset": 1045,
-		"spriteHeight": 55
+		"spriteOffset": 1216,
+		"spriteHeight": 64
 	},
 	{
 		"name": "new_york",
@@ -248,8 +248,8 @@
 		"country": "United States",
 		"iata": "JFK",
 		"passengersPerYear": 61909148,
-		"spriteOffset": 1100,
-		"spriteHeight": 55
+		"spriteOffset": 1280,
+		"spriteHeight": 64
 	},
 	{
 		"name": "orlando",
@@ -260,8 +260,8 @@
 		"country": "United States",
 		"iata": "MCO",
 		"passengersPerYear": 47696627,
-		"spriteOffset": 1155,
-		"spriteHeight": 55
+		"spriteOffset": 1344,
+		"spriteHeight": 64
 	},
 	{
 		"name": "paranaque",
@@ -272,8 +272,8 @@
 		"country": "Philippines",
 		"iata": "MNL",
 		"passengersPerYear": 45082544,
-		"spriteOffset": 1210,
-		"spriteHeight": 55
+		"spriteOffset": 1408,
+		"spriteHeight": 64
 	},
 	{
 		"name": "paris",
@@ -284,8 +284,8 @@
 		"country": "France",
 		"iata": "CDG",
 		"passengersPerYear": 72229723,
-		"spriteOffset": 1265,
-		"spriteHeight": 55
+		"spriteOffset": 1472,
+		"spriteHeight": 64
 	},
 	{
 		"name": "rome",
@@ -296,8 +296,8 @@
 		"country": "Italy",
 		"iata": "FCO",
 		"passengersPerYear": 42995119,
-		"spriteOffset": 1320,
-		"spriteHeight": 55
+		"spriteOffset": 1536,
+		"spriteHeight": 64
 	},
 	{
 		"name": "san_francisco",
@@ -308,8 +308,8 @@
 		"country": "United States",
 		"iata": "SFO",
 		"passengersPerYear": 57793313,
-		"spriteOffset": 1375,
-		"spriteHeight": 55
+		"spriteOffset": 1600,
+		"spriteHeight": 64
 	},
 	{
 		"name": "sao_paulo",
@@ -320,8 +320,8 @@
 		"country": "Brazil",
 		"iata": "GRU",
 		"passengersPerYear": 42831981,
-		"spriteOffset": 1430,
-		"spriteHeight": 55
+		"spriteOffset": 1664,
+		"spriteHeight": 64
 	},
 	{
 		"name": "seattle",
@@ -332,8 +332,8 @@
 		"country": "United States",
 		"iata": "SEA",
 		"passengersPerYear": 49849520,
-		"spriteOffset": 1485,
-		"spriteHeight": 55
+		"spriteOffset": 1728,
+		"spriteHeight": 64
 	},
 	{
 		"name": "singapore",
@@ -344,8 +344,8 @@
 		"country": "Singapore",
 		"iata": "SIN",
 		"passengersPerYear": 65600000,
-		"spriteOffset": 1540,
-		"spriteHeight": 55
+		"spriteOffset": 1792,
+		"spriteHeight": 64
 	},
 	{
 		"name": "stockholm",
@@ -356,8 +356,8 @@
 		"country": "Sweden",
 		"iata": "ARN",
 		"passengersPerYear": 26642034,
-		"spriteOffset": 1595,
-		"spriteHeight": 55
+		"spriteOffset": 1856,
+		"spriteHeight": 64
 	},
 	{
 		"name": "sydney",
@@ -368,8 +368,8 @@
 		"country": "Australia",
 		"iata": "SYD",
 		"passengersPerYear": 44443927,
-		"spriteOffset": 1650,
-		"spriteHeight": 55
+		"spriteOffset": 1920,
+		"spriteHeight": 64
 	},
 	{
 		"name": "tel_aviv",
@@ -380,8 +380,8 @@
 		"country": "Israel",
 		"iata": "TLV",
 		"passengersPerYear": 22949676,
-		"spriteOffset": 1705,
-		"spriteHeight": 55
+		"spriteOffset": 1984,
+		"spriteHeight": 64
 	},
 	{
 		"name": "tokyo",
@@ -392,8 +392,8 @@
 		"country": "Japan",
 		"iata": "HND",
 		"passengersPerYear": 87098683,
-		"spriteOffset": 1760,
-		"spriteHeight": 55
+		"spriteOffset": 2048,
+		"spriteHeight": 64
 	},
 	{
 		"name": "toronto",
@@ -404,8 +404,8 @@
 		"country": "Canada",
 		"iata": "YYZ",
 		"passengersPerYear": 47130358,
-		"spriteOffset": 1815,
-		"spriteHeight": 55
+		"spriteOffset": 2112,
+		"spriteHeight": 64
 	},
 	{
 		"name": "vienna",
@@ -416,8 +416,8 @@
 		"country": "Austria",
 		"iata": "VIE",
 		"passengersPerYear": 27037349,
-		"spriteOffset": 1870,
-		"spriteHeight": 55
+		"spriteOffset": 2176,
+		"spriteHeight": 64
 	},
 	{
 		"name": "warsaw",
@@ -428,8 +428,8 @@
 		"country": "Poland",
 		"iata": "WAW",
 		"passengersPerYear": 17755500,
-		"spriteOffset": 1925,
-		"spriteHeight": 55
+		"spriteOffset": 2240,
+		"spriteHeight": 64
 	},
 	{
 		"name": "zurich",
@@ -440,7 +440,7 @@
 		"country": "Switzerland",
 		"iata": "ZRH",
 		"passengersPerYear": 31113488,
-		"spriteOffset": 1980,
-		"spriteHeight": 55
+		"spriteOffset": 2304,
+		"spriteHeight": 64
 	}
 ]
