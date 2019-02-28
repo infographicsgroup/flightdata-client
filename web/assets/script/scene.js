@@ -9,6 +9,8 @@ FlightGlobal.Scene = function (wrapper) {
 	//scene.background = new THREE.Color( 0x0c1a22 );
 	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
 
+	var labelScene = new THREE.Scene();
+
 	var camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
 	camera.position.set(0,0,3);
 
@@ -172,10 +174,19 @@ FlightGlobal.Scene = function (wrapper) {
 		if (airportGroup && airportGroup.control) airportGroup.control.update();
 
 		requestAnimationFrame(render);
+		
 		if (globe.object3D.visible) {
+
 			globeComposer.render(1 / 60);
+			renderer.autoClear = false;
+        	renderer.render( labelScene, camera );
+
 		} else if ( !oneTime ) {
+
 			globeComposer.render(1 / 60);
+			renderer.autoClear = false;
+        	renderer.render( labelScene, camera );
+
 			oneTime = true;
 		}
 		if (airportGroup && airportGroup.control && oneTime) {
