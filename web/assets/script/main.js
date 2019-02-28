@@ -61,6 +61,7 @@ $(function () {
 		$('#airport_colormode_0').toggle(value === 0);
 		$('#airport_colormode_1').toggle(value === 1);
 	})
+	stateController.trigger('colorMode');
 
 	$('#switch').click(function () {
 		$('#switch').toggleClass('right');

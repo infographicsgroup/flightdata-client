@@ -23,6 +23,9 @@ var stateController = (function () {
 		setColorMode: function (colorMode) {
 			changeState({colorMode:colorMode})
 		},
+		trigger: function (event) {
+			triggerListeners(event, state[event], state[event]);
+		},
 	}
 
 	function addListener(event, cb) {
