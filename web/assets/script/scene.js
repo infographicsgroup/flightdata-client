@@ -1,7 +1,7 @@
 "use strict"
 
 FlightGlobal.Scene = function (wrapper) {
-	var airportGroup, airports;
+	var airportGroup, airports, nextRenderCallback = [];
 
 	var width = 1024, height = 1024;
 	var oneTime = false;
@@ -117,16 +117,89 @@ FlightGlobal.Scene = function (wrapper) {
 		}
 	})
 
-	stateController.on('airport', function (airport) {
-		if (airportGroup) {
-			scene.remove(airportGroup.object3D);
-			airportGroup = false;
+	stateController.on('airport', function (airport, oldAirport) {	
+		var currentFov = {fov: 45};
+
+		if (airport && !oldAirport) {
+			animateGlobe2Airport();
+		} else {
+			animateAirport2Globe();
 		}
 
-		if (!airport) return;
+		function animateGlobe2Airport() {
+			if (airportGroup) {
+				scene.remove(airportGroup.object3D);
+				airportGroup = false;
+			}
+			FlightGlobal.helper.series([
+				function (cb) {
+					FlightGlobal.Airport(airport, function (group) {
+						airportGroup = group;
+						airportGroup.setVisibility(false);
+						scene.add(airportGroup.object3D);
+						cb();
+					})
+				},
+				afterNextRender,
+				function (cb) {
+					TweenLite.to(currentFov, 0.5, {
+						fov:10,
+						onUpdate:updateFov,
+						onComplete:cb,
+						ease:Expo.easeOut
+					});
+				},
+				function (cb) {
+					globe.setVisibility(false);
+					currentFov.fov = 120;
+					updateFov();
+					airportGroup.setVisibility(true);
+					cb()
+				},
+				afterNextRender,
+				function (cb) {
+					TweenLite.to(currentFov, 0.5, {
+						delay:0.5,
+						fov:45,
+						onUpdate:updateFov,
+						ease:Expo.easeOut
+					});
+				}
+			]);
+		}
 
-		airportGroup = new FlightGlobal.Airport(airport);
-		scene.add(airportGroup.object3D);
+		function animateAirport2Globe() {
+			FlightGlobal.helper.series([
+				function (cb) {
+					TweenLite.to(currentFov, 0.5, {
+						fov:120,
+						onUpdate:updateFov,
+						onComplete:cb,
+						ease:Expo.easeOut
+					});
+				},
+				function (cb) {
+					airportGroup.setVisibility(false);
+					currentFov.fov = 10;
+					updateFov();
+					globe.setVisibility(true);
+					cb()
+				},
+				afterNextRender,
+				function (cb) {
+					TweenLite.to(currentFov, 0.5, {
+						delay:0.5,
+						fov:45,
+						onUpdate:updateFov,
+						ease:Expo.easeOut
+					});
+				}
+			]);
+		}
+
+		function updateFov() {
+			camera.fov = currentFov.fov;
+		}
 	})
 
 	render();
@@ -136,16 +209,6 @@ FlightGlobal.Scene = function (wrapper) {
 		setColormode:function (colormode) {
 			if (airportGroup) airportGroup.setColormode(colormode)
 		},
-		updateFov:function(value, airport) {
-			camera.fov = value.fov; 
-		},
-		onCompleteFov:function(airport) {
-			stateController.showAirport(airport);
-
-			var currentFov = { fov: 10};
-        	TweenLite.to( currentFov, 0.5, { delay:0.5, fov:45, onUpdate:me.updateFov, onUpdateParams:[ currentFov ], ease:Expo.easeOut } );   
-		},
-		
 		resize: resize,
 	}
 
@@ -159,9 +222,8 @@ FlightGlobal.Scene = function (wrapper) {
 
 		airports.forEach(function (airport) {
 			globe.clickableObjects.push(airport.marker);
-			airport.marker.onClick = function () {						
-				var currentFov = { fov: 45};
-        		TweenLite.to( currentFov, 0.5, { fov:10, onUpdate:me.updateFov, onUpdateParams:[ currentFov ], onComplete:me.onCompleteFov, onCompleteParams:[airport], ease:Expo.easeOut } );   
+			airport.marker.onClick = function () {
+				stateController.showAirport(airport);
 			}
 		})
 	}
@@ -179,19 +241,30 @@ FlightGlobal.Scene = function (wrapper) {
 
 			globeComposer.render(1 / 60);
 			renderer.autoClear = false;
-        	renderer.render( labelScene, camera );
+			renderer.render( labelScene, camera );
 
 		} else if ( !oneTime ) {
 
 			globeComposer.render(1 / 60);
 			renderer.autoClear = false;
-        	renderer.render( labelScene, camera );
+			renderer.render( labelScene, camera );
 
 			oneTime = true;
 		}
 		if (airportGroup && airportGroup.control && oneTime) {
 			airportComposer.render(1 / 60);
 		}
+
+		if (nextRenderCallback.length > 0) {
+			console.log('nextRenderCallback')
+			nextRenderCallback.forEach(function (cb) { cb() });
+			nextRenderCallback = [];
+		}
+	}
+
+	function afterNextRender(cb) {
+		console.log('afterNextRender')
+		nextRenderCallback.push(cb);
 	}
 
 	function resize() {

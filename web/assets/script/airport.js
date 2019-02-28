@@ -1,10 +1,12 @@
 "use strict"
 
-FlightGlobal.Airport = function (airport) {
+FlightGlobal.Airport = function (airport, cbInit) {
 	var curves, flightData;
 	var colormode = stateController.get('colorMode');
 
-	var me = {}
+	var me = {
+		setVisibility:setVisibility,
+	}
 
 	stateController.on('colorMode', function (value) {
 		// memory leak in stateController!!!
@@ -18,6 +20,11 @@ FlightGlobal.Airport = function (airport) {
 
 	function init() {
 		var momentum = 0.005;
+
+		var loaded = {
+			texture: false,
+			data: false,
+		}
 
 		me.object3D = new THREE.Group();
 
@@ -34,7 +41,10 @@ FlightGlobal.Airport = function (airport) {
 		var planeSize = 2*4096/3840;
 		var geometry = new THREE.PlaneGeometry(planeSize, planeSize);
 		var mapMaterial = new THREE.MeshBasicMaterial({
-			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png'),
+			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png', function () {
+				loaded.texture = true;
+				checkEverythingLoaded();
+			}),
 			transparent: true,
 		});
 		mapMaterial.map.encoding = THREE.sRGBEncoding;
@@ -105,7 +115,22 @@ FlightGlobal.Airport = function (airport) {
 			})
 
 			updateColormode();
+
+			loaded.data = true;
+			checkEverythingLoaded();
 		}
+
+		function checkEverythingLoaded() {
+			if (!loaded.texture) return;
+			if (!loaded.data) return;
+			cbInit(me);
+		}
+	}
+
+	function setVisibility(visible) {
+		me.object3D.visible = visible;
+		me.control.enabled = visible;
+		me.enabled = visible;
 	}
 
 	function updateColormode() {

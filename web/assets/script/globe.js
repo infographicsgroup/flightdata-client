@@ -6,6 +6,7 @@ FlightGlobal.Globe = function (opt) {
 	var me = {
 		clickableObjects:[],
 		addAirportMarkers:addAirportMarkers,
+		setVisibility:setVisibility,
 	}
 
 	me.object3D = new THREE.Group();
@@ -52,14 +53,14 @@ FlightGlobal.Globe = function (opt) {
 	me.control = new THREE.TrackballControls(me.object3D);
 	me.control.dynamicDampingFactor = 0.99;
 
-	stateController.on('globe', function (visible) {
+	return me;
+
+	function setVisibility(visible) {
 		me.object3D.visible = visible;
 		me.object3D.enabled = visible;
 		me.control.enabled = visible;
 		me.enabled = visible;
-	})
-
-	return me;
+	}
 
 	function addRoutes() {
 		var curves = new THREE.Group();
