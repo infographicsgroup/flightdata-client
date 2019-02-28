@@ -170,7 +170,7 @@ FlightGlobal.Globe = function (opt) {
 
 			var marker1 = new THREE.Object3D();
 
-			var spriteMaterial = new THREE.SpriteMaterial( { color: 0xffffff, transparent:true, opacity:0.05, fog:true } );
+			var spriteMaterial = new THREE.SpriteMaterial( { map:new THREE.TextureLoader().load('assets/texture/label-adl.png'), transparent:true, opacity:0.5, fog:true } );
             var sprite = new THREE.Sprite( spriteMaterial );
 
             sprite.scale.set( 0.05, 0.05 );
@@ -189,7 +189,7 @@ FlightGlobal.Globe = function (opt) {
 			marker.position.set(airport.x, airport.y, airport.z);
 			marker.lookAt(0,0,0);
 
-			r = 1.400
+			r = 1.350
 			marker1.position.x = r * Math.cos(airport.latRad) * Math.cos(airport.lonRad);
 			marker1.position.y = r * Math.sin(airport.latRad);
 			marker1.position.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad);

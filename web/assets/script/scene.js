@@ -174,17 +174,19 @@ FlightGlobal.Scene = function (wrapper) {
 		if (airportGroup && airportGroup.control) airportGroup.control.update();
 
 		requestAnimationFrame(render);
+		
 		if (globe.object3D.visible) {
 
 			globeComposer.render(1 / 60);
-			//renderer.clearDepth();
-        	//renderer.render( labelScene, camera )
+			renderer.autoClear = false;
+        	renderer.render( labelScene, camera );
 
 		} else if ( !oneTime ) {
-			//renderer.clear();
+
 			globeComposer.render(1 / 60);
-			//renderer.clear();
-        	//renderer.render( labelScene, camera )
+			renderer.autoClear = false;
+        	renderer.render( labelScene, camera );
+
 			oneTime = true;
 		}
 		if (airportGroup && airportGroup.control && oneTime) {
