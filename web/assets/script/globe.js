@@ -171,10 +171,30 @@ FlightGlobal.Globe = function (opt) {
 
 			var marker1 = new THREE.Object3D();
 
-			var spriteMaterial = new THREE.SpriteMaterial( { map:new THREE.TextureLoader().load('assets/texture/label-adl.png'), transparent:true, opacity:0.5, fog:true } );
-            var sprite = new THREE.Sprite( spriteMaterial );
+			var canvas    = document.createElement("canvas");
+			var width     = 256;
+			var height    = 256;
+	        canvas.width  = width;
+	        canvas.height = height;
 
-            sprite.scale.set( 0.05, 0.05 );
+	        var ctx = canvas.getContext( "2d", {alpha: false} );
+
+	        ctx.clearRect(0,0,256,256);           
+	   
+	        ctx.font  = "50px Arial";
+	        ctx.fillStyle = "rgba(203,187,160,1)";
+	        ctx.textAlign = "center";
+	        ctx.textBaseline = 'middle'; 
+	        ctx.fillText( airport.iata, width / 2, ( height / 2 ) );  
+
+	        var labelTexture = new THREE.Texture(canvas);
+	        labelTexture.needsUpdate = true;
+	        
+	        var labelMat = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.7 } );
+
+			var sprite = new THREE.Sprite( labelMat );
+
+            sprite.scale.set( 0.15, 0.15 );
 
 			airport.lonRad = -airport.lng * Math.PI / 180;
 			airport.latRad =  airport.lat * Math.PI / 180;
@@ -190,18 +210,19 @@ FlightGlobal.Globe = function (opt) {
 			marker.position.set(airport.x, airport.y, airport.z);
 			marker.lookAt(0,0,0);
 
-			r = 1.350
+			r = 1.350;
 			marker1.position.x = r * Math.cos(airport.latRad) * Math.cos(airport.lonRad);
 			marker1.position.y = r * Math.sin(airport.latRad);
 			marker1.position.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad);
 			marker1.lookAt(0,0,0);
 			marker1.add( sprite )
-			sprite.position.x -= 0.03;
+			sprite.position.x -= 0.04;
 			markerGroup.add( marker1 );
 
 			airport.marker = marker;
 			markers.push(marker);
 			markerGroup.add(marker);
+   
 		})
 	}
 }

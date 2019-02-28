@@ -151,7 +151,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				function (cb) {
 					globe.setVisibility(false);
-					currentFov.fov = 120;
+					currentFov.fov = 10;
 					updateFov();
 					airportGroup.setVisibility(true);
 					cb()
@@ -159,7 +159,6 @@ FlightGlobal.Scene = function (wrapper) {
 				afterNextRender,
 				function (cb) {
 					TweenLite.to(currentFov, 0.5, {
-						delay:0.5,
 						fov:45,
 						onUpdate:updateFov,
 						ease:Expo.easeOut
