@@ -128,7 +128,9 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	}
 
 	function setVisibility(visible) {
-		me.object3D.visible = visible;
+		//me.object3D.visible = visible;
+		var scale = visible ? 1 : 0.01;
+		me.object3D.scale.set(scale,scale,scale);
 		me.control.enabled = visible;
 		me.enabled = visible;
 	}
