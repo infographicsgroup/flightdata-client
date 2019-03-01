@@ -153,35 +153,61 @@ FlightGlobal.Globe = function () {
 		me.clickableObjects = [];
 
 		var material = new THREE.MeshBasicMaterial({
-			color: 0xffff00,
+			color: 0xf3f3f3,
 			side: THREE.DoubleSide,
 			transparent:true,
-			opacity:0
+			opacity:0.15/*,
+						blending:THREE.AdditiveBlending*/
 		});
 
 		var planeMaterial = new THREE.MeshBasicMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png'), 
+			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png'),
 			transparent:true, 
-			side:THREE.DoubleSide 
-		});
+			side:THREE.DoubleSide
+		});			
 
 		airports.forEach(function (airport) {
 			
-			var geometry = new THREE.CircleGeometry(1/40, 32);
+			var geometry = new THREE.CircleGeometry(1/50, 32);
 
-			var planeGeometry = new THREE.PlaneGeometry( 0.025, 0.5 + Math.random() * 0.5 );
+			var planeGeometry = new THREE.PlaneBufferGeometry( 0.025, 0.5 + Math.random() * 0.5, 8 );
 			var planeMesh = new THREE.Mesh( planeGeometry, planeMaterial );
 			planeMesh.rotation.x = Math.PI / 2;
 
+			var planeMesh1 = new THREE.Mesh( planeGeometry, planeMaterial);
+			planeMesh1.rotation.x = Math.PI / 2;
+			planeMesh1.rotation.y = Math.PI / 2;
+
 			var marker = new THREE.Mesh( geometry, material );
 			marker.add( planeMesh );
+			marker.add( planeMesh1 );
 
 			var marker1 = new THREE.Object3D();
 
-			var spriteMaterial = new THREE.SpriteMaterial( { map:new THREE.TextureLoader().load('assets/texture/label-adl.png'), transparent:true, opacity:0.5, fog:true } );
-            var sprite = new THREE.Sprite( spriteMaterial );
+			var canvas    = document.createElement("canvas");
+			var width     = 256;
+			var height    = 256;
+	        canvas.width  = width;
+	        canvas.height = height;
 
-            sprite.scale.set( 0.05, 0.05 );
+	        var ctx = canvas.getContext( "2d", {alpha: false} );
+
+	        ctx.clearRect(0,0,256,256);           
+	   
+	        ctx.font  = "50px Arial";
+	        ctx.fillStyle = "rgba(203,187,160,1)";
+	        ctx.textAlign = "center";
+	        ctx.textBaseline = 'middle'; 
+	        ctx.fillText( airport.iata, width / 2, ( height / 2 ) );  
+
+	        var labelTexture = new THREE.Texture(canvas);
+	        labelTexture.needsUpdate = true;
+	        
+	        var labelMat = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.7 } );
+
+			var sprite = new THREE.Sprite( labelMat );
+
+            sprite.scale.set( 0.15, 0.15 );
 
 			airport.lonRad = -airport.lng * Math.PI / 180;
 			airport.latRad =  airport.lat * Math.PI / 180;
@@ -197,18 +223,19 @@ FlightGlobal.Globe = function () {
 			marker.position.set(airport.x, airport.y, airport.z);
 			marker.lookAt(0,0,0);
 
-			r = 1.350
+			r = 1.350;
 			marker1.position.x = r * Math.cos(airport.latRad) * Math.cos(airport.lonRad);
 			marker1.position.y = r * Math.sin(airport.latRad);
 			marker1.position.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad);
 			marker1.lookAt(0,0,0);
 			marker1.add( sprite )
-			sprite.position.x -= 0.03;
+			sprite.position.x -= 0.04;
 			markerGroup.add( marker1 );
 
 			airport.marker = marker;
 			markers.push(marker);
 			markerGroup.add(marker);
+   
 		})
 	}
 }

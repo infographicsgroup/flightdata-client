@@ -9,7 +9,7 @@ FlightGlobal.Scene = function (wrapper) {
 	//scene.background = new THREE.Color( 0x0c1a22 );
 	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
 
-	var labelScene = new THREE.Scene();
+	//var labelScene = new THREE.Scene();
 
 	var camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
 	camera.position.set(0,0,3);
@@ -156,7 +156,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				function (cb) {
 					globe.setVisibility(false);
-					currentFov.fov = 120;
+					currentFov.fov = 10;
 					updateFov();
 					airportGroup.setVisibility(true);
 					cb()
@@ -180,7 +180,7 @@ FlightGlobal.Scene = function (wrapper) {
 			FlightGlobal.helper.series([
 				function (cb) {
 					TweenLite.to(currentFov, 0.5, {
-						fov:120,
+						fov:10,
 						onUpdate:updateFov,
 						onComplete:cb,
 						ease:Expo.easeOut
@@ -195,6 +195,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
+					oneTime = false;
 					TweenLite.to(currentFov, 0.5, {
 						fov:45,
 						onUpdate:updateFov,
@@ -247,18 +248,17 @@ FlightGlobal.Scene = function (wrapper) {
 		if (globe && globe.control && globe.control.enabled) globe.control.update();
 
 		requestAnimationFrame(render);
-		
 		if (globe.object3D.visible) {
 
 			globeComposer.render(1 / 60);
-			renderer.autoClear = false;
-			renderer.render( labelScene, camera );
+			//renderer.autoClear = false;
+			//renderer.render( labelScene, camera );
 
 		} else if ( !oneTime ) {
 
 			globeComposer.render(1 / 60);
-			renderer.autoClear = false;
-			renderer.render( labelScene, camera );
+			//renderer.autoClear = false;
+			//renderer.render( labelScene, camera );
 
 			oneTime = true;
 		}
