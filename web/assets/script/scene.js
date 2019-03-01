@@ -25,7 +25,7 @@ FlightGlobal.Scene = function (wrapper) {
 	scene.add(globe.object3D);
 
 	var dpr = window.devicePixelRatio || 1;
-	dpr *= 0.80;
+	//dpr *= 0.80;
 
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
 	renderer.setPixelRatio(dpr);
