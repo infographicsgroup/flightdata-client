@@ -13,15 +13,16 @@ $(function () {
 	function resize() {
 		var wrapperWidth  = $('#wrapper_container').innerWidth();
 		var wrapperHeight = $('#wrapper_container').innerHeight();
-		var containerWidth  = Math.min(wrapperWidth,  Math.round(wrapperHeight*16/9));
-		var containerHeight = Math.min(wrapperHeight, Math.round(wrapperWidth /16*9));
+		var minSize = Math.min(wrapperWidth/16, wrapperHeight/9)
+		var containerWidth  = Math.round(minSize*16);
+		var containerHeight = Math.round(minSize* 9);
 
 		$('#container').css({
 			width: containerWidth,
 			height: containerHeight,
 			left: Math.round((wrapperWidth-containerWidth)/2),
 			top: Math.round((wrapperHeight-containerHeight)/2),
-			'font-size': containerHeight/100,
+			'font-size': containerWidth/100,
 		})
 
 		if (!scene) return;

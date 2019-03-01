@@ -40,7 +40,10 @@ p {
 	top:0px;
 	left:0px;
 	overflow: hidden;
-	font-size:1vw;
+}
+
+#container {
+	font-size:1vh;
 }
 
 #wrapper_html {
