@@ -60,8 +60,9 @@ FlightGlobal.Globe = function () {
 		me.control.enableKeys = false;
 		me.control.minPolarAngle = 0+0.4;
 		me.control.maxPolarAngle = Math.PI-0.6;
-		me.control.minDistance = 1.2;
+		me.control.minDistance = 1.5;
 		me.control.maxDistance = 5;
+		me.control.zoomSpeed = 0.3;
 	}
 
 	function setVisibility(visible) {
