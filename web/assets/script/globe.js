@@ -257,7 +257,7 @@ FlightGlobal.Globe = function () {
 			marker1.position.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad);
 			marker1.lookAt(0,0,0);
 			marker1.add( sprite )
-			sprite.position.x -= 0.04;
+			sprite.position.x -= 0.02;
 			markerGroup.add( marker1 );
 
 			airport.marker = marker;
