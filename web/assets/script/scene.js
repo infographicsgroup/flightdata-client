@@ -19,9 +19,11 @@ FlightGlobal.Scene = function (wrapper) {
 
 	scene.add(new THREE.AmbientLight(0x333333));
 
-	var light = new THREE.DirectionalLight(0xffffff, 1);
+	var light = new THREE.DirectionalLight(0xffffff, 0.65);
 	light.position.set(5,3,5);
-	scene.add(light);
+	//scene.add(light);
+	camera.add(light);
+	scene.add( camera );
 
 	var globe = new FlightGlobal.Globe();
 	globe.addControl(camera);
