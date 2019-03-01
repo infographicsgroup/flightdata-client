@@ -151,12 +151,12 @@ FlightGlobal.Scene = function (wrapper) {
 						fov:10,
 						onUpdate:updateFov,
 						onComplete:cb,
-						ease:Expo.easeOut
+						ease:Expo.easeIn
 					});
 				},
 				function (cb) {
 					globe.setVisibility(false);
-					currentFov.fov = 10;
+					currentFov.fov = 150;
 					updateFov();
 					airportGroup.setVisibility(true);
 					cb()
@@ -180,10 +180,10 @@ FlightGlobal.Scene = function (wrapper) {
 			FlightGlobal.helper.series([
 				function (cb) {
 					TweenLite.to(currentFov, 0.5, {
-						fov:10,
+						fov:150,
 						onUpdate:updateFov,
 						onComplete:cb,
-						ease:Expo.easeOut
+						ease:Expo.easeIn
 					});
 				},
 				function (cb) {
