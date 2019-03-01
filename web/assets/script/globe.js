@@ -15,8 +15,8 @@ FlightGlobal.Globe = function () {
 	var material = new THREE.SpriteMaterial({
 		map: new THREE.TextureLoader().load('assets/texture/earth-glow.png'),
 		transparent: true,
-		depthWrite:true,
-		opacity:0.7
+		depthWrite:false,
+		opacity:0.6
 	});
 	var atmosphericalSprite = new THREE.Sprite( material );
 	atmosphericalSprite.scale.set(3.6,3.6);
