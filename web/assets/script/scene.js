@@ -5,6 +5,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 	var width = 1024, height = 1024;
 	var scene = new THREE.Scene();
+	var sceneChanged = false;
 	//scene.background = new THREE.Color( 0x0c1a22 );
 	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
 
@@ -214,6 +215,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 		function updateFov() {
 			camera.fov = currentFov.fov;
+			sceneChanged = true;
 		}
 	})
 
@@ -222,7 +224,7 @@ FlightGlobal.Scene = function (wrapper) {
 	var me = {
 		addAirportMarkers:addAirportMarkers,
 		setColormode:function (colormode) {
-			if (airportGroup) airportGroup.setColormode(colormode)
+			if (airportGroup) airportGroup.setColormode(colormode);
 		},
 		resize: resize,
 	}
@@ -247,18 +249,23 @@ FlightGlobal.Scene = function (wrapper) {
 
 		camera.updateProjectionMatrix();
 		
-		if (airportGroup && airportGroup.control && airportGroup.control.enabled) airportGroup.control.update();
-		if (globe && globe.control && globe.control.enabled) globe.control.update();
+		if (airportGroup) {
+			sceneChanged = airportGroup.control.update() || sceneChanged || airportGroup.changed;
+		} else {
+			sceneChanged = globe.control.update() || sceneChanged || globe.changed;
+		}
 
 		requestAnimationFrame(render);
-		if (globe.object3D.visible) {
 
-			globeComposer.render(1 / 60);
-			//renderer.autoClear = false;
-			//renderer.render( labelScene, camera );
-		}
-		if (airportGroup && airportGroup.control) {
-			airportComposer.render(1 / 60);
+		if (sceneChanged) {
+			if (airportGroup) {
+				airportComposer.render(1 / 60);
+				airportGroup.changed = false;
+			} else {
+				globeComposer.render(1 / 60);
+				globe.changed = false;
+			}
+			sceneChanged = false;
 		}
 
 		if (nextRenderCallback.length > 0) {
@@ -284,5 +291,7 @@ FlightGlobal.Scene = function (wrapper) {
 		if (airportComposer) airportComposer.setSize(width, height);
 
 		if (fxaaPass) fxaaPass.uniforms['resolution'].value.set(1 / width / dpr, 1 / height / dpr);
+
+		sceneChanged = true;
 	}
 }

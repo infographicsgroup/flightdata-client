@@ -8,12 +8,13 @@ FlightGlobal.Globe = function () {
 		addAirportMarkers:addAirportMarkers,
 		setVisibility:setVisibility,
 		addControl:addControl,
+		changed:true,
 	}
 
 	me.object3D = new THREE.Group();
 
 	var material = new THREE.SpriteMaterial({
-		map: new THREE.TextureLoader().load('assets/texture/earth-glow.png'),
+		map: new THREE.TextureLoader().load('assets/texture/earth-glow.png', markAsChanged),
 		transparent: true,
 		depthWrite:false,
 		opacity:0.6
@@ -26,7 +27,7 @@ FlightGlobal.Globe = function () {
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png')
+			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png', markAsChanged)
 		})
 	);
 
@@ -35,6 +36,10 @@ FlightGlobal.Globe = function () {
 	addRoutes()
 
 	return me;
+
+	function markAsChanged() {
+		me.changed = true;
+	}
 
 	function addControl(camera) {
 		me.control = new THREE.OrbitControls(camera);
@@ -56,6 +61,7 @@ FlightGlobal.Globe = function () {
 		me.object3D.enabled = visible;
 		if (me.control) me.control.enabled = visible;
 		me.enabled = visible;
+		markAsChanged();
 	}
 
 	function addRoutes() {
@@ -148,6 +154,8 @@ FlightGlobal.Globe = function () {
 				curves.add(mesh);
 			})
 
+			markAsChanged();
+
 			function getMaterial(color, opacity) {
 				return new THREE.LineBasicMaterial({
 					color: color,
@@ -177,7 +185,7 @@ FlightGlobal.Globe = function () {
 		});
 
 		var rayMaterial = new THREE.MeshBasicMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png'),
+			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png', markAsChanged),
 			transparent:true, 
 			side:THREE.DoubleSide,
 			depthWrite:false,
@@ -250,5 +258,6 @@ FlightGlobal.Globe = function () {
 			markerGroup.add(marker);
    
 		})
+		markAsChanged();
 	}
 }

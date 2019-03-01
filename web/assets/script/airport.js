@@ -7,6 +7,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	var me = {
 		setVisibility:setVisibility,
 		addControl:addControl,
+		changed:true,
 	}
 
 	stateController.on('colorMode', function (value) {
@@ -18,6 +19,10 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	init();
 
 	return me;
+
+	function markAsChanged() {
+		me.changed = true;
+	}
 
 	function addControl(camera) {
 		me.control = new THREE.OrbitControls(camera);
@@ -54,6 +59,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png', function () {
 				loaded.texture = true;
 				checkEverythingLoaded();
+				markAsChanged();
 			}),
 			transparent: true,
 		});
@@ -74,6 +80,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		$.getJSON('assets/data/airports/'+airport.name+'.json', function (data) {
 			flightData = oa2ao(data);
 			checkFlightData();
+			markAsChanged();
 		})
 
 		var xhr = new XMLHttpRequest();
@@ -82,6 +89,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		xhr.onload = function(e) {
 			buffer = new Int16Array(this.response); 
 			checkFlightData();
+			markAsChanged();
 		};
 		xhr.send();
 
@@ -141,12 +149,14 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 			loaded.data = true;
 			checkEverythingLoaded();
+			markAsChanged();
 		}
 
 		function checkEverythingLoaded() {
 			if (!loaded.texture) return;
 			if (!loaded.data) return;
 			cbInit(me);
+			markAsChanged();
 		}
 	}
 
@@ -156,6 +166,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		me.object3D.scale.set(scale,scale,scale);
 		if (me.control) me.control.enabled = visible;
 		me.enabled = visible;
+		markAsChanged();
 	}
 
 	function updateColormode() {
@@ -172,6 +183,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 				})
 			break;
 		}
+		markAsChanged();
 	}
 
 	function oa2ao(obj) {
