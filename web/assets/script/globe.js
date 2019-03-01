@@ -214,30 +214,28 @@ FlightGlobal.Globe = function () {
 
 			var marker1 = new THREE.Object3D();
 
-			var canvas    = document.createElement("canvas");
-			var width     = 256;
-			var height    = 256;
-	        canvas.width  = width;
-	        canvas.height = height;
+			var canvas = document.createElement('canvas');
+			var width  = canvas.width  = 256;
+			var height = canvas.height = 256;
 
-	        var ctx = canvas.getContext( "2d", {alpha: false} );
+			var ctx = canvas.getContext('2d');
 
-	        ctx.clearRect(0,0,256,256);           
+			ctx.clearRect(0,0,256,256);           
 	   
-	        ctx.font  = '50px "LL Gravur Cond Regular Web"';
-	        ctx.fillStyle = 'rgba(203,187,160,1)';
-	        ctx.textAlign = 'left';
-	        ctx.textBaseline = 'middle'; 
-	        ctx.fillText( airport.iata, width / 2, ( height / 2 ) );  
+			ctx.font  = '50px "LL Gravur Cond Regular Web"';
+			ctx.fillStyle = 'rgba(203,187,160,1)';
+			ctx.textAlign = 'left';
+			ctx.textBaseline = 'middle'; 
+			ctx.fillText( airport.iata, width / 2, ( height / 2 ) );  
 
-	        var labelTexture = new THREE.Texture(canvas);
-	        labelTexture.needsUpdate = true;
-	        
-	        var labelMat = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.7 } );
+			var labelTexture = new THREE.Texture(canvas);
+			labelTexture.needsUpdate = true;
+			
+			var labelMat = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.7 } );
 
 			var sprite = new THREE.Sprite( labelMat );
 
-            sprite.scale.set( 0.15, 0.15 );
+			sprite.scale.set( 0.15, 0.15 );
 
 			airport.lonRad = -airport.lng * Math.PI / 180;
 			airport.latRad =  airport.lat * Math.PI / 180;
