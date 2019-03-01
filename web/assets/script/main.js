@@ -31,10 +31,13 @@ $(function () {
 		resizeTimeout = setTimeout(scene.resize, 250);
 	}
 
-	$('#btn_globe').click(stateController.showGlobe)
+	$('#btn_globe').click(function () {
+		stateController.set({airport:false})
+	})
 
-	stateController.on('airport', function (airport) {
-		if (airport) {
+	stateController.on('airportLegend', function (visible) {
+		if (visible) {
+			var airport = stateController.get('airport');
 			$('#airport_title').text(airport.iata);
 			$('#airport_text').html([
 				airport.title,
@@ -42,31 +45,38 @@ $(function () {
 				'',
 				'passengers/year: '+(airport.passengersPerYear/1e6).toFixed(1)+'m'
 			].join('<br>').toUpperCase());
-			$('#airport_overlay').css('display', 'block');
-		} else {
-			$('#airport_title').text('');
-			$('#airport_text').text('');
-			$('#airport_overlay').css('display', 'none');
 		}
-	})
+		if (visible) {
+			$('#airport_overlay').fadeIn(500);
+		} else {
+			$('#airport_overlay').fadeOut(500);
+		}
+	}, true);
 
-	stateController.on('intro', function (visible) {
-		$('#text_intro').toggle(visible);
-	})
+	stateController.on('globeLegend', function (visible) {
+		if (visible) {
+			$('#globe_overlay').fadeIn(500);
+		} else {
+			$('#globe_overlay').fadeOut(500);
+		}
+	}, true);
 
 	stateController.on('credit', function (visible) {
-		$('#text_credit').toggle(visible);
-	})
+		if (visible) {
+			$('#text_credit').fadeIn(500);
+		} else {
+			$('#text_credit').fadeOut(500);
+		}
+	}, true);
 
 	stateController.on('colorMode', function (value) {
 		$('#airport_colormode_0').toggle(value === 0);
 		$('#airport_colormode_1').toggle(value === 1);
-	})
-	stateController.trigger('colorMode');
+	}, true);
 
 	$('#switch').click(function () {
 		$('#switch').toggleClass('right');
-		stateController.setColorMode($('#switch').hasClass('right') ? 1 : 0)
+		stateController.set({colorMode:$('#switch').hasClass('right') ? 1 : 0})
 	})
 
 	FlightGlobal.helper.series([
@@ -92,7 +102,6 @@ $(function () {
 			})
 		},
 		function (cb) {
-			//stateController.showAirport(airports[3]);
 			cb();
 		},
 		function (cb) {

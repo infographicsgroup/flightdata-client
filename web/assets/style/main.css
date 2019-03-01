@@ -47,7 +47,6 @@ p {
 }
 
 #wrapper_html {
-	display: none;
 	pointer-events: none;
 }
 
@@ -73,8 +72,11 @@ p {
 			opacity: 1.0;
 		}
 
-	#airport_overlay {
+	#globe_overlay, #airport_overlay {
 		display: none;
+	}
+
+	#airport_overlay {
 		pointer-events: all;
 	}
 

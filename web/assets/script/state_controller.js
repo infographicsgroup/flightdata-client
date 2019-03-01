@@ -2,36 +2,38 @@
 
 var stateController = (function () {
 	var state = {
-		globe:    true,
-		airport:  false,
-		intro:    true,
-		credits:  false,
-		colorMode:0,
+		airport:       false,
+		intro:         false,
+		credits:       false,
+		globeLegend:   true,
+		airportLegend: false,
+		colorMode:     0,
 	}
 
 	var listeners = {};
 
-	return {
-		on: function (event, cb) { addListener(event, cb) },
-		remove: function (event, func) { listeners[event] = listeners[event].filter(function (f) { return f !== func }); },
+	var me = {
+		on: function (event, cb, trigger) {
+			addListener(event, cb);
+			if (trigger) me.trigger(event);
+		},
+		remove: removeListener,
 		get: function (key) { return state[key] },
-		showGlobe: function () {
-			if (!state.globe) changeState({globe:true, airport:false, intro:false, })
-		},
-		showAirport: function (airport) {
-			if (state.airport !== airport) changeState({globe:!airport, airport:airport, intro:false, })
-		},
-		setColorMode: function (colorMode) {
-			changeState({colorMode:colorMode})
-		},
+		set: changeState,
 		trigger: function (event) {
 			triggerListeners(event, state[event], state[event]);
 		},
 	}
 
+	return me;
+
 	function addListener(event, cb) {
 		if (!listeners[event]) listeners[event] = [];
 		listeners[event].push(cb);
+	}
+
+	function removeListener(event, func) {
+		listeners[event] = listeners[event].filter(function (f) { return f !== func });
 	}
 
 	function triggerListeners(event, newValue, oldValue) {

@@ -131,9 +131,9 @@ FlightGlobal.Scene = function (wrapper) {
 
 		if (airport && !oldAirport) {
 			animateGlobe2Airport();
-		} else {
+		} else if (!airport && oldAirport) {
 			animateAirport2Globe();
-		}
+		} else throw Error();
 
 		function animateGlobe2Airport() {
 			if (airportGroup) {
@@ -142,6 +142,7 @@ FlightGlobal.Scene = function (wrapper) {
 			}
 			FlightGlobal.helper.series([
 				function (cb) {
+					stateController.set({globeLegend:false});
 					FlightGlobal.Airport(airport, function (group) {
 						airportGroup = group;
 						airportGroup.addControl(camera);
@@ -176,6 +177,7 @@ FlightGlobal.Scene = function (wrapper) {
 					});
 				},
 				function () {
+					stateController.set({airportLegend:true});
 					if (airportGroup) airportGroup.control.enabled = true;
 				},
 			]);
@@ -184,6 +186,7 @@ FlightGlobal.Scene = function (wrapper) {
 		function animateAirport2Globe() {
 			FlightGlobal.helper.series([
 				function (cb) {
+					stateController.set({airportLegend:false});
 					TweenLite.to(currentFov, 0.5, {
 						fov:150,
 						onUpdate:updateFov,
@@ -208,6 +211,7 @@ FlightGlobal.Scene = function (wrapper) {
 					});
 				},
 				function () {
+					stateController.set({globeLegend:true});
 					airportGroup.destroy();
 					airportGroup = false;
 					globe.control.enabled = true;
@@ -242,7 +246,7 @@ FlightGlobal.Scene = function (wrapper) {
 		airports.forEach(function (airport) {
 			globe.clickableObjects.push(airport.marker);
 			airport.marker.onClick = function () {
-				stateController.showAirport(airport);
+				stateController.set({airport:airport});
 			}
 		})
 	}
