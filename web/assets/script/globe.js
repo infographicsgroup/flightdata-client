@@ -90,7 +90,7 @@ FlightGlobal.Globe = function () {
 		xhr.open('GET', 'assets/data/globe/globe.bin', true);
 		xhr.responseType = 'arraybuffer';
 		xhr.onload = function(e) {
-			buffer = new Int16Array(this.response); 
+			buffer = new Int16Array(this.response);
 			checkRouteData();
 		};
 		xhr.send();
@@ -215,18 +215,17 @@ FlightGlobal.Globe = function () {
 			var marker1 = new THREE.Object3D();
 
 			var canvas = document.createElement('canvas');
-			var width  = canvas.width  = 256;
-			var height = canvas.height = 256;
+			var size = canvas.width = canvas.height = 128;
 
 			var ctx = canvas.getContext('2d');
 
-			ctx.clearRect(0,0,256,256);           
+			ctx.clearRect(0,0,size,size);
 	   
-			ctx.font  = '50px "LL Gravur Cond Regular Web"';
+			ctx.font  = '60px "LL Gravur Cond Regular Web"';
 			ctx.fillStyle = 'rgba(203,187,160,1)';
 			ctx.textAlign = 'left';
-			ctx.textBaseline = 'middle'; 
-			ctx.fillText( airport.iata, width / 2, ( height / 2 ) );  
+			ctx.textBaseline = 'middle';
+			ctx.fillText( airport.iata, 0, size/2 );
 
 			var labelTexture = new THREE.Texture(canvas);
 			labelTexture.needsUpdate = true;
@@ -235,7 +234,7 @@ FlightGlobal.Globe = function () {
 
 			var sprite = new THREE.Sprite( labelMat );
 
-			sprite.scale.set( 0.15, 0.15 );
+			sprite.scale.set( 0.08, 0.08 );
 
 			airport.lonRad = -airport.lng * Math.PI / 180;
 			airport.latRad =  airport.lat * Math.PI / 180;
@@ -257,7 +256,7 @@ FlightGlobal.Globe = function () {
 			marker1.position.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad);
 			marker1.lookAt(0,0,0);
 			marker1.add( sprite )
-			sprite.position.x -= 0.02;
+			sprite.position.x -= 0.05;
 			markerGroup.add( marker1 );
 
 			airport.marker = marker;
