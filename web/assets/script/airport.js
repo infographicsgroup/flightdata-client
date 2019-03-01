@@ -6,6 +6,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 	var me = {
 		setVisibility:setVisibility,
+		addControl:addControl,
 	}
 
 	stateController.on('colorMode', function (value) {
@@ -18,6 +19,21 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 	return me;
 
+	function addControl(camera) {
+		me.control = new THREE.OrbitControls(camera);
+		//me.control.minAngle = 0.2;
+		//me.control.maxAngle = Math.PI/2;
+		//me.control.rotateSpeed = 5;
+		//me.control.setMomentum(momentum, 0);
+		me.control.enableDamping = true;
+		me.control.dampingFactor = 0.1;
+		me.control.rotateSpeed = 0.05;
+		me.control.enablePan = false;
+		me.control.enableKeys = false;
+		me.control.minPolarAngle = 0;
+		me.control.maxPolarAngle = 1.4;
+	}
+
 	function init() {
 		var momentum = 0.005;
 
@@ -28,13 +44,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 		me.object3D = new THREE.Group();
 
-		me.control = new THREE.TrackballControls(me.object3D);
-		me.control.minAngle = 0.2;
-		me.control.maxAngle = Math.PI/2;
-		me.control.rotateSpeed = 5;
-		me.control.setMomentum(momentum, 0);
-
-		me.object3D.rotation.set(0.6,-me.control.calcMomentumResult(momentum),0);
+		//me.object3D.rotation.set(0.6,-me.control.calcMomentumResult(momentum),0);
 		me.object3D.visible = true;
 		me.object3D.position.set(0,0.2,0);
 
@@ -131,7 +141,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		//me.object3D.visible = visible;
 		var scale = visible ? 1 : 0.01;
 		me.object3D.scale.set(scale,scale,scale);
-		me.control.enabled = visible;
+		if (me.control) me.control.enabled = visible;
 		me.enabled = visible;
 	}
 

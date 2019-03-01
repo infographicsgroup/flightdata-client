@@ -21,6 +21,7 @@ FlightGlobal.Scene = function (wrapper) {
 	scene.add(light);
 
 	var globe = new FlightGlobal.Globe();
+	globe.addControl(camera);
 	scene.add(globe.object3D);
 
 	var dpr = window.devicePixelRatio || 1;
@@ -120,6 +121,9 @@ FlightGlobal.Scene = function (wrapper) {
 	stateController.on('airport', function (airport, oldAirport) {	
 		var currentFov = {fov: 45};
 
+		globe.control.enabled = false;
+		if (airportGroup) airportGroup.control.enabled = false;
+
 		if (airport && !oldAirport) {
 			animateGlobe2Airport();
 		} else {
@@ -135,6 +139,7 @@ FlightGlobal.Scene = function (wrapper) {
 				function (cb) {
 					FlightGlobal.Airport(airport, function (group) {
 						airportGroup = group;
+						airportGroup.addControl(camera);
 						airportGroup.setVisibility(false);
 						scene.add(airportGroup.object3D);
 						cb();
@@ -159,12 +164,15 @@ FlightGlobal.Scene = function (wrapper) {
 				afterNextRender,
 				function (cb) {
 					TweenLite.to(currentFov, 0.5, {
-						delay:0.5,
 						fov:45,
 						onUpdate:updateFov,
+						onComplete:cb,
 						ease:Expo.easeOut
 					});
-				}
+				},
+				function () {
+					if (airportGroup) airportGroup.control.enabled = true;
+				},
 			]);
 		}
 
@@ -188,12 +196,15 @@ FlightGlobal.Scene = function (wrapper) {
 				afterNextRender,
 				function (cb) {
 					TweenLite.to(currentFov, 0.5, {
-						delay:0.5,
 						fov:45,
 						onUpdate:updateFov,
+						onComplete:cb,
 						ease:Expo.easeOut
 					});
-				}
+				},
+				function () {
+					globe.control.enabled = true;
+				},
 			]);
 		}
 
@@ -232,8 +243,8 @@ FlightGlobal.Scene = function (wrapper) {
 
 		camera.updateProjectionMatrix();
 		
-		if (globe.control) globe.control.update();
-		if (airportGroup && airportGroup.control) airportGroup.control.update();
+		if (airportGroup && airportGroup.control && airportGroup.control.enabled) airportGroup.control.update();
+		if (globe && globe.control && globe.control.enabled) globe.control.update();
 
 		requestAnimationFrame(render);
 		

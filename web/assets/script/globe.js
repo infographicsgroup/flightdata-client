@@ -1,12 +1,13 @@
 "use strict"
 
-FlightGlobal.Globe = function (opt) {
+FlightGlobal.Globe = function () {
 	var markers;
 
 	var me = {
 		clickableObjects:[],
 		addAirportMarkers:addAirportMarkers,
 		setVisibility:setVisibility,
+		addControl:addControl,
 	}
 
 	me.object3D = new THREE.Group();
@@ -45,20 +46,26 @@ FlightGlobal.Globe = function (opt) {
 	me.object3D.add(mapObject);
 
 	me.object3D.add(globeMesh);
-	me.object3D.rotation.x =  0.8;
-	me.object3D.rotation.y = -Math.PI/2;
 
 	addRoutes()
 
-	me.control = new THREE.TrackballControls(me.object3D);
-	me.control.dynamicDampingFactor = 0.99;
-
 	return me;
+
+	function addControl(camera) {
+		me.control = new THREE.OrbitControls(camera);
+		me.control.enableDamping = true;
+		me.control.dampingFactor = 0.1;
+		me.control.rotateSpeed = 0.05;
+		me.control.enablePan = false;
+		me.control.enableKeys = false;
+		me.control.minPolarAngle = 0+0.4;
+		me.control.maxPolarAngle = Math.PI-0.6;
+	}
 
 	function setVisibility(visible) {
 		me.object3D.visible = visible;
 		me.object3D.enabled = visible;
-		me.control.enabled = visible;
+		if (me.control) me.control.enabled = visible;
 		me.enabled = visible;
 	}
 
