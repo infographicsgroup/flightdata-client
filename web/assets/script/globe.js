@@ -111,25 +111,52 @@ FlightGlobal.Globe = function () {
 				var i0 = segment[0];
 				var i1 = segment[1];
 				for (var i = i0; i < i1; i += 3) {
-					path.push(new THREE.Vector3(
+					path.push([
 						buffer[i+0]/4000,
 						buffer[i+1]/4000,
 						buffer[i+2]/4000,
-					))
+					])
 				}
 				return path;
 			})
 
+			var groups = [];
 			segments.forEach(function (path) {
-				var cmlgeometry = new THREE.BufferGeometry().setFromPoints(path);
 				var p0 = path[0];
 				var p1 = path[path.length-1];
-				var distance = Math.sqrt(Math.pow(p0.x-p1.x,2) + Math.pow(p0.y-p1.y,2) + Math.pow(p0.z-p1.z,2));
+				var distance = Math.sqrt(
+					Math.pow(p0[0]-p1[0],2) +
+					Math.pow(p0[1]-p1[1],2) + 
+					Math.pow(p0[2]-p1[2],2)
+				);
 				distance = Math.max(0, Math.min(0.999, Math.pow(distance/1.7, 0.8)));
 				var index = Math.floor(distance*materials.length);
-				material = materials[index];
-				var curveObject = new THREE.Line(cmlgeometry, material);
-				curves.add(curveObject);
+				if (!groups[index]) groups[index] = {paths:[], material:materials[index]};
+				groups[index].paths.push(path);
+			})
+
+			groups.forEach(function (group) {
+				var geometry = new THREE.BufferGeometry();
+
+				var indices = [];
+				var positions = [];
+				var offset = 0;
+				group.paths.forEach(function (path) {
+					for (var j = 0; j < path.length; j++) {
+						positions.push(path[j][0]);
+						positions.push(path[j][1]);
+						positions.push(path[j][2]);
+					}
+					for (var j = offset; j < offset+path.length-1; j++) {
+						indices.push(j,j+1);
+					}
+					offset += path.length;
+				})
+				geometry.setIndex(indices);
+				geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+				geometry.computeBoundingSphere();
+				var mesh = new THREE.LineSegments(geometry, group.material);
+				curves.add(mesh);
 			})
 
 			function getMaterial(color, opacity) {
