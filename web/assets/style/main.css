@@ -1,3 +1,9 @@
+@font-face {
+	font-family: "LL Gravur Cond Regular Web";
+	src: url("../fonts/GravurLLWeb-CondRegular.eot");
+	src: url("../fonts/GravurLLWeb-CondRegular.woff2") format("woff2"), url("../fonts/GravurLLWeb-CondRegular.woff") format("woff");
+}
+
 html, body, .container {
 	width: 100%;
 	height: 100%;
@@ -11,7 +17,7 @@ body {
 	background: #000;
 	overflow: hidden;
 	position: fixed;
-	font-family: 'Gravur LL';
+	font-family: 'LL Gravur Cond Regular Web';
 	font-weight: normal;
 }
 
