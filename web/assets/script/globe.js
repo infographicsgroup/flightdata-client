@@ -190,27 +190,27 @@ FlightGlobal.Globe = function () {
 						blending:THREE.AdditiveBlending*/
 		});
 
-		var planeMaterial = new THREE.MeshBasicMaterial({
+		var rayMaterial = new THREE.MeshBasicMaterial({
 			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png'),
 			transparent:true, 
-			side:THREE.DoubleSide
+			side:THREE.DoubleSide,
+			depthWrite:false,
 		});			
 
 		airports.forEach(function (airport) {
-			
-			var geometry = new THREE.CircleGeometry(1/50, 32);
 
-			var planeGeometry = new THREE.PlaneBufferGeometry( 0.025, 0.5 + Math.random() * 0.5, 8 );
-			var planeMesh = new THREE.Mesh( planeGeometry, planeMaterial );
-			planeMesh.rotation.x = Math.PI / 2;
+			var rayGeometry = new THREE.PlaneBufferGeometry( 0.025, 0.5 + Math.random() * 0.5, 8 );
+			var rayMesh1 = new THREE.Mesh( rayGeometry, rayMaterial );
+			rayMesh1.rotation.x = Math.PI / 2;
 
-			var planeMesh1 = new THREE.Mesh( planeGeometry, planeMaterial);
-			planeMesh1.rotation.x = Math.PI / 2;
-			planeMesh1.rotation.y = Math.PI / 2;
+			var rayMesh2 = new THREE.Mesh( rayGeometry, rayMaterial);
+			rayMesh2.rotation.x = Math.PI / 2;
+			rayMesh2.rotation.y = Math.PI / 2;
 
-			var marker = new THREE.Mesh( geometry, material );
-			marker.add( planeMesh );
-			marker.add( planeMesh1 );
+			var markerGeometry = new THREE.CircleGeometry(1/50, 32);
+			var marker = new THREE.Mesh( markerGeometry, material );
+			marker.add( rayMesh1 );
+			marker.add( rayMesh2 );
 
 			var marker1 = new THREE.Object3D();
 
