@@ -32,6 +32,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	// How far you can zoom in and out ( OrthographicCamera only )
 	this.minZoom = 0;
 	this.maxZoom = Infinity;
+	this.minRadius = 0;
 
 	// How far you can orbit vertically, upper and lower limits.
 	// Range is 0 to Math.PI radians.
@@ -151,8 +152,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			}
 
-			spherical.theta += sphericalDelta.theta;
-			spherical.phi += sphericalDelta.phi;
+			spherical.theta += sphericalDelta.theta*(spherical.radius-scope.minRadius);
+			spherical.phi += sphericalDelta.phi*(spherical.radius-scope.minRadius);
 
 			// restrict theta to be between desired limits
 			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
