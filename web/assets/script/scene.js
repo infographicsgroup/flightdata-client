@@ -208,6 +208,8 @@ FlightGlobal.Scene = function (wrapper) {
 					});
 				},
 				function () {
+					airportGroup.destroy();
+					airportGroup = false;
 					globe.control.enabled = true;
 				},
 			]);

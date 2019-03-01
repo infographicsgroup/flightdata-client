@@ -13,6 +13,7 @@ var stateController = (function () {
 
 	return {
 		on: function (event, cb) { addListener(event, cb) },
+		remove: function (event, func) { listeners[event] = listeners[event].filter(function (f) { return f !== func }); },
 		get: function (key) { return state[key] },
 		showGlobe: function () {
 			if (!state.globe) changeState({globe:true, airport:false, intro:false, })

@@ -7,18 +7,23 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	var me = {
 		setVisibility:setVisibility,
 		addControl:addControl,
+		destroy:destroy,
 		changed:true,
 	}
 
-	stateController.on('colorMode', function (value) {
-		// memory leak in stateController!!!
+	stateController.on('colorMode', colorModeHandler);
+	function colorModeHandler(value) {
 		colormode = value;
 		updateColormode();
-	})
+	}
 
 	init();
 
 	return me;
+
+	function destroy() {
+		stateController.remove('colorMode', colorModeHandler);
+	}
 
 	function markAsChanged() {
 		me.changed = true;
@@ -161,7 +166,6 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	}
 
 	function setVisibility(visible) {
-		//me.object3D.visible = visible;
 		var scale = visible ? 1 : 0.01;
 		me.object3D.scale.set(scale,scale,scale);
 		if (me.control) me.control.enabled = visible;
