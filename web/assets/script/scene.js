@@ -267,14 +267,12 @@ FlightGlobal.Scene = function (wrapper) {
 		}
 
 		if (nextRenderCallback.length > 0) {
-			console.log('nextRenderCallback')
 			nextRenderCallback.forEach(function (cb) { cb() });
 			nextRenderCallback = [];
 		}
 	}
 
 	function afterNextRender(cb) {
-		console.log('afterNextRender')
 		nextRenderCallback.push(cb);
 	}
 
