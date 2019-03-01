@@ -4,7 +4,6 @@ FlightGlobal.Scene = function (wrapper) {
 	var airportGroup, airports, nextRenderCallback = [];
 
 	var width = 1024, height = 1024;
-	var oneTime = false;
 	var scene = new THREE.Scene();
 	//scene.background = new THREE.Color( 0x0c1a22 );
 	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
@@ -200,7 +199,6 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
-					oneTime = false;
 					TweenLite.to(currentFov, 0.5, {
 						fov:45,
 						onUpdate:updateFov,
@@ -258,16 +256,8 @@ FlightGlobal.Scene = function (wrapper) {
 			globeComposer.render(1 / 60);
 			//renderer.autoClear = false;
 			//renderer.render( labelScene, camera );
-
-		} else if ( !oneTime ) {
-
-			globeComposer.render(1 / 60);
-			//renderer.autoClear = false;
-			//renderer.render( labelScene, camera );
-
-			oneTime = true;
 		}
-		if (airportGroup && airportGroup.control && oneTime) {
+		if (airportGroup && airportGroup.control) {
 			airportComposer.render(1 / 60);
 		}
 
