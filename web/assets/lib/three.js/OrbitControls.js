@@ -153,7 +153,10 @@ THREE.OrbitControls = function ( object, domElement ) {
 			}
 
 			spherical.theta += sphericalDelta.theta*(spherical.radius-scope.minRadius);
-			spherical.phi += sphericalDelta.phi*(spherical.radius-scope.minRadius);
+			spherical.phi   += sphericalDelta.phi  *(spherical.radius-scope.minRadius);
+
+			sphericalLast.theta = sphericalLast.theta*0.8 + 0.2*sphericalDelta.theta;
+			sphericalLast.phi   = sphericalLast.phi  *0.8 + 0.2*sphericalDelta.phi  ;
 
 			// restrict theta to be between desired limits
 			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
@@ -181,10 +184,10 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			scope.object.lookAt( scope.target );
 
-			if ( scope.enableDamping === true ) {
+			if ((scope.enableDamping === true) && (state === STATE.NONE)) {
 
 				sphericalDelta.theta *= ( 1 - scope.dampingFactor );
-				sphericalDelta.phi *= ( 1 - scope.dampingFactor );
+				sphericalDelta.phi   *= ( 1 - scope.dampingFactor );
 
 				panOffset.multiplyScalar( 1 - scope.dampingFactor );
 
@@ -260,6 +263,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	// current position in spherical coordinates
 	var spherical = new THREE.Spherical();
 	var sphericalDelta = new THREE.Spherical();
+	var sphericalLast = new THREE.Spherical();
 
 	var scale = 1;
 	var panOffset = new THREE.Vector3();
@@ -513,7 +517,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function handleMouseUp( event ) {
-
+		sphericalDelta.copy(sphericalLast);
 		// console.log( 'handleMouseUp' );
 
 	}
@@ -665,6 +669,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function handleTouchEnd( event ) {
+
+		sphericalDelta.copy(sphericalLast);
 
 		//console.log( 'handleTouchEnd' );
 
