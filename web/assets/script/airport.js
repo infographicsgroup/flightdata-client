@@ -28,6 +28,8 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		me.control.enableKeys = false;
 		me.control.minPolarAngle = 0;
 		me.control.maxPolarAngle = 1.4;
+		me.control.minDistance = 1;
+		me.control.maxDistance = 8;
 	}
 
 	function init() {
