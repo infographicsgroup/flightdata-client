@@ -224,9 +224,9 @@ FlightGlobal.Globe = function () {
 
 	        ctx.clearRect(0,0,256,256);           
 	   
-	        ctx.font  = "50px Arial";
-	        ctx.fillStyle = "rgba(203,187,160,1)";
-	        ctx.textAlign = "center";
+	        ctx.font  = '50px "LL Gravur Cond Regular Web"';
+	        ctx.fillStyle = 'rgba(203,187,160,1)';
+	        ctx.textAlign = 'left';
 	        ctx.textBaseline = 'middle'; 
 	        ctx.fillText( airport.iata, width / 2, ( height / 2 ) );  
 
