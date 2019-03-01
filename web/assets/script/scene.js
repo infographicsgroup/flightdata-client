@@ -13,6 +13,9 @@ FlightGlobal.Scene = function (wrapper) {
 
 	var camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
 	camera.position.set(0,0,3);
+	camera.position.applyAxisAngle(new THREE.Vector3(1,0,0),-0.8);
+	camera.position.applyAxisAngle(new THREE.Vector3(0,1,0),1.6);
+	camera.lookAt(0,0,0);
 
 	scene.add(new THREE.AmbientLight(0x333333));
 
