@@ -124,7 +124,7 @@ FlightGlobal.Scene = function (wrapper) {
 	})
 
 	stateController.on('airport', function (airport, oldAirport) {	
-		var currentFov = {fov: 45};
+		var currentCam;
 
 		globe.control.enabled = false;
 		if (airportGroup) airportGroup.control.enabled = false;
@@ -140,6 +140,7 @@ FlightGlobal.Scene = function (wrapper) {
 				scene.remove(airportGroup.object3D);
 				airportGroup = false;
 			}
+			getCurrentCam();
 			FlightGlobal.helper.series([
 				function (cb) {
 					stateController.set({globeLegend:false});
@@ -153,25 +154,35 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
-					TweenLite.to(currentFov, 0.5, {
+					TweenLite.to(currentCam, 0.5, {
 						fov:10,
-						onUpdate:updateFov,
+						x:airport.x,
+						y:airport.y,
+						z:airport.z,
+						onUpdate:updateCam,
 						onComplete:cb,
 						ease:Expo.easeIn
 					});
 				},
 				function (cb) {
 					globe.setVisibility(false);
-					currentFov.fov = 150;
-					updateFov();
+					currentCam.fov = 150;
+					currentCam.x = 0;
+					currentCam.y = 1;
+					currentCam.z = 0;
+					currentCam.length = 3;
+					updateCam();
 					airportGroup.setVisibility(true);
 					cb()
 				},
 				afterNextRender,
 				function (cb) {
-					TweenLite.to(currentFov, 0.5, {
+					TweenLite.to(currentCam, 0.5, {
 						fov:45,
-						onUpdate:updateFov,
+						x: 1,
+						y: 1,
+						z: 0,
+						onUpdate:updateCam,
 						onComplete:cb,
 						ease:Expo.easeOut
 					});
@@ -184,28 +195,36 @@ FlightGlobal.Scene = function (wrapper) {
 		}
 
 		function animateAirport2Globe() {
+			getCurrentCam();
 			FlightGlobal.helper.series([
 				function (cb) {
 					stateController.set({airportLegend:false});
-					TweenLite.to(currentFov, 0.5, {
+					TweenLite.to(currentCam, 0.5, {
 						fov:150,
-						onUpdate:updateFov,
+						x: 0,
+						y: 1,
+						z: 0,
+						onUpdate:updateCam,
 						onComplete:cb,
 						ease:Expo.easeIn
 					});
 				},
 				function (cb) {
 					airportGroup.setVisibility(false);
-					currentFov.fov = 10;
-					updateFov();
+					currentCam.fov = 10;
+					currentCam.x = oldAirport.x;
+					currentCam.y = oldAirport.y;
+					currentCam.z = oldAirport.z;
+					currentCam.length = 3;
+					updateCam();
 					globe.setVisibility(true);
 					cb()
 				},
 				afterNextRender,
 				function (cb) {
-					TweenLite.to(currentFov, 0.5, {
+					TweenLite.to(currentCam, 0.5, {
 						fov:45,
-						onUpdate:updateFov,
+						onUpdate:updateCam,
 						onComplete:cb,
 						ease:Expo.easeOut
 					});
@@ -219,8 +238,25 @@ FlightGlobal.Scene = function (wrapper) {
 			]);
 		}
 
-		function updateFov() {
-			camera.fov = currentFov.fov;
+
+		function getCurrentCam() {
+			currentCam = {
+				fov: camera.fov,
+				x: camera.position.x,
+				y: camera.position.y,
+				z: camera.position.z,
+				length: camera.position.length(),
+			}
+		}
+
+		function updateCam() {
+			camera.fov = currentCam.fov;
+
+			var spherical = new THREE.Spherical(currentCam.radius, currentCam.phi, currentCam.theta);
+			camera.position.set(currentCam.x, currentCam.y, currentCam.z);
+			camera.position.setLength(currentCam.length);
+			camera.lookAt(0,0,0);
+
 			sceneChanged = true;
 		}
 	})
