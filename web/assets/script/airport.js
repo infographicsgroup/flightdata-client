@@ -22,6 +22,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	return me;
 
 	function destroy() {
+		me.object3D.parent.remove(me.object3D);
 		stateController.remove('colorMode', colorModeHandler);
 	}
 
