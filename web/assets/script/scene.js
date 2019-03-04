@@ -61,49 +61,16 @@ FlightGlobal.Scene = function (wrapper) {
 	shiftPass.uniforms.strength.value = 1.0;
 	shiftPass.renderToScreen = true;
 
-	var fxaaPass = new THREE.ShaderPass( THREE.FXAAShader );
-	fxaaPass.uniforms['resolution'].value.set(1 / width / dpr , 1 / height / dpr);
-	fxaaPass.renderToScreen = true;
-
 	var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 1.5, .85, 0.61 );//1.0, 0.3, 0.5);
-	//var bloom = new THREE.BloomPass(1.5, 1.0, 25, 4.0);
-	
+
 	var raysPass = new THREE.RaysPass(1.0, 0.0, 0.0, false );
 	raysPass.renderToScreen = true;
-
 
 	globeComposer.addPass( renderPass );
 	globeComposer.addPass( glowPass );
 	globeComposer.addPass( bloom );
 	globeComposer.addPass( raysPass );
-	//globeComposer.addPass( fxaaPass );
 
-
-
-	var airportComposer = new THREE.EffectComposer( renderer, renderTarget );
-
-	var renderAirportPass = new THREE.RenderPass(scene, camera);
-	renderAirportPass.clearColor = new THREE.Color(0, 0, 0);
-	renderAirportPass.clearAlpha = 0;
-	
-
-	var airportBloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 0.09, 0.5, 0.71 );//1.0, 0.3, 0.5);
-
-	var airportRaysPass = new THREE.RaysPass(0.05, 1.0, 0.0, false );
-	//airportRaysPass.renderToScreen = true;
-
-	var airportGlowPass = new THREE.ShaderPass( THREE.SuperShader );
-	airportGlowPass.uniforms.glowAmount.value = 0.05;
-	airportGlowPass.uniforms.glowSize.value = 3;
-	airportGlowPass.uniforms.vigOffset.value = 0.9;
-	airportGlowPass.uniforms.saturation.value = 0.0;
-	airportGlowPass.uniforms.contrast.value = 0.0;
-	airportGlowPass.uniforms.brightness.value = 0;
-	airportGlowPass.renderToScreen = true;
-
-	airportComposer.addPass( renderAirportPass );
-	airportComposer.addPass( airportRaysPass );
-	airportComposer.addPass( airportGlowPass );
 
 	wrapper.append(renderer.domElement);
 
@@ -301,9 +268,12 @@ FlightGlobal.Scene = function (wrapper) {
 
 		if (sceneChanged) {
 			if (airportGroup) {
-				airportComposer.render(1 / 60);
+				bloom.strength = 0.0;
+				var raysPass = new THREE.RaysPass(0.05, 1.0, 0.0, false );
+				globeComposer.render(1 / 60);
 				airportGroup.changed = false;
 			} else {
+				raysPass = new THREE.RaysPass(1.0, 0.0, 0.0, false );
 				globeComposer.render(1 / 60);
 				globe.changed = false;
 			}
@@ -330,9 +300,6 @@ FlightGlobal.Scene = function (wrapper) {
 		renderer.setSize(width, height);
 
 		if (globeComposer) globeComposer.setSize(width, height);
-		if (airportComposer) airportComposer.setSize(width, height);
-
-		if (fxaaPass) fxaaPass.uniforms['resolution'].value.set(1 / width / dpr, 1 / height / dpr);
 
 		sceneChanged = true;
 	}
