@@ -121,15 +121,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
-					TweenLite.to(currentCam, 0.5, {
-						fov:10,
-						x:airport.x,
-						y:airport.y,
-						z:airport.z,
-						onUpdate:updateCam,
-						onComplete:cb,
-						ease:Expo.easeIn
-					});
+					animate(500, 'in', {fov:10, x:airport.x, y:airport.y, z:airport.z}, cb)
 				},
 				function (cb) {
 					globe.setVisibility(false);
@@ -144,15 +136,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
-					TweenLite.to(currentCam, 0.5, {
-						fov:45,
-						x: 1,
-						y: 1,
-						z: 0,
-						onUpdate:updateCam,
-						onComplete:cb,
-						ease:Expo.easeOut
-					});
+					animate(500, 'out', {fov:45, x:1, y:1, z:0}, cb);
 				},
 				function () {
 					stateController.set({airportLegend:true});
@@ -166,15 +150,7 @@ FlightGlobal.Scene = function (wrapper) {
 			FlightGlobal.helper.series([
 				function (cb) {
 					stateController.set({airportLegend:false});
-					TweenLite.to(currentCam, 0.5, {
-						fov:150,
-						x: 0,
-						y: 1,
-						z: 0,
-						onUpdate:updateCam,
-						onComplete:cb,
-						ease:Expo.easeIn
-					});
+					animate(500, 'in', {fov:150, x:0, y:1, z:0}, cb);
 				},
 				function (cb) {
 					airportGroup.setVisibility(false);
@@ -189,12 +165,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
-					TweenLite.to(currentCam, 0.5, {
-						fov:45,
-						onUpdate:updateCam,
-						onComplete:cb,
-						ease:Expo.easeOut
-					});
+					animate(500, 'out', {fov:45}, cb);
 				},
 				function () {
 					stateController.set({globeLegend:true});
@@ -203,6 +174,58 @@ FlightGlobal.Scene = function (wrapper) {
 					globe.control.enabled = true;
 				},
 			]);
+		}
+
+		function animate(duration, direction, endValues, onComplete) {
+			var startTime = Date.now();
+			var endTime = startTime+duration;
+			var keys;
+			var PI = 3.141592653589793238462643383;
+
+			function easeIn(v)    { return  1-Math.cos(v*PI/2) }
+			function easeOut(v)   { return    Math.sin(v*PI/2) }
+			function easeInOut(v) { return (1-Math.cos(v*PI))/2 }
+
+			if (direction === 'in') {
+				keys = [
+					{name:'fov', ease:easeIn},
+					{name:'x',   ease:easeInOut},
+					{name:'y',   ease:easeInOut},
+					{name:'z',   ease:easeInOut}
+				]
+			} else {
+				keys = [
+					{name:'fov', ease:easeOut},
+					{name:'x',   ease:easeInOut},
+					{name:'y',   ease:easeInOut},
+					{name:'z',   ease:easeInOut}
+				]
+			}
+
+			var startValues = {};
+			keys = keys.filter(function (key) {
+				startValues[key.name] = currentCam[key.name];
+				return isFinite(endValues[key.name])
+			})
+
+			step();
+			function step() {
+				var time = Date.now();
+				var v = (time-startTime)/duration;
+				if (v < 0) v = 0;
+				if (v > 1) v = 1;
+
+				keys.forEach(function (key) {
+					currentCam[key.name] = key.ease(v)*(endValues[key.name] - startValues[key.name]) + startValues[key.name]
+				})
+				updateCam();
+
+				if (time < endTime) {
+					requestAnimationFrame(step)
+				} else {
+					if (onComplete) onComplete();
+				}
+			}
 		}
 
 
