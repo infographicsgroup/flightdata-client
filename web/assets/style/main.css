@@ -77,12 +77,16 @@ p {
 			opacity: 1.0;
 		}
 
-	#globe_overlay, #airport_overlay {
+	#globe_overlay, #airport_overlay, #intro_overlay {
 		display: none;
 	}
 
-	#airport_overlay, #general_overlay {
+	#airport_overlay, #intro_overlay {
 		pointer-events: all;
+	}
+
+	#general_overlay {
+		pointer-events: none;
 	}
 
 
