@@ -31,6 +31,15 @@ $(function () {
 		resizeTimeout = setTimeout(scene.resize, 250);
 	}
 
+	$('#btn_fullscreen').click(function () {
+		var wrapper = document.getElementById('wrapper_container');
+		if (!document.fullscreenElement) {
+			wrapper.requestFullscreen();
+		} else {
+			if (document.exitFullscreen) document.exitFullscreen();
+		}
+	})
+
 	$('#btn_globe').click(function () {
 		stateController.set({airport:false})
 	})
