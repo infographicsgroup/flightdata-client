@@ -1,8 +1,16 @@
 "use strict"
 
 FlightGlobal.Airport = function (airport, cbInit) {
-	var curves, curveGroups, flightData;
+	var curves, flightData;
 	var colormode = stateController.get('colorMode');
+	var vertexCount, geometry, colorAttribute, colors0, colors1;
+
+	var material = new THREE.LineBasicMaterial({
+		vertexColors: THREE.VertexColors,
+		transparent: true,
+		opacity: 0.1,
+		depthWrite: false,
+	})
 
 	var me = {
 		setVisibility:setVisibility,
@@ -55,12 +63,11 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 		me.object3D = new THREE.Group();
 
-		//me.object3D.rotation.set(0.6,-me.control.calcMomentumResult(momentum),0);
 		me.object3D.visible = true;
 		me.object3D.position.set(0,0.2,0);
 
 		var planeSize = 2*4096/3840;
-		var geometry = new THREE.PlaneGeometry(planeSize, planeSize);
+		var mapGeometry = new THREE.PlaneGeometry(planeSize, planeSize);
 		var mapMaterial = new THREE.MeshBasicMaterial({
 			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png', function () {
 				loaded.texture = true;
@@ -70,7 +77,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			transparent: true,
 		});
 		mapMaterial.map.encoding = THREE.sRGBEncoding;
-		var mapObject = new THREE.Mesh(geometry, mapMaterial);
+		var mapObject = new THREE.Mesh(mapGeometry, mapMaterial);
 		mapObject.rotation.set(-Math.PI/2,0,0);
 		mapObject.position.set(0,-0.2,0);
 		me.object3D.add(mapObject);
@@ -105,51 +112,62 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 			FlightGlobal.helper.diffDecoding(buffer, 3);
 
-			curveGroups = [];
-			var curveGroupsLookup = {};
+			vertexCount = buffer.length/3;
+			var m = vertexCount-flightData.length;
+			var positions = new Float32Array(vertexCount*3);
+			colors0 = new Float32Array(vertexCount*3);
+			colors1 = new Float32Array(vertexCount*3);
+			var indices = new Uint32Array(m*2);
+			for (var i = 0; i < vertexCount*3; i += 3) {
+				positions[i+0] = buffer[i+0]/4000*2.1;
+				positions[i+1] = buffer[i+1]/4000*2.1;
+				positions[i+2] = buffer[i+2]/4000*1;
+			}
+			/*
+				curveGroups.forEach(function (group) {
+					group.material.color = new THREE.Color(group.c);
+				})
 
+				curveGroups.forEach(function (group) {
+					group.material.color = new THREE.Color(group.takeOff ? '#33ddff' : '#ffff33');
+				})
+				*/
+
+			var j = 0, k = 0;
 			flightData.forEach(function (flight) {
-				var groupName = flight.c+'_'+flight.takeOff;
-				var group;
-				if (!curveGroupsLookup[groupName]) {
-					group = {
-						c:flight.c,
-						takeOff:flight.takeOff,
-						positions:[],
-						indices:[],
-						material: new THREE.LineBasicMaterial({
-							color: '#000000',
-							transparent: true,
-							opacity: 0.2,
-							depthWrite: false,
-						})
-					}
-					curveGroupsLookup[groupName] = group;
-					curveGroups.push(group);
-				} else {
-					group = curveGroupsLookup[groupName];
-				}
-
 				var i0 = flight.pos0;
 				var i1 = flight.pos1;
+				
+				var color0 = new THREE.Color(flight.c);
+				color0 = [color0.r, color0.g, color0.b];
+				
+				var color1 = new THREE.Color(flight.takeOff ? '#33ddff' : '#ffff33');
+				color1 = [color1.r, color1.g, color1.b];
+				
 				for (var i = i0; i < i1; i += 3) {
-					var index = group.positions.push(
-						buffer[i+0]/4000*2.1,
-						buffer[i+1]/4000*2.1,
-						buffer[i+2]/4000*1
-					)/3;
-					if (i > i0) group.indices.push(index-2, index-1);
+					colors0[i+0] = color0[0];
+					colors0[i+1] = color0[1];
+					colors0[i+2] = color0[2];
+
+					colors1[i+0] = color1[0];
+					colors1[i+1] = color1[1];
+					colors1[i+2] = color1[2];
+
+					var index = i/3;
+					if (i === i0) continue;
+					indices[j++] = index-1;
+					indices[j++] = index;
 				}
 			})
 
-			curveGroups.forEach(function (group) {
-				var geometry = new THREE.BufferGeometry();
-				geometry.setIndex(group.indices);
-				geometry.addAttribute('position', new THREE.Float32BufferAttribute(group.positions, 3));
-				geometry.computeBoundingSphere();
-				var mesh = new THREE.LineSegments(geometry, group.material);
-				curves.add(mesh);
-			})
+			geometry = new THREE.BufferGeometry();
+			geometry.setIndex(new THREE.Uint32BufferAttribute(indices, 2));
+			geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+			geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors0.slice(0), 3));
+
+			geometry.computeBoundingSphere();
+			var mesh = new THREE.LineSegments(geometry, material);
+			curves.add(mesh);
 
 			updateColormode();
 
@@ -175,19 +193,18 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	}
 
 	function updateColormode() {
-		if (!curveGroups) return;
+		if (!geometry) return;
+		var colors = geometry.attributes.color.array;
 		switch (colormode) {
-			case 0: 
-				curveGroups.forEach(function (group) {
-					group.material.color = new THREE.Color(group.c);
-				})
+			case 0:
+				for (var i = 0; i < vertexCount*3; i++) colors[i] = colors0[i];
 			break;
-			case 1: 
-				curveGroups.forEach(function (group) {
-					group.material.color = new THREE.Color(group.takeOff ? '#33ddff' : '#ffff33');
-				})
+			case 1:
+				for (var i = 0; i < vertexCount*3; i++) colors[i] = colors1[i];
 			break;
 		}
+		geometry.colorsNeedUpdate = true;
+		geometry.attributes.color.needsUpdate = true;
 		markAsChanged();
 	}
 
