@@ -118,20 +118,12 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			colors0 = new Float32Array(vertexCount*3);
 			colors1 = new Float32Array(vertexCount*3);
 			var indices = new Uint32Array(m*2);
+
 			for (var i = 0; i < vertexCount*3; i += 3) {
 				positions[i+0] = buffer[i+0]/4000*2.1;
 				positions[i+1] = buffer[i+1]/4000*2.1;
 				positions[i+2] = buffer[i+2]/4000*1;
 			}
-			/*
-				curveGroups.forEach(function (group) {
-					group.material.color = new THREE.Color(group.c);
-				})
-
-				curveGroups.forEach(function (group) {
-					group.material.color = new THREE.Color(group.takeOff ? '#33ddff' : '#ffff33');
-				})
-				*/
 
 			var j = 0, k = 0;
 			flightData.forEach(function (flight) {
@@ -161,7 +153,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			})
 
 			geometry = new THREE.BufferGeometry();
-			geometry.setIndex(new THREE.Uint32BufferAttribute(indices, 2));
+			geometry.setIndex(new THREE.Uint32BufferAttribute(indices, 1));
 			geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
 			geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors0.slice(0), 3));
 
