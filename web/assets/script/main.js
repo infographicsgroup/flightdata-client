@@ -31,78 +31,82 @@ $(function () {
 		resizeTimeout = setTimeout(scene.resize, 250);
 	}
 
-	stateController.on('airportLegend', function (visible) {
-		if (visible) {
-			var airport = stateController.get('airport');
-			$('#airport_title').text(airport.iata);
-			$('#airport_text').html([
-				airport.title,
-				'near '+airport.city+'/'+airport.country,
-				'',
-				'passengers/year: '+(airport.passengersPerYear/1e6).toFixed(1)+'m'
-			].join('<br>').toUpperCase());
-		}
-		if (visible) {
-			$('#airport_overlay').fadeIn(500);
-		} else {
-			$('#airport_overlay').fadeOut(500);
-		}
-	}, true);
+	function init() {
+		stateController.on('airportLegend', function (visible) {
+			if (visible) {
+				var airport = stateController.get('airport');
+				$('#airport_title').text(airport.iata);
+				$('#airport_text').html([
+					airport.title,
+					'near '+airport.city+'/'+airport.country,
+					'',
+					'passengers/year: '+(airport.passengersPerYear/1e6).toFixed(1)+'m'
+				].join('<br>').toUpperCase());
+			}
+			if (visible) {
+				$('#airport_overlay').fadeIn(500);
+			} else {
+				$('#airport_overlay').fadeOut(500);
+			}
+		}, true);
 
-	stateController.on('globeLegend', function (visible) {
-		if (visible) {
-			$('#globe_overlay').fadeIn(500);
-		} else {
-			$('#globe_overlay').fadeOut(500);
-		}
-	}, true);
+		stateController.on('globeLegend', function (visible) {
+			if (visible) {
+				$('#globe_overlay').fadeIn(500);
+			} else {
+				$('#globe_overlay').fadeOut(500);
+			}
+		}, true);
 
-	stateController.on('intro', function (visible) {
-		if (visible) {
-			$('#intro_overlay').fadeIn(500);
-		} else {
-			$('#intro_overlay').fadeOut(500);
-		}
-	}, true);
+		stateController.on('intro', function (visible) {
+			scene.setAutoRotate(visible || stateController.get('credits'))
+			if (visible) {
+				$('#intro_overlay').fadeIn(500);
+			} else {
+				$('#intro_overlay').fadeOut(500);
+			}
+		}, true);
 
-	stateController.on('credits', function (visible) {
-		if (visible) {
-			$('#credits_overlay').fadeIn(500);
-		} else {
-			$('#credits_overlay').fadeOut(500);
-		}
-	}, true);
+		stateController.on('credits', function (visible) {
+			scene.setAutoRotate(visible || stateController.get('intro'))
+			if (visible) {
+				$('#credits_overlay').fadeIn(500);
+			} else {
+				$('#credits_overlay').fadeOut(500);
+			}
+		}, true);
 
-	stateController.on('colorMode', function (value) {
-		$('#airport_colormode_0').toggle(value === 0);
-		$('#airport_colormode_1').toggle(value === 1);
-	}, true);
+		stateController.on('colorMode', function (value) {
+			$('#airport_colormode_0').toggle(value === 0);
+			$('#airport_colormode_1').toggle(value === 1);
+		}, true);
 
-	$('#switch').click(function () {
-		$('#switch').toggleClass('right');
-		stateController.set({colorMode:$('#switch').hasClass('right') ? 1 : 0})
-	})
+		$('#switch').click(function () {
+			$('#switch').toggleClass('right');
+			stateController.set({colorMode:$('#switch').hasClass('right') ? 1 : 0})
+		})
 
-	$('#btn_play').click(function () {
-		stateController.set({intro:false})
-	})
+		$('#btn_play').click(function () {
+			stateController.set({intro:false})
+		})
 
-	$('#btn_credits,#btn_close_credits').click(function () {
-		stateController.set({credits:!stateController.get('credits'),intro:false})
-	})
+		$('#btn_credits,#btn_close_credits').click(function () {
+			stateController.set({credits:!stateController.get('credits'),intro:false})
+		})
 
-	$('#btn_fullscreen').click(function () {
-		var wrapper = document.getElementById('wrapper_container');
-		if (!document.fullscreenElement) {
-			wrapper.requestFullscreen();
-		} else {
-			if (document.exitFullscreen) document.exitFullscreen();
-		}
-	})
+		$('#btn_fullscreen').click(function () {
+			var wrapper = document.getElementById('wrapper_container');
+			if (!document.fullscreenElement) {
+				wrapper.requestFullscreen();
+			} else {
+				if (document.exitFullscreen) document.exitFullscreen();
+			}
+		})
 
-	$('#btn_globe').click(function () {
-		stateController.set({airport:false})
-	})
+		$('#btn_globe').click(function () {
+			stateController.set({airport:false})
+		})
+	}
 
 	FlightGlobal.helper.series([
 		function (cb) {
@@ -116,6 +120,8 @@ $(function () {
 			function updateColormode() {
 				scene.setColormode($('#airport_colormode input:checked').val());
 			}
+			
+			init();
 
 			cb();
 		},

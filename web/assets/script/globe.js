@@ -44,7 +44,6 @@ FlightGlobal.Globe = function () {
 	function addControl(camera) {
 		me.control = new THREE.OrbitControls(camera);
 		me.control.enableDamping = true;
-		me.control.dampingFactor = 0.1;
 		me.control.rotateSpeed = 0.18;
 		me.control.minRadius = 1;
 		me.control.enablePan = false;

@@ -42,7 +42,6 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	function addControl(camera) {
 		me.control = new THREE.OrbitControls(camera);
 		me.control.enableDamping = true;
-		me.control.dampingFactor = 0.1;
 		me.control.rotateSpeed = 0.18;
 		me.control.minRadius = 0;
 		me.control.enablePan = false;

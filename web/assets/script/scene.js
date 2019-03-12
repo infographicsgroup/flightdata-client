@@ -5,6 +5,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 	var width = 1024, height = 1024;
 	var scene = new THREE.Scene();
+	var autoRotate = false;
 	var sceneChanged = false;
 	//scene.background = new THREE.Color( 0x0c1a22 );
 	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
@@ -259,9 +260,14 @@ FlightGlobal.Scene = function (wrapper) {
 			if (airportGroup) airportGroup.setColormode(colormode);
 		},
 		resize: resize,
+		setAutoRotate: setAutoRotate,
 	}
 
 	return me;
+
+	function setAutoRotate(value) {
+		autoRotate = value;
+	}
 
 	function addAirportMarkers(_airports) {
 		airports = _airports;
@@ -282,8 +288,10 @@ FlightGlobal.Scene = function (wrapper) {
 		camera.updateProjectionMatrix();
 		
 		if (airportGroup) {
+			if (autoRotate) airportGroup.control.rotateLeft(3e-5);
 			sceneChanged = airportGroup.control.update() || sceneChanged || airportGroup.changed;
 		} else {
+			if (autoRotate) globe.control.rotateLeft(3e-5);
 			sceneChanged = globe.control.update() || sceneChanged || globe.changed;
 		}
 
