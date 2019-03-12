@@ -4,9 +4,12 @@
 	src: url("../fonts/GravurLLWeb-CondRegular.woff2") format("woff2"), url("../fonts/GravurLLWeb-CondRegular.woff") format("woff");
 }
 
-html, body, .container {
+html, body {
 	width: 100%;
 	height: 100%;
+}
+
+html, body, .container {
 	margin: 0;
 	padding: 0;
 	color: #fff;
@@ -37,8 +40,10 @@ p {
 
 .container {
 	position: absolute;
-	top:0px;
-	left:0px;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
 	overflow: hidden;
 }
 
@@ -85,10 +90,6 @@ p {
 		pointer-events: all;
 	}
 
-	#general_overlay {
-		pointer-events: none;
-	}
-
 
 #switch, #switch * {
 	position:absolute;
@@ -120,6 +121,83 @@ p {
 
 
 
+
+
+
+
+.btn_text {
+	background: rgba(255,255,255,0);
+	border-radius: 10em;
+	border: 0.06em solid #fff;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0.45em 1em 0.3em;
+	pointer-events: all;
+	position: absolute;
+	text-transform: uppercase;
+	opacity: 0.5;
+	transition: opacity 0.2s;
+}
+
+	.btn_text:hover {
+		opacity: 1.0;
+	}
+
+
+#btn_play {
+	opacity: 1.0;
+	border-width: 0.03em;
+	font-size: 2em;
+	left: 23em;
+	top: 20em;
+	transition: color 0.2s, background 0.2s;
+}
+	#btn_play:hover {
+		background: rgba(255,255,255,255);
+		color: #000;
+	}
+
+#btn_credits {
+	border-color: #c1b9ae;
+	bottom: 1em;
+	color: #c1b9ae;
+	right: 1em;
+}
+
+#btn_close_credits {
+	border-color: #c1b9ae;
+	bottom: 5em;
+	color: #c1b9ae;
+	left: 48em;
+}
+
+#credits_overlay {
+	padding-top: 10em;
+}
+	#credits_overlay h2 {
+		font-size: 2em;
+		text-align: center;
+		margin: 2em 0em 0.3em;
+	}
+
+	#credits_overlay p {
+		font-size: 1.5em;
+		margin: 0em 0em 0.3em;
+	}
+
+	#credits_overlay span {
+		display: inline-block;
+		text-align: right;
+		width: 49%;
+		margin-right: 2%;
+		font-weight: bold;
+	}
+
+	#credits_overlay a {
+		color: #fff;
+		pointer-events: all;
+	}
 
 
 

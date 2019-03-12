@@ -31,19 +31,6 @@ $(function () {
 		resizeTimeout = setTimeout(scene.resize, 250);
 	}
 
-	$('#btn_fullscreen').click(function () {
-		var wrapper = document.getElementById('wrapper_container');
-		if (!document.fullscreenElement) {
-			wrapper.requestFullscreen();
-		} else {
-			if (document.exitFullscreen) document.exitFullscreen();
-		}
-	})
-
-	$('#btn_globe').click(function () {
-		stateController.set({airport:false})
-	})
-
 	stateController.on('airportLegend', function (visible) {
 		if (visible) {
 			var airport = stateController.get('airport');
@@ -70,11 +57,19 @@ $(function () {
 		}
 	}, true);
 
-	stateController.on('credit', function (visible) {
+	stateController.on('intro', function (visible) {
 		if (visible) {
-			$('#text_credit').fadeIn(500);
+			$('#intro_overlay').fadeIn(500);
 		} else {
-			$('#text_credit').fadeOut(500);
+			$('#intro_overlay').fadeOut(500);
+		}
+	}, true);
+
+	stateController.on('credits', function (visible) {
+		if (visible) {
+			$('#credits_overlay').fadeIn(500);
+		} else {
+			$('#credits_overlay').fadeOut(500);
 		}
 	}, true);
 
@@ -86,6 +81,27 @@ $(function () {
 	$('#switch').click(function () {
 		$('#switch').toggleClass('right');
 		stateController.set({colorMode:$('#switch').hasClass('right') ? 1 : 0})
+	})
+
+	$('#btn_play').click(function () {
+		stateController.set({intro:false})
+	})
+
+	$('#btn_credits,#btn_close_credits').click(function () {
+		stateController.set({credits:!stateController.get('credits'),intro:false})
+	})
+
+	$('#btn_fullscreen').click(function () {
+		var wrapper = document.getElementById('wrapper_container');
+		if (!document.fullscreenElement) {
+			wrapper.requestFullscreen();
+		} else {
+			if (document.exitFullscreen) document.exitFullscreen();
+		}
+	})
+
+	$('#btn_globe').click(function () {
+		stateController.set({airport:false})
 	})
 
 	FlightGlobal.helper.series([

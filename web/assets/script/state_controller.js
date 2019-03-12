@@ -3,9 +3,9 @@
 var stateController = (function () {
 	var state = {
 		airport:       false,
-		intro:         false,
+		intro:         true,
 		credits:       false,
-		globeLegend:   true,
+		globeLegend:   false,
 		airportLegend: false,
 		colorMode:     0,
 	}

@@ -53,10 +53,6 @@
 			<div id="wrapper_canvas" class="container">
 			</div>
 			<div id="wrapper_html" class="container">
-				<div id="general_overlay" class="container">
-					<img src="assets/images/logo.svg" style="pointer-events:none; width:18em; position:absolute; left:1em; top:1em;">
-					<img src="assets/images/button_fullscreen.svg" id="btn_fullscreen" class="btn_icon" style="left:1em; bottom:1em;">
-				</div>
 				<div id="globe_overlay" class="container">
 					<div class="textbox" id="text_globeLegend">
 						<h2>In 88 Stunden<br>um die Welt</h2>
@@ -86,8 +82,28 @@
 						<p class="text_right" style="left:19em; text-align:left; top:0.1em; width:15em; margin:0; padding:0;">TAKEOFF/LANDING</p>
 					</div>
 				</div>
-				<div id="intro_overlay" class="container">
-					
+				<div id="intro_overlay" class="container" style="background: rgba(0,0,0,0.8)">
+					<img src="assets/images/intro.svg" style="pointer-events:none; width:80em; position:absolute; left:10em; top:0em;">
+					<div id="btn_play" class="btn_text">PLAY</div>
+				</div>
+				<div id="credits_overlay" class="container" style="background: rgba(0,0,0,0.8); display: none;">
+					<div style="width: 60em; left:20em; position:absolute;">
+						<h2>Credits</h2>
+						<p><span>Idea, Research, Data processing</span>Michael Kreil</p>
+						<p><span>Development</span>Michael Kreil, Frank Reitberger</p>
+						<p><span>Design</span>Daniela Scharffenberg</p>
+						<h2>Sources</h2>
+						<p><span>Aircraft trails</span>ADSBexchange, <a href="http://www.ADSBexchange.com">ADSBexchange.com</a></p>
+						<p><span>Map</span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</p>
+						<p><span>Airlines</span><a href="https://openflights.org/data.html">OpenFlights</a></p>
+						<p><span>General</span>CC-by-sa-3.0 <a href="https://www.wikipedia.org/">Wikipedia</a></p>
+					</div>
+					<div id="btn_close_credits" class="btn_text">close credits</div>
+				</div>
+				<div id="general_overlay" class="container">
+					<img src="assets/images/logo.svg" style="pointer-events:none; width:18em; position:absolute; left:1em; top:1em;">
+					<img src="assets/images/button_fullscreen.svg" id="btn_fullscreen" class="btn_icon" style="left:1em; bottom:1em; pointer-events: all;">
+					<div id="btn_credits" class="btn_text">credits</div>
 				</div>
 			</div>
 		</div>
