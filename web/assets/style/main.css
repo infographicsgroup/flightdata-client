@@ -63,9 +63,9 @@ p {
 	.textbox {
 		background: rgba(0,86,89,0.5);
 		position: absolute;
-		left: 4em;
+		left: 2em;
 		top: 18em;
-		width: 15em;
+		width: 17em;
 		padding: 1.5em;
 		box-sizing: border-box;
 	}

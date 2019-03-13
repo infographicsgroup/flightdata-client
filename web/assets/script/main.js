@@ -87,7 +87,7 @@ $(function () {
 		})
 
 		$('#btn_play').click(function () {
-			stateController.set({intro:false})
+			stateController.set({intro:false, globeLegend:true})
 		})
 
 		$('#btn_credits,#btn_close_credits').click(function () {
@@ -120,7 +120,7 @@ $(function () {
 			function updateColormode() {
 				scene.setColormode($('#airport_colormode input:checked').val());
 			}
-			
+
 			init();
 
 			cb();
