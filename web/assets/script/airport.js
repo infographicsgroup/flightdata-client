@@ -54,8 +54,6 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	}
 
 	function init() {
-		var momentum = 0.005;
-
 		var loaded = {
 			texture: false,
 			data: false,
@@ -81,6 +79,49 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		mapObject.rotation.set(-Math.PI/2,0,0);
 		mapObject.position.set(0,-0.2,0);
 		me.object3D.add(mapObject);
+
+		airport.next.forEach(function (next) {
+			var canvas = document.createElement('canvas');
+			canvas.width = 512;
+			canvas.height = 64;
+			var scale = 0.06;
+
+			var ctx = canvas.getContext('2d');
+
+			//ctx.fillStyle = 'rgba(255,0,0,0.2)'
+			//ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			var backwards = next[2] < 0;
+	   
+			ctx.font  = '60px "LL Gravur Cond Regular Web"';
+			ctx.fillStyle = '#ffffff';
+			ctx.textAlign = backwards ? 'right' : 'left';
+			ctx.textBaseline = 'middle';
+			var text;
+			if (backwards) {
+				text = '◀ '+next[1].toFixed(0)+' KM '+next[0].city.toUpperCase();
+			} else {
+				text = next[0].city.toUpperCase()+' '+next[1].toFixed(0)+' KM ▶';
+			}
+			ctx.fillText(text, backwards ? canvas.width : 0, canvas.height/2);
+
+			var labelTexture = new THREE.Texture(canvas);
+			labelTexture.needsUpdate = true;
+
+			var labelObject = new THREE.Mesh(
+				new THREE.PlaneGeometry(8*scale, scale),
+				new THREE.MeshBasicMaterial({ map:labelTexture, transparent:true, opacity:0.5 })
+			);
+
+			var a = (-next[2]+90)*Math.PI/180;
+			var x = Math.cos(a);
+			var y = Math.sin(a);
+			labelObject.position.set(1.3*x, 1.3*y, 0.0001);
+			if (backwards) a += Math.PI;
+			labelObject.rotateZ(a);
+			mapObject.add(labelObject);
+		})
 
 		curves = new THREE.Group();
 		curves.rotation.set(-Math.PI/2,0,0);

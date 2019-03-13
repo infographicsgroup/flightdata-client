@@ -137,7 +137,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
-					animate(500, 'out', {fov:45, x:1, y:1, z:0}, cb);
+					animate(500, 'out', {fov:45, x:0, y:1, z:1}, cb);
 				},
 				function () {
 					stateController.set({airportLegend:true});

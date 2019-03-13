@@ -116,7 +116,9 @@ $(function () {
 			$('#wrapper_html').css('display', 'block');
 
 			$('#airport_colormode input').change(updateColormode);
+			
 			updateColormode();
+
 			function updateColormode() {
 				scene.setColormode($('#airport_colormode input:checked').val());
 			}
@@ -128,6 +130,11 @@ $(function () {
 		function (cb) {
 			$.getJSON('assets/data/airports.json', function (_airports) {
 				airports = _airports;
+				airports.forEach(function (airport) {
+					airport.next.forEach(function (next) {
+						next[0] = airports[next[0]];
+					})
+				})
 				scene.addAirportMarkers(airports);
 				cb();
 			})
