@@ -92,12 +92,13 @@ FlightGlobal.Globe = function () {
 
 			FlightGlobal.helper.diffDecoding(buffer, 3);
 
+			var opacity = 0.5;
 			var materials = [
-				getMaterial('hsl(220, 80%, 20%)', 0.1),
-				getMaterial('hsl(290, 80%, 25%)', 0.2),
-				getMaterial('hsl(  0, 80%, 30%)', 0.3),
-				getMaterial('hsl( 20, 80%, 35%)', 0.4),
-				getMaterial('hsl( 40, 80%, 40%)', 0.5),
+				getMaterial('hsl(220, 80%, 20%)', 0.1*opacity),
+				getMaterial('hsl(290, 80%, 25%)', 0.2*opacity),
+				getMaterial('hsl(  0, 80%, 30%)', 0.3*opacity),
+				getMaterial('hsl( 20, 80%, 35%)', 0.4*opacity),
+				getMaterial('hsl( 40, 80%, 40%)', 0.5*opacity),
 			];
 
 			segments = segments.map(function(segment) {
@@ -179,8 +180,8 @@ FlightGlobal.Globe = function () {
 			color: 0xf3f3f3,
 			side: THREE.DoubleSide,
 			transparent:true,
-			opacity:0.15/*,
-						blending:THREE.AdditiveBlending*/
+			opacity:0.15,
+			// blending:THREE.AdditiveBlending
 		});
 
 		var rayMaterial = new THREE.MeshBasicMaterial({
