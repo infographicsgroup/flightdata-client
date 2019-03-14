@@ -78,20 +78,20 @@ THREE.RaysShader = {
 		    "vec2 position = custom_glFragCoord / 2.0;",
 		    "vec2 temp_position = position;",
 		    "vec3 accumulation = vec3(0.0);",
-		    "int iterations = 64;",
+		    "const int iterations = 64;",
 		    "float contrast = 0.75;",
 		    "vec2 movement = vec2(1.0);",
 
 			"float fadefactor = 1.0/float(iterations);",
 		    "float multiplier = 1.2;",
-		    "for( int i=0; i<64; i++ ) {",
+		    "for( int i=0; i<iterations; i++ ) {",
 		       "vec3 texturesample = texture2D(tDiffuse,position+temp_position).xyz;",
 		       "accumulation += multiplier*smoothstep(0.1,1.0,texturesample*texturesample);",
-		       "multiplier *= 1.0-fadefactor;",
-		       "temp_position += ((movement*0.25)-position)/float(iterations);",
+		       "multiplier *= 1.0 - fadefactor;",
+		       "temp_position += (movement*0.25 - position)*fadefactor;",
 		    "};",
 
-		    "accumulation /= float(iterations);",
+		    "accumulation *= fadefactor;",
 		    //contrast enhance to accentuate bright fragments
 		    "vec3 color = texture2D(tDiffuse,custom_glFragCoord).rgb+(accumulation*(contrast/(1.0+dot(position,position))));",
 
