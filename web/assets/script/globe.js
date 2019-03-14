@@ -9,6 +9,7 @@ FlightGlobal.Globe = function () {
 		initEvents:initEvents,
 		addControl:addControl,
 		changed:true,
+		enabled:true,
 	}
 
 	me.object3D = new THREE.Group();
@@ -27,7 +28,9 @@ FlightGlobal.Globe = function () {
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png', markAsChanged)
+			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png', markAsChanged),
+			//opacity: 0.1,
+			//transparent: true,
 		})
 	);
 
@@ -60,10 +63,12 @@ FlightGlobal.Globe = function () {
 
 		function intersectFinder(cb) {
 			return function (event) {
+				if (!me.enabled) return;
+
 				event.preventDefault();
 
-				mouse.x =  (event.offsetX / container.width() )*2 - 1;
-				mouse.y = -(event.offsetY / container.height())*2 + 1;
+				mouse.x =  (event.offsetX / container.innerWidth() )*2 - 1;
+				mouse.y = -(event.offsetY / container.innerHeight())*2 + 1;
 
 				raycaster.setFromCamera(mouse, camera);
 
@@ -214,18 +219,10 @@ FlightGlobal.Globe = function () {
 
 		clickableObjects = [];
 
-		var material = new THREE.MeshBasicMaterial({
-			color: 0xf3f3f3,
-			side: THREE.DoubleSide,
-			transparent:true,
-			opacity:0.15,
-			// blending:THREE.AdditiveBlending
-		});
-
 		var rayTexture = new THREE.TextureLoader().load('assets/texture/freehandLinesStrong.png', markAsChanged);
 
 		var cursorMaterial = new THREE.MeshBasicMaterial({
-			color:0x000000,
+			color:0xff0000,
 			transparent:true, 
 			side:THREE.FrontSide,
 			opacity:0,
@@ -251,12 +248,20 @@ FlightGlobal.Globe = function () {
 			rayMesh2.rotation.x = Math.PI / 2;
 			rayMesh2.rotation.y = Math.PI / 2;
 
-			var cursorGeometry    = new THREE.BoxBufferGeometry( 0.05, rayHeight, 0.05 );
+			var cursorGeometry    = new THREE.BoxBufferGeometry( 0.05, rayHeight/2, 0.05 );
 			var cursorMesh        = new THREE.Mesh( cursorGeometry, cursorMaterial );
+			cursorMesh.position.z = -rayHeight/4;
 			cursorMesh.rotation.x = Math.PI / 2;
 
-			var markerGeometry = new THREE.CircleGeometry(1/50, 32);
-			var marker = new THREE.Mesh( markerGeometry, material );
+			var markerMaterial = new THREE.MeshBasicMaterial({
+				color: 0xf3f3f3,
+				side: THREE.DoubleSide,
+				transparent:true,
+				opacity:0.1,
+			});
+
+			var markerGeometry = new THREE.CircleGeometry(1/50, 16);
+			var marker = new THREE.Mesh( markerGeometry, markerMaterial );
 			marker.add( rayMesh1 );
 			marker.add( rayMesh2 );
 			marker.add( cursorMesh );
@@ -279,9 +284,9 @@ FlightGlobal.Globe = function () {
 			var labelTexture = new THREE.Texture(canvas);
 			labelTexture.needsUpdate = true;
 			
-			var labelMat = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.2 } );
+			var labelMaterial = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.2 } );
 
-			var sprite = new THREE.Sprite( labelMat );
+			var sprite = new THREE.Sprite( labelMaterial );
 
 			sprite.scale.set( 0.08, 0.08 );
 
@@ -322,8 +327,9 @@ FlightGlobal.Globe = function () {
 			}
 
 			function hover(hover) {
-				rayMaterial.opacity = hover ? 1.0 : 0.5;
-				labelMat.opacity    = hover ? 1.0 : 0.2;
+				rayMaterial.opacity    = hover ? 1.0 : 0.5;
+				labelMaterial.opacity  = hover ? 1.0 : 0.2;
+				markerMaterial.opacity = hover ? 0.3 : 0.1;
 				markAsChanged();
 			}
 		})
