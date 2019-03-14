@@ -24,7 +24,7 @@ FlightGlobal.Scene = function (wrapper) {
 	light.position.set(5,3,5);
 	//scene.add(light);
 	camera.add(light);
-	scene.add( camera );
+	scene.add(camera);
 
 	var globe = new FlightGlobal.Globe();
 	globe.addControl(camera);
@@ -69,6 +69,8 @@ FlightGlobal.Scene = function (wrapper) {
 	globe.initEvents(renderer.domElement, camera);
 
 	stateController.on('airport', function (airport, oldAirport) {	
+		if (airport === oldAirport) return;
+
 		var currentCam;
 
 		globe.control.enabled = false;
@@ -78,6 +80,8 @@ FlightGlobal.Scene = function (wrapper) {
 			animateGlobe2Airport();
 		} else if (!airport && oldAirport) {
 			animateAirport2Globe();
+		} else if (airport && oldAirport) {
+			animateAirport2Airport();
 		} else throw Error();
 
 		function animateGlobe2Airport() {
@@ -91,6 +95,7 @@ FlightGlobal.Scene = function (wrapper) {
 					stateController.set({globeLegend:false});
 					FlightGlobal.Airport(airport, function (group) {
 						airportGroup = group;
+						airportGroup.initEvents(renderer.domElement, camera);
 						airportGroup.addControl(camera);
 						airportGroup.setVisibility(false);
 						scene.add(airportGroup.object3D);
@@ -154,31 +159,74 @@ FlightGlobal.Scene = function (wrapper) {
 			]);
 		}
 
-		function animate(duration, direction, endValues, onComplete) {
+		function animateAirport2Airport() {
+			var newAirportGroup;
+
+			getCurrentCam();
+			var startPos = {x:currentCam.x, y:currentCam.y, z:currentCam.z};
+			var next = oldAirport.next.filter(function (n) { return n[0] === airport})[0];
+			var distance = 5;
+			var a = (-next[2]+90)*Math.PI/180;
+			var x =  distance*Math.cos(a);
+			var z = -distance*Math.sin(a);
+
+			FlightGlobal.helper.series([
+				function (cb) {
+					stateController.set({airportLegend:false});
+					FlightGlobal.Airport(airport, function (group) {
+						group.initEvents(renderer.domElement, camera);
+						group.setVisibility(false);
+						scene.add(group.object3D);
+						newAirportGroup = group;
+						cb();
+					})
+				},
+				afterNextRender,
+				function (cb) {
+					animate(500, 'in', {x:startPos.x+x,z:startPos.z+z}, cb, true);
+				},
+				function (cb) {
+					airportGroup.setVisibility(false);
+					airportGroup.destroy();
+
+					currentCam.x = startPos.x-x;
+					currentCam.z = startPos.z-z;
+
+					updateCam(true);
+
+					airportGroup = newAirportGroup;
+					airportGroup.setVisibility(true);
+
+					cb()
+				},
+				afterNextRender,
+				function (cb) {
+					animate(500, 'out', startPos, cb, true);
+				},
+				function () {
+					stateController.set({airportLegend:true});
+					airportGroup.addControl(camera);
+					//airportGroup.control.enabled = true;
+				},
+			]);
+		}
+
+		function animate(duration, direction, endValues, onComplete, fix) {
 			var startTime = Date.now();
 			var endTime = startTime+duration;
-			var keys;
+			var keys = [];
 			var PI = 3.141592653589793238462643383;
 
 			function easeIn(v)    { return  1-Math.cos(v*PI/2) }
 			function easeOut(v)   { return    Math.sin(v*PI/2) }
 			function easeInOut(v) { return (1-Math.cos(v*PI))/2 }
 
-			if (direction === 'in') {
-				keys = [
-					{name:'fov', ease:easeIn},
-					{name:'x',   ease:easeInOut},
-					{name:'y',   ease:easeInOut},
-					{name:'z',   ease:easeInOut}
-				]
-			} else {
-				keys = [
-					{name:'fov', ease:easeOut},
-					{name:'x',   ease:easeInOut},
-					{name:'y',   ease:easeInOut},
-					{name:'z',   ease:easeInOut}
-				]
-			}
+			var ease = (direction === 'in') ? easeIn : easeOut;
+			keys.push({name:'fov', ease:ease});
+			if (!fix) ease = easeInOut;
+			keys.push({name:'x', ease:ease});
+			keys.push({name:'y', ease:ease});
+			keys.push({name:'z', ease:ease});
 
 			var startValues = {};
 			keys = keys.filter(function (key) {
@@ -196,7 +244,7 @@ FlightGlobal.Scene = function (wrapper) {
 				keys.forEach(function (key) {
 					currentCam[key.name] = key.ease(v)*(endValues[key.name] - startValues[key.name]) + startValues[key.name]
 				})
-				updateCam();
+				updateCam(fix);
 
 				if (time < endTime) {
 					requestAnimationFrame(step)
@@ -217,13 +265,15 @@ FlightGlobal.Scene = function (wrapper) {
 			}
 		}
 
-		function updateCam() {
+		function updateCam(fix) {
 			camera.fov = currentCam.fov;
 
 			var spherical = new THREE.Spherical(currentCam.radius, currentCam.phi, currentCam.theta);
 			camera.position.set(currentCam.x, currentCam.y, currentCam.z);
-			camera.position.setLength(currentCam.length);
-			camera.lookAt(0,0,0);
+			if (!fix) {
+				camera.position.setLength(currentCam.length);
+				camera.lookAt(0,0,0);
+			}
 
 			sceneChanged = true;
 		}
@@ -253,11 +303,16 @@ FlightGlobal.Scene = function (wrapper) {
 
 	function render() {
 
+		if (nextRenderCallback.length > 0) sceneChanged = true;
+
 		camera.updateProjectionMatrix();
 		
 		if (airportGroup) {
-			if (autoRotate) airportGroup.control.rotateLeft(3e-5);
-			sceneChanged = airportGroup.control.update() || sceneChanged || airportGroup.changed;
+			sceneChanged = sceneChanged || airportGroup.changed;
+			if (airportGroup.control) {
+				if (autoRotate) airportGroup.control.rotateLeft(3e-5);
+				sceneChanged = airportGroup.control.update() || sceneChanged;
+			}
 		} else {
 			if (autoRotate) globe.control.rotateLeft(3e-5);
 			sceneChanged = globe.control.update() || sceneChanged || globe.changed;

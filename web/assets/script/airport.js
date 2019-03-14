@@ -4,6 +4,8 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	var curves, flightData;
 	var colormode = stateController.get('colorMode');
 	var vertexCount, geometry, colorAttribute, colors0, colors1;
+	var clickableObjects = [];
+	var destroyHandlers = [];
 
 	var material = new THREE.LineBasicMaterial({
 		vertexColors: THREE.VertexColors,
@@ -18,9 +20,14 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		addControl:addControl,
 		destroy:destroy,
 		changed:true,
+		initEvents:initEvents,
+		enabled:true,
 	}
 
 	stateController.on('colorMode', colorModeHandler);
+	destroyHandlers.push(function () {
+		stateController.remove('colorMode', colorModeHandler);
+	})
 	function colorModeHandler(value) {
 		colormode = value;
 		updateColormode();
@@ -31,8 +38,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	return me;
 
 	function destroy() {
-		me.object3D.parent.remove(me.object3D);
-		stateController.remove('colorMode', colorModeHandler);
+		destroyHandlers.forEach(function (handler) { handler() })
 	}
 
 	function markAsChanged() {
@@ -53,6 +59,57 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		me.control.zoomSpeed = 0.3;
 	}
 
+	function initEvents(container, camera) {
+		var raycaster = new THREE.Raycaster();
+		var mouse = new THREE.Vector2();
+		container = $(container);
+		var hoverObject = false;
+
+		var clickHandler = intersectFinder(function (obj) {
+			if (obj) obj.onClick();
+		})
+		container.bind('click', clickHandler)
+		destroyHandlers.push(function () {
+			container.unbind('click', clickHandler);
+		})
+
+		var moveHandler = intersectFinder(function (obj) {
+			if (obj === hoverObject) return;
+			if (hoverObject) hoverObject.onHover(false);
+			if (obj) {
+				obj.onHover(true);
+				container.css('cursor', 'pointer');
+			} else {
+				container.css('cursor', 'default');
+			}
+			hoverObject = obj;
+		});
+		container.bind('mousemove', moveHandler)
+		destroyHandlers.push(function () {
+			container.unbind('mousemove', moveHandler);
+		})
+
+		function intersectFinder(cb) {
+			return function (event) {
+				if (!me.enabled) return;
+
+				event.preventDefault();
+
+				mouse.x =  (event.offsetX / container.innerWidth() )*2 - 1;
+				mouse.y = -(event.offsetY / container.innerHeight())*2 + 1;
+
+				raycaster.setFromCamera(mouse, camera);
+
+				var intersects = raycaster.intersectObjects(clickableObjects);
+				if (intersects.length > 0) {
+					cb(intersects[0].object);
+				} else {
+					cb(false);
+				}
+			}
+		}
+	}
+
 	function init() {
 		var loaded = {
 			texture: false,
@@ -60,6 +117,10 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		}
 
 		me.object3D = new THREE.Group();
+		
+		destroyHandlers.push(function () {
+			me.object3D.parent.remove(me.object3D);
+		})
 
 		me.object3D.visible = true;
 		me.object3D.position.set(0,0.2,0);
@@ -109,10 +170,9 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			var labelTexture = new THREE.Texture(canvas);
 			labelTexture.needsUpdate = true;
 
-			var labelObject = new THREE.Mesh(
-				new THREE.PlaneGeometry(8*scale, scale),
-				new THREE.MeshBasicMaterial({ map:labelTexture, transparent:true, opacity:0.5 })
-			);
+			var labelMaterial = new THREE.MeshBasicMaterial({ map:labelTexture, transparent:true, opacity:0.5 });
+			var labelGeometry = new THREE.PlaneGeometry(8*scale, scale);
+			var labelObject = new THREE.Mesh(labelGeometry, labelMaterial);
 
 			var a = (-next[2]+90)*Math.PI/180;
 			var x = Math.cos(a);
@@ -121,6 +181,19 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			if (backwards) a += Math.PI;
 			labelObject.rotateZ(a);
 			mapObject.add(labelObject);
+
+			clickableObjects.push(labelObject);
+			labelObject.onClick = click;
+			labelObject.onHover = hover;
+
+			function click() {
+				stateController.set({airport:next[0]});
+			}
+
+			function hover(hover) {
+				labelMaterial.opacity  = hover ? 1.0 : 0.5;
+				markAsChanged();
+			}
 		})
 
 		curves = new THREE.Group();
@@ -218,7 +291,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 	}
 
 	function setVisibility(visible) {
-		var scale = visible ? 1 : 0.01;
+		var scale = visible ? 1 : 1e-10;
 		me.object3D.scale.set(scale,scale,scale);
 		if (me.control) me.control.enabled = visible;
 		me.enabled = visible;
