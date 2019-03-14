@@ -28,7 +28,6 @@ FlightGlobal.Scene = function (wrapper) {
 
 	var globe = new FlightGlobal.Globe();
 	globe.addControl(camera);
-	globe.camera = camera;
 	scene.add(globe.object3D);
 
 	var dpr = window.devicePixelRatio || 1;
@@ -67,21 +66,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 	wrapper.append(renderer.domElement);
 
-	var raycaster = new THREE.Raycaster();
-	var mouse = new THREE.Vector2();
-	$(renderer.domElement).click(function (event) {
-		event.preventDefault();
-
-		mouse.x =  (event.offsetX / width )*2 - 1;
-		mouse.y = -(event.offsetY / height)*2 + 1;
-
-		raycaster.setFromCamera(mouse, camera);
-
-		if (globe.clickableObjects) {
-			var intersects = raycaster.intersectObjects(globe.clickableObjects);
-			if (intersects.length > 0) intersects[0].object.onClick();
-		}
-	})
+	globe.initEvents(renderer.domElement, camera);
 
 	stateController.on('airport', function (airport, oldAirport) {	
 		var currentCam;
@@ -264,19 +249,6 @@ FlightGlobal.Scene = function (wrapper) {
 	function addAirportMarkers(_airports) {
 		airports = _airports;
 		globe.addAirportMarkers(airports);
-
-		globe.clickableObjects = [];
-
-		airports.forEach(function (airport) {
-			globe.clickableObjects.push(airport.marker);
-			globe.clickableObjects.push(airport.cursorMesh);
-			airport.marker.onClick = function () {
-				stateController.set({airport:airport});
-			}
-			airport.cursorMesh.onClick = function () {
-				stateController.set({airport:airport});
-			}			
-		})
 	}
 
 	function render() {

@@ -1,13 +1,12 @@
 "use strict"
 
 FlightGlobal.Globe = function () {
-	var markers;
+	var clickableObjects;
 
 	var me = {
-		clickableObjects:[],
 		addAirportMarkers:addAirportMarkers,
 		setVisibility:setVisibility,
-		mouseHover:mouseHover,
+		initEvents:initEvents,
 		addControl:addControl,
 		changed:true,
 	}
@@ -38,6 +37,46 @@ FlightGlobal.Globe = function () {
 
 	return me;
 
+	function initEvents(container, camera) {
+		var raycaster = new THREE.Raycaster();
+		var mouse = new THREE.Vector2();
+		container = $(container);
+		var hoverObject = false;
+
+		container.click(intersectFinder(function (obj) {
+			if (obj) obj.onClick();
+		}))
+		container.mousemove(intersectFinder(function (obj) {
+			if (obj === hoverObject) return;
+			if (hoverObject) hoverObject.onHover(false);
+			if (obj) {
+				obj.onHover(true);
+				container.css('cursor', 'pointer');
+			} else {
+				container.css('cursor', 'default');
+			}
+			hoverObject = obj;
+		}))
+
+		function intersectFinder(cb) {
+			return function (event) {
+				event.preventDefault();
+
+				mouse.x =  (event.offsetX / container.width() )*2 - 1;
+				mouse.y = -(event.offsetY / container.height())*2 + 1;
+
+				raycaster.setFromCamera(mouse, camera);
+
+				var intersects = raycaster.intersectObjects(clickableObjects);
+				if (intersects.length > 0) {
+					cb(intersects[0].object);
+				} else {
+					cb(false);
+				}
+			}
+		}
+	}
+
 	function markAsChanged() {
 		me.changed = true;
 	}
@@ -54,38 +93,6 @@ FlightGlobal.Globe = function () {
 		me.control.minDistance = 1.5;
 		me.control.maxDistance = 5;
 		me.control.zoomSpeed = 0.3;
-
-		document.addEventListener( 'mousemove', me.mouseHover, false );
-	}
-
-	function mouseHover(event) {
-		var width = 1024, height = 1024;
-		var raycaster = new THREE.Raycaster();
-		var mouse = new THREE.Vector2();
-
-		event.preventDefault();
-
-		mouse.x =  (event.clientX / window.innerWidth )*2 - 1;
-		mouse.y = -1 * (event.clientY / window.innerHeight)*2 + 1;
-
-		raycaster.setFromCamera(mouse, me.camera);
-
-		for( var i in me.clickableObjects ) {
-
-
-		 	 var intersects = raycaster.intersectObjects(me.clickableObjects);
-
-		 	 if( intersects.length > 0 ) {
-		 	 	 document.body.style.cursor = "pointer";
-		 	 	 return;
-
-		 	 } else {
-
-		 	 	 document.body.style.cursor = "";
-		 	 }
-
-		}
-
 	}
 
 	function setVisibility(visible) {
@@ -202,12 +209,10 @@ FlightGlobal.Globe = function () {
 	}
 
 	function addAirportMarkers(airports) {
-		markers = [];
-
 		var markerGroup = new THREE.Group();
 		me.object3D.add(markerGroup);
 
-		me.clickableObjects = [];
+		clickableObjects = [];
 
 		var material = new THREE.MeshBasicMaterial({
 			color: 0xf3f3f3,
@@ -217,23 +222,25 @@ FlightGlobal.Globe = function () {
 			// blending:THREE.AdditiveBlending
 		});
 
-		var rayMaterial = new THREE.MeshBasicMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/freehandLines.png', markAsChanged),
-			transparent:true, 
-			side:THREE.DoubleSide,
-			depthWrite:false,
-		});
+		var rayTexture = new THREE.TextureLoader().load('assets/texture/freehandLinesStrong.png', markAsChanged);
 
 		var cursorMaterial = new THREE.MeshBasicMaterial({
-			color:0xffffff,
+			color:0x000000,
 			transparent:true, 
 			side:THREE.FrontSide,
-			opacity:0.0,
+			opacity:0,
 			depthWrite:false
-		});			
+		});
 
 
 		airports.forEach(function (airport) {
+			var rayMaterial = new THREE.MeshBasicMaterial({
+				map:rayTexture,
+				transparent:true, 
+				side:THREE.DoubleSide,
+				depthWrite:false,
+				opacity:0.5,
+			});
 
 			var rayHeight = 0.5 + Math.random() * 0.5;
 			var rayGeometry = new THREE.PlaneBufferGeometry( 0.025, rayHeight, 8 );
@@ -244,10 +251,9 @@ FlightGlobal.Globe = function () {
 			rayMesh2.rotation.x = Math.PI / 2;
 			rayMesh2.rotation.y = Math.PI / 2;
 
-			var cursorGeometry = new THREE.BoxBufferGeometry( 0.05, rayHeight, 0.05 );
-			var cursorMesh     = new THREE.Mesh( cursorGeometry, cursorMaterial );
+			var cursorGeometry    = new THREE.BoxBufferGeometry( 0.05, rayHeight, 0.05 );
+			var cursorMesh        = new THREE.Mesh( cursorGeometry, cursorMaterial );
 			cursorMesh.rotation.x = Math.PI / 2;
-			cursorMesh.name    = "cursor";
 
 			var markerGeometry = new THREE.CircleGeometry(1/50, 32);
 			var marker = new THREE.Mesh( markerGeometry, material );
@@ -265,7 +271,7 @@ FlightGlobal.Globe = function () {
 			ctx.clearRect(0,0,size,size);
 	   
 			ctx.font  = '60px "LL Gravur Cond Regular Web"';
-			ctx.fillStyle = 'rgba(203,187,160,1)';
+			ctx.fillStyle = 'rgba(255,255,255,1)';
 			ctx.textAlign = 'left';
 			ctx.textBaseline = 'middle';
 			ctx.fillText( airport.iata, 0, size/2 );
@@ -273,7 +279,7 @@ FlightGlobal.Globe = function () {
 			var labelTexture = new THREE.Texture(canvas);
 			labelTexture.needsUpdate = true;
 			
-			var labelMat = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.7 } );
+			var labelMat = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.2 } );
 
 			var sprite = new THREE.Sprite( labelMat );
 
@@ -298,17 +304,30 @@ FlightGlobal.Globe = function () {
 			marker1.position.y = r * Math.sin(airport.latRad);
 			marker1.position.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad);
 			marker1.lookAt(0,0,0);
-			marker1.add( sprite )
+			marker1.add(sprite)
 			sprite.position.x -= 0.05;
 			markerGroup.add( marker1 );
 
-			airport.marker = marker;
-			airport.cursorMesh = cursorMesh;
-			markers.push(marker);
-			markers.push(cursorMesh);
 			markerGroup.add(marker);
-   
+
+			clickableObjects.push(cursorMesh);
+			clickableObjects.push(sprite);
+			cursorMesh.onClick = click;
+			sprite.onClick = click;
+			cursorMesh.onHover = hover;
+			sprite.onHover = hover;
+
+			function click() {
+				stateController.set({airport:airport});
+			}
+
+			function hover(hover) {
+				rayMaterial.opacity = hover ? 1.0 : 0.5;
+				labelMat.opacity    = hover ? 1.0 : 0.2;
+				markAsChanged();
+			}
 		})
+
 		markAsChanged();
 	}
 }
