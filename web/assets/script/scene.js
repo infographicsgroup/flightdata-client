@@ -52,19 +52,10 @@ FlightGlobal.Scene = function (wrapper) {
 	glowPass.uniforms.saturation.value = 0.0;
 	glowPass.uniforms.contrast.value = 0.0;
 	glowPass.uniforms.brightness.value = 0;
-	//glowPass.renderToScreen = true;
-
-
-	var shiftPass = new THREE.ShaderPass( THREE.CustomTiltShiftShader );
-	shiftPass.uniforms.focusPos.value = 0.51;
-	shiftPass.uniforms.range.value = 0.43;
-	shiftPass.uniforms.offset.value = 0.021;
-	shiftPass.uniforms.strength.value = 1.0;
-	shiftPass.renderToScreen = true;
 
 	var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 1.5, .85, 0.61 );//1.0, 0.3, 0.5);
 
-	var raysPass = new THREE.RaysPass(1.0, 0.0, 0.0, false );
+	var raysPass = new THREE.RaysPass(1.0, 0.0, 0.0, false);
 	raysPass.renderToScreen = true;
 
 	globeComposer.addPass( renderPass );
@@ -298,13 +289,12 @@ FlightGlobal.Scene = function (wrapper) {
 		requestAnimationFrame(render);
 
 		if (sceneChanged) {
-			if (airportGroup) {
-				bloom.strength = 0.0;
-				var raysPass = new THREE.RaysPass(0.05, 1.0, 0.0, false );
+			if (airportGroup && airportGroup.enabled) {
+				bloom.enabled = false;
 				globeComposer.render(1 / 60);
 				airportGroup.changed = false;
 			} else {
-				raysPass = new THREE.RaysPass(1.0, 0.0, 0.0, false );
+				bloom.enabled = true;
 				globeComposer.render(1 / 60);
 				globe.changed = false;
 			}
