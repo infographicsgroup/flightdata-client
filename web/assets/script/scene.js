@@ -28,6 +28,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 	var globe = new FlightGlobal.Globe();
 	globe.addControl(camera);
+	globe.camera = camera;
 	scene.add(globe.object3D);
 
 	var dpr = window.devicePixelRatio || 1;
@@ -277,9 +278,13 @@ FlightGlobal.Scene = function (wrapper) {
 
 		airports.forEach(function (airport) {
 			globe.clickableObjects.push(airport.marker);
+			globe.clickableObjects.push(airport.cursorMesh);
 			airport.marker.onClick = function () {
 				stateController.set({airport:airport});
 			}
+			airport.cursorMesh.onClick = function () {
+				stateController.set({airport:airport});
+			}			
 		})
 	}
 

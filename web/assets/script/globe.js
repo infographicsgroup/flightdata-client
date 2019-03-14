@@ -7,6 +7,7 @@ FlightGlobal.Globe = function () {
 		clickableObjects:[],
 		addAirportMarkers:addAirportMarkers,
 		setVisibility:setVisibility,
+		mouseHover:mouseHover,
 		addControl:addControl,
 		changed:true,
 	}
@@ -53,6 +54,38 @@ FlightGlobal.Globe = function () {
 		me.control.minDistance = 1.5;
 		me.control.maxDistance = 5;
 		me.control.zoomSpeed = 0.3;
+
+		document.addEventListener( 'mousemove', me.mouseHover, false );
+	}
+
+	function mouseHover(event) {
+		var width = 1024, height = 1024;
+		var raycaster = new THREE.Raycaster();
+		var mouse = new THREE.Vector2();
+
+		event.preventDefault();
+
+		mouse.x =  (event.clientX / window.innerWidth )*2 - 1;
+		mouse.y = -1 * (event.clientY / window.innerHeight)*2 + 1;
+
+		raycaster.setFromCamera(mouse, me.camera);
+
+		for( var i in me.clickableObjects ) {
+
+
+		 	 var intersects = raycaster.intersectObjects(me.clickableObjects);
+
+		 	 if( intersects.length > 0 ) {
+		 	 	 document.body.style.cursor = "pointer";
+		 	 	 return;
+
+		 	 } else {
+
+		 	 	 document.body.style.cursor = "";
+		 	 }
+
+		}
+
 	}
 
 	function setVisibility(visible) {
@@ -188,11 +221,21 @@ FlightGlobal.Globe = function () {
 			transparent:true, 
 			side:THREE.DoubleSide,
 			depthWrite:false,
+		});
+
+		var cursorMaterial = new THREE.MeshBasicMaterial({
+			color:0xffffff,
+			transparent:true, 
+			side:THREE.FrontSide,
+			opacity:0.0,
+			depthWrite:false
 		});			
+
 
 		airports.forEach(function (airport) {
 
-			var rayGeometry = new THREE.PlaneBufferGeometry( 0.025, 0.5 + Math.random() * 0.5, 8 );
+			var rayHeight = 0.5 + Math.random() * 0.5;
+			var rayGeometry = new THREE.PlaneBufferGeometry( 0.025, rayHeight, 8 );
 			var rayMesh1 = new THREE.Mesh( rayGeometry, rayMaterial );
 			rayMesh1.rotation.x = Math.PI / 2;
 
@@ -200,10 +243,16 @@ FlightGlobal.Globe = function () {
 			rayMesh2.rotation.x = Math.PI / 2;
 			rayMesh2.rotation.y = Math.PI / 2;
 
+			var cursorGeometry = new THREE.BoxBufferGeometry( 0.05, rayHeight, 0.05 );
+			var cursorMesh     = new THREE.Mesh( cursorGeometry, cursorMaterial );
+			cursorMesh.rotation.x = Math.PI / 2;
+			cursorMesh.name    = "cursor";
+
 			var markerGeometry = new THREE.CircleGeometry(1/50, 32);
 			var marker = new THREE.Mesh( markerGeometry, material );
 			marker.add( rayMesh1 );
 			marker.add( rayMesh2 );
+			marker.add( cursorMesh );
 
 			var marker1 = new THREE.Object3D();
 
@@ -253,7 +302,9 @@ FlightGlobal.Globe = function () {
 			markerGroup.add( marker1 );
 
 			airport.marker = marker;
+			airport.cursorMesh = cursorMesh;
 			markers.push(marker);
+			markers.push(cursorMesh);
 			markerGroup.add(marker);
    
 		})
