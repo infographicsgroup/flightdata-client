@@ -87,6 +87,9 @@ p {
 	}
 
 	#airport_overlay, #intro_overlay {
+		pointer-events: none;
+	}
+	#airport_overlay *, #intro_overlay * {
 		pointer-events: all;
 	}
 
