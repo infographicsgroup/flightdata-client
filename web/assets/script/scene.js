@@ -52,6 +52,7 @@ FlightGlobal.Scene = function (wrapper) {
 	glowPass.uniforms.saturation.value = 0.0;
 	glowPass.uniforms.contrast.value = 0.0;
 	glowPass.uniforms.brightness.value = 0;
+	glowPass.uniforms.rgbShiftAmount.value = 0;
 
 	var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(width,height), 1.5, .85, 0.61 );//1.0, 0.3, 0.5);
 
