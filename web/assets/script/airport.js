@@ -128,12 +128,14 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 		var planeSize = 2*4096/3840;
 		var mapGeometry = new THREE.PlaneGeometry(planeSize, planeSize);
+		var mapTexture = new THREE.TextureLoader().load('assets/map/'+airport.name+'.png', function () {
+			loaded.texture = true;
+			checkEverythingLoaded();
+			markAsChanged();
+		});
+		mapTexture.anisotropy = 4;
 		var mapMaterial = new THREE.MeshBasicMaterial({
-			map: new THREE.TextureLoader().load('assets/map/'+airport.name+'.png', function () {
-				loaded.texture = true;
-				checkEverythingLoaded();
-				markAsChanged();
-			}),
+			map: mapTexture,
 			transparent: true,
 		});
 		mapMaterial.map.encoding = THREE.sRGBEncoding;
@@ -170,6 +172,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 			var labelTexture = new THREE.Texture(canvas);
 			labelTexture.needsUpdate = true;
+			labelTexture.anisotropy = 4;
 
 			var labelMaterial = new THREE.MeshBasicMaterial({ map:labelTexture, transparent:true, opacity:0.5 });
 			var labelGeometry = new THREE.PlaneGeometry(16*scale, scale);

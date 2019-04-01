@@ -25,10 +25,14 @@ FlightGlobal.Globe = function () {
 
 	me.object3D.add(atmosphericalSprite);
 
+	var globeTexture = new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png', markAsChanged);
+	globeTexture.magFilter = THREE.NearestFilter;
+	globeTexture.anisotropy = 4;
+
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
 		new THREE.MeshPhongMaterial({
-			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png', markAsChanged),
+			map: globeTexture,
 			//opacity: 0.1,
 			//transparent: true,
 			//depthWrite: false,
