@@ -144,7 +144,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 		airport.next.forEach(function (next) {
 			var canvas = document.createElement('canvas');
-			canvas.width = 512;
+			canvas.width = 1024;
 			canvas.height = 64;
 			var scale = 0.06;
 
@@ -172,13 +172,13 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			labelTexture.needsUpdate = true;
 
 			var labelMaterial = new THREE.MeshBasicMaterial({ map:labelTexture, transparent:true, opacity:0.5 });
-			var labelGeometry = new THREE.PlaneGeometry(8*scale, scale);
+			var labelGeometry = new THREE.PlaneGeometry(16*scale, scale);
 			var labelObject = new THREE.Mesh(labelGeometry, labelMaterial);
 
 			var a = (-next[2]+90)*Math.PI/180;
 			var x = Math.cos(a);
 			var y = Math.sin(a);
-			labelObject.position.set(1.3*x, 1.3*y, 0.0001);
+			labelObject.position.set(1.5*x, 1.5*y, 0.0001);
 			if (backwards) a += Math.PI;
 			labelObject.rotateZ(a);
 			mapObject.add(labelObject);
