@@ -64,6 +64,7 @@ FlightGlobal.Globe = function () {
 		function intersectFinder(cb) {
 			return function (event) {
 				if (!me.enabled) return;
+				if (!clickableObjects) return;
 
 				event.preventDefault();
 

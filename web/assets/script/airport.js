@@ -92,6 +92,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		function intersectFinder(cb) {
 			return function (event) {
 				if (!me.enabled) return;
+				if (!clickableObjects) return;
 
 				event.preventDefault();
 
