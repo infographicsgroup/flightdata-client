@@ -20,10 +20,10 @@ FlightGlobal.Globe = function () {
 		depthWrite:false,
 		opacity:0.6
 	});
-	var atmosphericalSprite = new THREE.Sprite( material );
+	var atmosphericalSprite = new THREE.Sprite(material);
 	atmosphericalSprite.scale.set(3.6,3.6);
 
-	me.object3D.add( atmosphericalSprite );
+	me.object3D.add(atmosphericalSprite);
 
 	var globeMesh = new THREE.Mesh(
 		new THREE.SphereGeometry(1, 64, 32),
@@ -31,6 +31,7 @@ FlightGlobal.Globe = function () {
 			map: new THREE.TextureLoader().load('assets/texture/globeDiffuse_4k.png', markAsChanged),
 			//opacity: 0.1,
 			//transparent: true,
+			//depthWrite: false,
 		})
 	);
 
@@ -230,7 +231,6 @@ FlightGlobal.Globe = function () {
 			depthWrite:false
 		});
 
-
 		airports.forEach(function (airport) {
 			var rayMaterial = new THREE.MeshBasicMaterial({
 				map:rayTexture,
@@ -240,18 +240,20 @@ FlightGlobal.Globe = function () {
 				opacity:0.5,
 			});
 
-			var rayHeight = 0.5 + Math.random() * 0.5;
-			var rayGeometry = new THREE.PlaneBufferGeometry( 0.025, rayHeight, 8 );
-			var rayMesh1 = new THREE.Mesh( rayGeometry, rayMaterial );
+			//console.log(airport);
+			var rayHeight = airport.passengersPerYear*5e-9;
+			var rayGeometry = new THREE.PlaneBufferGeometry(0.025, rayHeight*2, 8);
+
+			var rayMesh1 = new THREE.Mesh(rayGeometry, rayMaterial);
 			rayMesh1.rotation.x = Math.PI / 2;
 
-			var rayMesh2 = new THREE.Mesh( rayGeometry, rayMaterial);
+			var rayMesh2 = new THREE.Mesh(rayGeometry, rayMaterial);
 			rayMesh2.rotation.x = Math.PI / 2;
 			rayMesh2.rotation.y = Math.PI / 2;
 
-			var cursorGeometry    = new THREE.BoxBufferGeometry( 0.05, rayHeight/2, 0.05 );
-			var cursorMesh        = new THREE.Mesh( cursorGeometry, cursorMaterial );
-			cursorMesh.position.z = -rayHeight/4;
+			var cursorGeometry    = new THREE.BoxBufferGeometry(0.05, rayHeight, 0.05);
+			var cursorMesh        = new THREE.Mesh(cursorGeometry, cursorMaterial);
+			cursorMesh.position.z = -rayHeight/2;
 			cursorMesh.rotation.x = Math.PI / 2;
 
 			var markerMaterial = new THREE.MeshBasicMaterial({
@@ -262,10 +264,10 @@ FlightGlobal.Globe = function () {
 			});
 
 			var markerGeometry = new THREE.CircleGeometry(1/50, 16);
-			var marker = new THREE.Mesh( markerGeometry, markerMaterial );
-			marker.add( rayMesh1 );
-			marker.add( rayMesh2 );
-			marker.add( cursorMesh );
+			var marker = new THREE.Mesh(markerGeometry, markerMaterial);
+			marker.add(rayMesh1);
+			marker.add(rayMesh2);
+			marker.add(cursorMesh);
 
 			var marker1 = new THREE.Object3D();
 
@@ -280,16 +282,16 @@ FlightGlobal.Globe = function () {
 			ctx.fillStyle = 'rgba(255,255,255,1)';
 			ctx.textAlign = 'left';
 			ctx.textBaseline = 'middle';
-			ctx.fillText( airport.iata, 0, size/2 );
+			ctx.fillText(airport.iata, 0, size/2);
 
 			var labelTexture = new THREE.Texture(canvas);
 			labelTexture.needsUpdate = true;
 			
-			var labelMaterial = new THREE.SpriteMaterial( { map:labelTexture, transparent:true, opacity:0.2 } );
+			var labelMaterial = new THREE.SpriteMaterial({ map:labelTexture, transparent:true, opacity:0.2 });
 
-			var sprite = new THREE.Sprite( labelMaterial );
+			var sprite = new THREE.Sprite(labelMaterial);
 
-			sprite.scale.set( 0.08, 0.08 );
+			sprite.scale.set(0.08, 0.08);
 
 			airport.lonRad = -airport.lng * Math.PI / 180;
 			airport.latRad =  airport.lat * Math.PI / 180;
@@ -305,14 +307,14 @@ FlightGlobal.Globe = function () {
 			marker.position.set(airport.x, airport.y, airport.z);
 			marker.lookAt(0,0,0);
 
-			r = 1.350;
+			r = 1+rayHeight;
 			marker1.position.x = r * Math.cos(airport.latRad) * Math.cos(airport.lonRad);
 			marker1.position.y = r * Math.sin(airport.latRad);
 			marker1.position.z = r * Math.cos(airport.latRad) * Math.sin(airport.lonRad);
 			marker1.lookAt(0,0,0);
 			marker1.add(sprite)
 			sprite.position.x -= 0.05;
-			markerGroup.add( marker1 );
+			markerGroup.add(marker1);
 
 			markerGroup.add(marker);
 
