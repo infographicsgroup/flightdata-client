@@ -930,11 +930,11 @@ THREE.OrbitControls = function ( object, domElement ) {
 	scope.domElement.addEventListener( 'contextmenu', onContextMenu, false );
 
 	scope.domElement.addEventListener( 'mousedown', onMouseDown, false );
-	scope.domElement.addEventListener( 'wheel', onMouseWheel, {passive:false} );
+	scope.domElement.addEventListener( 'wheel', onMouseWheel, {passive:false, capture:false} );
 
-	scope.domElement.addEventListener( 'touchstart', onTouchStart, false );
-	scope.domElement.addEventListener( 'touchend', onTouchEnd, false );
-	scope.domElement.addEventListener( 'touchmove', onTouchMove, false );
+	scope.domElement.addEventListener( 'touchstart', onTouchStart, {passive:false, capture:false} );
+	scope.domElement.addEventListener( 'touchend', onTouchEnd, {passive:false, capture:false} );
+	scope.domElement.addEventListener( 'touchmove', onTouchMove, {passive:false, capture:false} );
 
 	window.addEventListener( 'keydown', onKeyDown, false );
 
