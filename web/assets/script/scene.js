@@ -165,8 +165,8 @@ FlightGlobal.Scene = function (wrapper) {
 
 			getCurrentCam();
 			var startPos = {x:currentCam.x, y:currentCam.y, z:currentCam.z};
-			var next = oldAirport.next.filter(function (n) { return n[0] === airport})[0];
-			var distance = 5;
+			var next = oldAirport.next.filter(function (n) { return n[0] === airport })[0];
+			var distance = Math.max(3, 0.5*next[1]*360/40074);
 			var a = (-next[2]+90)*Math.PI/180;
 			var x =  distance*Math.cos(a);
 			var z = -distance*Math.sin(a);
@@ -184,7 +184,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				afterNextRender,
 				function (cb) {
-					animate(500, 'in', {x:startPos.x+x,z:startPos.z+z}, cb, true);
+					animate(500, 'in', {x:startPos.x+x, z:startPos.z+z}, cb, true);
 				},
 				function (cb) {
 					airportGroup.setVisibility(false);
