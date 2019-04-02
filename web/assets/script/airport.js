@@ -162,11 +162,16 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			ctx.fillStyle = '#ffffff';
 			ctx.textAlign = backwards ? 'right' : 'left';
 			ctx.textBaseline = 'middle';
-			var text;
+
+			var value = Math.pow(10, Math.floor(Math.log10(next[1]))-1);
+			value = (Math.round(next[1]/value)*value).toFixed(0);
+			if (value.length > 3) value = value.slice(0, -3) + ',' + value.slice(-3);
+			var text = next[0].city.toUpperCase();
+
 			if (backwards) {
-				text = '◀ '+next[1].toFixed(0)+' KM '+next[0].city.toUpperCase();
+				text = '◀ '+value+' KM '+text;
 			} else {
-				text = next[0].city.toUpperCase()+' '+next[1].toFixed(0)+' KM ▶';
+				text = text+' '+value+' KM ▶';
 			}
 			ctx.fillText(text, backwards ? canvas.width : 0, canvas.height/2);
 
