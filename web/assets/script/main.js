@@ -5,7 +5,7 @@ document.addEventListener('touchmove', function(e) { e.preventDefault(); }, {pas
 var FlightGlobal = {};
 
 $(function () {
-	var scene, airports;
+	var scene, airports, containerWidth, containerHeight;
 
 	var resizeTimeout = false;
 	$(window).resize(resize);
@@ -14,18 +14,23 @@ $(function () {
 		var wrapperWidth  = $('#wrapper_container').innerWidth();
 		var wrapperHeight = $('#wrapper_container').innerHeight();
 		var minSize = Math.min(wrapperWidth/16, wrapperHeight/9)
-		var containerWidth  = Math.round(minSize*16);
-		var containerHeight = Math.round(minSize* 9);
+		var newContainerWidth  = Math.round(minSize*16);
+		var newContainerHeight = Math.round(minSize* 9);
 
 		$('#container').css({
-			width: containerWidth,
-			height: containerHeight,
-			left: Math.round((wrapperWidth-containerWidth)/2),
-			top: Math.round((wrapperHeight-containerHeight)/2),
-			'font-size': containerWidth/100,
+			width: newContainerWidth,
+			height: newContainerHeight,
+			left: Math.round((wrapperWidth-newContainerWidth)/2),
+			top: Math.round((wrapperHeight-newContainerHeight)/2),
+			'font-size': newContainerWidth/100,
 		})
 
 		if (!scene) return;
+
+		if ((containerWidth === newContainerWidth) && (containerHeight === newContainerHeight)) return;
+
+		containerWidth  = newContainerWidth;
+		containerHeight = newContainerHeight;
 		
 		if (resizeTimeout) clearTimeout(resizeTimeout);
 		resizeTimeout = setTimeout(scene.resize, 250);
