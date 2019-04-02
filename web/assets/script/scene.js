@@ -166,7 +166,8 @@ FlightGlobal.Scene = function (wrapper) {
 			getCurrentCam();
 			var startPos = {x:currentCam.x, y:currentCam.y, z:currentCam.z};
 			var next = oldAirport.next.filter(function (n) { return n[0] === airport })[0];
-			var distance = Math.max(3, 0.5*next[1]*360/40074);
+			var distance = 0.5*next[1]*360/40074;
+			distance = Math.max(3, Math.min(20, distance));
 			var a = (-next[2]+90)*Math.PI/180;
 			var x =  distance*Math.cos(a);
 			var z = -distance*Math.sin(a);
