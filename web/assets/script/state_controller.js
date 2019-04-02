@@ -5,7 +5,7 @@ var stateController = (function () {
 		airport:       false,
 		intro:         true,
 		credits:       false,
-		globeLegend:   false,
+		globeLegend:   true,
 		airportLegend: false,
 		colorMode:     0,
 	}
