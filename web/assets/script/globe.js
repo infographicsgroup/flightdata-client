@@ -50,11 +50,19 @@ FlightGlobal.Globe = function () {
 		var mouse = new THREE.Vector2();
 		container = $(container);
 		var hoverObject = false;
+		var mouseMoveCount;
+
+		container.mousedown(function () {
+			mouseMoveCount = 0;
+		})
 
 		container.click(intersectFinder(function (obj) {
+			if (mouseMoveCount > 5) return;
 			if (obj) obj.onClick();
 		}))
+
 		container.mousemove(intersectFinder(function (obj) {
+			mouseMoveCount++;
 			if (obj === hoverObject) return;
 			if (hoverObject) hoverObject.onHover(false);
 			if (obj) {
