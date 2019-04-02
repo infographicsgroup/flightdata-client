@@ -49,20 +49,56 @@ FlightGlobal.Globe = function () {
 		var raycaster = new THREE.Raycaster();
 		var mouse = new THREE.Vector2();
 		container = $(container);
+		var domElement = container.get(0);
 		var hoverObject = false;
-		var mouseMoveCount;
+		var mouseMoveCount, lastTouch;
 
-		container.mousedown(function () {
+
+
+		domElement.addEventListener('mousedown',  function () {
 			mouseMoveCount = 0;
-		})
+		}, {passive:false, capture:false});
 
-		container.click(intersectFinder(function (obj) {
-			if (mouseMoveCount > 5) return;
-			if (obj) obj.onClick();
-		}))
+		domElement.addEventListener('touchstart', function (event) {
+			mouseMoveCount = 0;
+			lastTouch = event.touches[0];
+		}, {passive:false, capture:false});
 
-		container.mousemove(intersectFinder(function (obj) {
+
+
+		domElement.addEventListener('mousemove',  function (event) {
 			mouseMoveCount++;
+			var obj = intersectFinder(event.offsetX, event.offsetY);
+			if (obj === null) return;
+			hover(obj);
+		}, {passive:false, capture:false});
+
+		domElement.addEventListener('touchmove',  function (event) {
+			mouseMoveCount++;
+			lastTouch = event.touches[0];
+		}, {passive:false, capture:false});
+
+
+
+		domElement.addEventListener('mouseup',    function () {
+			if (mouseMoveCount > 5) return;
+			if (hoverObject) setTimeout(hoverObject.onClick, 0);
+		}, {passive:false, capture:false});
+
+		domElement.addEventListener('touchend',   function () {
+			if (mouseMoveCount > 5) return;
+			if (!lastTouch) return;
+			var offset = container.offset();
+			var obj = intersectFinder(
+				lastTouch.clientX - offset.left,
+				lastTouch.clientY - offset.top
+			);
+			if (obj) setTimeout(obj.onClick, 0);
+		}, {passive:false, capture:false});
+
+
+
+		function hover(obj) {
 			if (obj === hoverObject) return;
 			if (hoverObject) hoverObject.onHover(false);
 			if (obj) {
@@ -72,27 +108,22 @@ FlightGlobal.Globe = function () {
 				container.css('cursor', 'default');
 			}
 			hoverObject = obj;
-		}))
+		}
 
-		function intersectFinder(cb) {
-			return function (event) {
-				if (!me.enabled) return;
-				if (!clickableObjects) return;
+		function intersectFinder(x,y) {
+			if (!me.enabled) return null;
+			if (!clickableObjects) return null;
 
-				event.preventDefault();
+			event.preventDefault();
 
-				mouse.x =  (event.offsetX / container.innerWidth() )*2 - 1;
-				mouse.y = -(event.offsetY / container.innerHeight())*2 + 1;
+			mouse.x =  (x / container.innerWidth() )*2 - 1;
+			mouse.y = -(y / container.innerHeight())*2 + 1;
 
-				raycaster.setFromCamera(mouse, camera);
+			raycaster.setFromCamera(mouse, camera);
 
-				var intersects = raycaster.intersectObjects(clickableObjects);
-				if (intersects.length > 0) {
-					cb(intersects[0].object);
-				} else {
-					cb(false);
-				}
-			}
+			var intersects = raycaster.intersectObjects(clickableObjects);
+			if (intersects.length > 0) return intersects[0].object;
+			return false;
 		}
 	}
 
