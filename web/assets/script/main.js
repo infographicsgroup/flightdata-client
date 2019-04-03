@@ -115,10 +115,13 @@ $(function () {
 
 	FlightGlobal.helper.series([
 		function (cb) {
+			$('#wrapper_html').css('display', 'block');
+			$('#intro_overlay').css('display', 'block');
+			setTimeout(cb, 10);
+		},
+		function (cb) {
 			scene = new FlightGlobal.Scene($('#wrapper_canvas'));
 			scene.resize();
-
-			$('#wrapper_html').css('display', 'block');
 
 			$('#airport_colormode input').change(updateColormode);
 			
