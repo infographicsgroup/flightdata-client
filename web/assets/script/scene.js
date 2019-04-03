@@ -84,6 +84,7 @@ FlightGlobal.Scene = function (wrapper) {
 		function animateGlobe2Airport() {
 			if (airportGroup) {
 				scene.remove(airportGroup.object3D);
+				airportGroup.destroy();
 				airportGroup = false;
 			}
 			getCurrentCam();
@@ -149,6 +150,7 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				function () {
 					stateController.set({globeLegend:true});
+					scene.remove(airportGroup.object3D);
 					airportGroup.destroy();
 					airportGroup = false;
 					globe.control.enabled = true;
@@ -162,6 +164,7 @@ FlightGlobal.Scene = function (wrapper) {
 			getCurrentCam();
 			var startPos = {x:currentCam.x, y:currentCam.y, z:currentCam.z};
 			var next = oldAirport.next.filter(function (n) { return n[0] === airport })[0];
+			if (!next) return;
 			var distance = 0.5*next[1]*360/40074;
 			distance = Math.max(3, Math.min(20, distance));
 			var a = (-next[2]+90)*Math.PI/180;
@@ -171,11 +174,11 @@ FlightGlobal.Scene = function (wrapper) {
 			FlightGlobal.helper.series([
 				function (cb) {
 					stateController.set({airportLegend:false});
-					FlightGlobal.Airport(airport, function (group) {
-						group.initEvents(renderer.domElement, camera);
-						group.setVisibility(false);
-						scene.add(group.object3D);
-						newAirportGroup = group;
+					FlightGlobal.Airport(airport, function (_group) {
+						newAirportGroup = _group;
+						newAirportGroup.setVisibility(false);
+						newAirportGroup.initEvents(renderer.domElement, camera);
+						scene.add(newAirportGroup.object3D);
 						cb();
 					})
 				},
@@ -186,6 +189,7 @@ FlightGlobal.Scene = function (wrapper) {
 				function (cb) {
 					airportGroup.setVisibility(false);
 					airportGroup.destroy();
+					scene.remove(airportGroup.object3D);
 
 					currentCam.x = startPos.x-x;
 					currentCam.z = startPos.z-z;

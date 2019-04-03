@@ -39,6 +39,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 	function destroy() {
 		destroyHandlers.forEach(function (handler) { handler() })
+		clickableObjects = [];
 	}
 
 	function markAsChanged() {
@@ -57,6 +58,8 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		me.control.minDistance = 1;
 		me.control.maxDistance = 5;
 		me.control.zoomSpeed = 0.3;
+
+		destroyHandlers.push(function () { me.control.dispose() })
 	}
 
 	function initEvents(container, camera) {
@@ -69,37 +72,37 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 
 
-		domElement.addEventListener('mousedown',  function () {
+		addEventListener('mousedown',  function () {
 			mouseMoveCount = 0;
-		}, {passive:false, capture:false});
+		});
 
-		domElement.addEventListener('touchstart', function (event) {
+		addEventListener('touchstart', function (event) {
 			mouseMoveCount = 0;
 			lastTouch = event.touches[0];
-		}, {passive:false, capture:false});
+		});
 
 
 
-		domElement.addEventListener('mousemove',  function (event) {
+		addEventListener('mousemove',  function (event) {
 			mouseMoveCount++;
 			var obj = intersectFinder(event.offsetX, event.offsetY);
 			if (obj === null) return;
 			hover(obj);
-		}, {passive:false, capture:false});
+		});
 
-		domElement.addEventListener('touchmove',  function (event) {
+		addEventListener('touchmove',  function (event) {
 			mouseMoveCount++;
 			lastTouch = event.touches[0];
-		}, {passive:false, capture:false});
+		});
 
 
 
-		domElement.addEventListener('mouseup',    function () {
+		addEventListener('mouseup',    function () {
 			if (mouseMoveCount > 5) return;
 			if (hoverObject) setTimeout(hoverObject.onClick, 0);
-		}, {passive:false, capture:false});
+		});
 
-		domElement.addEventListener('touchend',   function () {
+		addEventListener('touchend',   function () {
 			if (mouseMoveCount > 5) return;
 			if (!lastTouch) return;
 			var offset = container.offset();
@@ -108,9 +111,15 @@ FlightGlobal.Airport = function (airport, cbInit) {
 				lastTouch.clientY - offset.top
 			);
 			if (obj) setTimeout(obj.onClick, 0);
-		}, {passive:false, capture:false});
+		});
 
-
+		function addEventListener(type, cb) {
+			var options = {passive:false, capture:false};
+			domElement.addEventListener(type, cb, options);
+			destroyHandlers.push(function () {
+				domElement.removeEventListener(type, cb, options);
+			})
+		}
 
 		function hover(obj) {
 			if (obj === hoverObject) return;
@@ -149,9 +158,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 		me.object3D = new THREE.Group();
 		
-		destroyHandlers.push(function () {
-			me.object3D.parent.remove(me.object3D);
-		})
+		destroyHandlers.push(function () { me.object3D.parent.remove(me.object3D); })
 
 		me.object3D.visible = true;
 		me.object3D.position.set(0,0.2,0);
