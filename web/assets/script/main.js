@@ -96,7 +96,7 @@ $(function () {
 		})
 
 		$('#btn_credits,#btn_close_credits').on('click touchstart', function () {
-			stateController.set({credits:!stateController.get('credits'),intro:false})
+			stateController.set({credits:!stateController.get('credits'), intro:false, globeLegend:true})
 		})
 
 		$('#btn_fullscreen').on('click touchstart', function () {
