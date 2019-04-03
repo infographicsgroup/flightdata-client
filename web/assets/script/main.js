@@ -8,6 +8,8 @@ $(function () {
 	var scene, airports, containerWidth, containerHeight;
 
 	var touchEvents = checkTouchEvents();
+	if (touchEvents) $('body').addClass('nohover');
+
 	var resizeTimeout = false;
 	$(window).resize(resize);
 	resize();

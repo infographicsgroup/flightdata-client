@@ -79,7 +79,7 @@ p {
 		cursor: pointer;
 	}
 
-		.btn_icon:hover {
+		.nohover .btn_icon, .btn_icon:hover {
 			opacity: 1.0;
 		}
 
@@ -144,7 +144,7 @@ p {
 	transition: opacity 0.2s;
 }
 
-	.btn_text:hover {
+	.nohover .btn_text, .btn_text:hover {
 		opacity: 1.0;
 	}
 
