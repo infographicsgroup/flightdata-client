@@ -321,7 +321,7 @@ FlightGlobal.Globe = function () {
 
 			ctx.clearRect(0,0,size,size);
 	   
-			ctx.font  = '60px "LL Gravur Cond Regular Web"';
+			ctx.font  = '60px "LL Gravur Cond Regular Web", sans-serif';
 			ctx.fillStyle = 'rgba(255,255,255,1)';
 			ctx.textAlign = 'left';
 			ctx.textBaseline = 'middle';

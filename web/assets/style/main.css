@@ -21,7 +21,7 @@ body {
 	background: #000;
 	overflow: hidden;
 	position: fixed;
-	font-family: 'LL Gravur Cond Regular Web';
+	font-family: 'LL Gravur Cond Regular Web', sans-serif;
 	font-weight: normal;
 }
 

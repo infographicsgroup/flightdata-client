@@ -188,7 +188,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 
 			var backwards = next[2] < 0;
 	   
-			ctx.font  = '60px "LL Gravur Cond Regular Web"';
+			ctx.font  = '60px "LL Gravur Cond Regular Web", sans-serif';
 			ctx.fillStyle = '#ffffff';
 			ctx.textAlign = backwards ? 'right' : 'left';
 			ctx.textBaseline = 'middle';
