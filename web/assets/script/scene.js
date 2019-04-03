@@ -83,7 +83,6 @@ FlightGlobal.Scene = function (wrapper) {
 
 		function animateGlobe2Airport() {
 			if (airportGroup) {
-				scene.remove(airportGroup.object3D);
 				airportGroup.destroy();
 				airportGroup = false;
 			}
@@ -150,7 +149,6 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				function () {
 					stateController.set({globeLegend:true});
-					scene.remove(airportGroup.object3D);
 					airportGroup.destroy();
 					airportGroup = false;
 					globe.control.enabled = true;
@@ -189,7 +187,6 @@ FlightGlobal.Scene = function (wrapper) {
 				function (cb) {
 					airportGroup.setVisibility(false);
 					airportGroup.destroy();
-					scene.remove(airportGroup.object3D);
 
 					currentCam.x = startPos.x-x;
 					currentCam.z = startPos.z-z;
