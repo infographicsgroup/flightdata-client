@@ -324,6 +324,7 @@ FlightGlobal.Scene = function (wrapper) {
 				globeComposer.render(1 / 60);
 				airportGroup.changed = false;
 			} else {
+				if (FlightGlobal.helper.touchEvents) globe.hoverFocus();
 				bloom.enabled = true;
 				globeComposer.render(1 / 60);
 				globe.changed = false;
@@ -346,7 +347,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 		width  = wrapper.width();
 		height = wrapper.height();
-		
+
 		camera.aspect = width/height;
 		camera.updateProjectionMatrix();
 
