@@ -12,7 +12,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 		transparent: true,
 		opacity: 0.1,
 		depthWrite: false,
-		blending:THREE.AdditiveBlending,
+		//blending:THREE.AdditiveBlending,
 	})
 
 	var me = {
