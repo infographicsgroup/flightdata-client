@@ -42,11 +42,11 @@ $(function () {
 				var airport = stateController.get('airport');
 				$('#airport_title').text(airport.iata);
 				$('#airport_text').html([
-					airport.title,
-					'near '+airport.city+', '+airport.country,
+					airport.title.toUpperCase(),
+					('near '+airport.city+', '+airport.country).toUpperCase(),
 					'',
 					'passengers/year: '+(airport.passengersPerYear/1e6).toFixed(1)+'m'
-				].join('<br>').toUpperCase());
+				].join('<br>'));
 			}
 			if (visible) {
 				$('#airport_overlay').fadeIn(500);
