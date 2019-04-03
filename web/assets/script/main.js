@@ -86,20 +86,20 @@ $(function () {
 			$('#airport_colormode_1').toggle(value === 1);
 		}, true);
 
-		$('#switch').click(function () {
+		$('#switch').on('click touchstart', function () {
 			$('#switch').toggleClass('right');
 			stateController.set({colorMode:$('#switch').hasClass('right') ? 1 : 0})
 		})
 
-		$('#btn_play').click(function () {
+		$('#btn_play').on('click touchstart', function () {
 			stateController.set({intro:false, globeLegend:true})
 		})
 
-		$('#btn_credits,#btn_close_credits').click(function () {
+		$('#btn_credits,#btn_close_credits').on('click touchstart', function () {
 			stateController.set({credits:!stateController.get('credits'),intro:false})
 		})
 
-		$('#btn_fullscreen').click(function () {
+		$('#btn_fullscreen').on('click touchstart', function () {
 			var wrapper = document.getElementById('wrapper_container');
 			if (!document.fullscreenElement) {
 				wrapper.requestFullscreen();
@@ -108,7 +108,7 @@ $(function () {
 			}
 		})
 
-		$('#btn_globe').click(function () {
+		$('#btn_globe').on('click touchstart', function () {
 			stateController.set({airport:false})
 		})
 	}
