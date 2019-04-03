@@ -43,7 +43,7 @@ $(function () {
 				$('#airport_title').text(airport.iata);
 				$('#airport_text').html([
 					airport.title,
-					'near '+airport.city+'/'+airport.country,
+					'near '+airport.city+', '+airport.country,
 					'',
 					'passengers/year: '+(airport.passengersPerYear/1e6).toFixed(1)+'m'
 				].join('<br>').toUpperCase());
