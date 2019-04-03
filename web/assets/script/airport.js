@@ -216,7 +216,7 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			var a = (-next[2]+90)*Math.PI/180;
 			var x = Math.cos(a);
 			var y = Math.sin(a);
-			labelObject.position.set(1.55*x, 1.55*y, 0.0001);
+			labelObject.position.set(1.55*x, 1.55*y, 0.01);
 			if (backwards) a += Math.PI;
 			labelObject.rotateZ(a);
 			mapObject.add(labelObject);
