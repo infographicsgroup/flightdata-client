@@ -99,14 +99,18 @@ $(function () {
 			stateController.set({credits:!stateController.get('credits'), intro:false, globeLegend:true})
 		})
 
-		$('#btn_fullscreen').on('click touchstart', function () {
-			var wrapper = document.getElementById('wrapper_container');
-			if (!document.fullscreenElement) {
-				wrapper.requestFullscreen();
-			} else {
-				if (document.exitFullscreen) document.exitFullscreen();
-			}
-		})
+		if (document.getElementById('wrapper_container').requestFullscreen) {
+			$('#btn_fullscreen').on('click touchstart', function () {
+				var wrapper = document.getElementById('wrapper_container');
+				if (!document.fullscreenElement) {
+					wrapper.requestFullscreen();
+				} else {
+					if (document.exitFullscreen) document.exitFullscreen();
+				}
+			})
+		} else {
+			$('#btn_fullscreen').remove();
+		}
 
 		$('#btn_globe').on('click touchstart', function () {
 			stateController.set({airport:false})
