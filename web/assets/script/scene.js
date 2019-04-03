@@ -30,11 +30,7 @@ FlightGlobal.Scene = function (wrapper) {
 	globe.addControl(camera);
 	scene.add(globe.object3D);
 
-	var dpr = window.devicePixelRatio || 1;
-	//dpr *= 0.80;
-
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
-	renderer.setPixelRatio(dpr);
 
 	var rtParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, stencilBuffer: true };
 	var renderTarget = new THREE.WebGLRenderTarget( width, height, rtParameters );
@@ -346,15 +342,18 @@ FlightGlobal.Scene = function (wrapper) {
 	}
 
 	function resize() {
+		var dpr = window.devicePixelRatio || 1;
+
 		width  = wrapper.width();
 		height = wrapper.height();
-
+		
 		camera.aspect = width/height;
 		camera.updateProjectionMatrix();
 
 		renderer.setSize(width, height);
+		renderer.setPixelRatio(dpr);
 
-		if (globeComposer) globeComposer.setSize(width, height);
+		if (globeComposer) globeComposer.setSize(width*dpr, height*dpr);
 
 		sceneChanged = true;
 	}
