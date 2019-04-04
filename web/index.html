@@ -1,43 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-	<title>Airports</title>
+	<title>Flight Patterns</title>
+	<meta charset="utf-8" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-	<script type="text/javascript">
-		[
-			'css:assets/style/main.css',
-			'js:assets/lib/jquery/jquery.js',
-			'js:assets/lib/three.js/three.js',
-			'js:assets/lib/three.js/OrbitControls.js',
-			'js:assets/lib/three.js/postprocessing/EffectComposer.js',
-			'js:assets/lib/three.js/postprocessing/RenderPass.js',
-			'js:assets/lib/three.js/postprocessing/ShaderPass.js',
-			'js:assets/lib/three.js/postprocessing/UnrealBloomPass.js',
-			'js:assets/lib/three.js/postprocessing/RaysPass.js',
-			'js:assets/lib/three.js/shaders/CopyShader.js',
-			'js:assets/lib/three.js/shaders/LuminosityHighPassShader.js',
-			'js:assets/lib/three.js/shaders/SuperShader.js',
-			'js:assets/lib/three.js/shaders/RaysShader.js',
-			'js:assets/script/main.js',
-			'js:assets/script/state_controller.js',
-			'js:assets/script/helper.js',
-			'js:assets/script/scene.js',
-			'js:assets/script/globe.js',
-			'js:assets/script/airport.js',
-		].forEach(function (asset) {
-			asset = asset.split(':');
-			switch (asset[0]) {
-				case 'css':
-					document.write('<link rel="stylesheet" type="text/css" href="'+asset[1]+'">')
-				break;
-				case 'js':
-					document.write('<script type="text/javascript" src="'+asset[1]+'"></'+'script>')
-				break;
-			}
-		})
-	</script>
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@datagfx" />
+	<meta name="twitter:creator" content="@michaelkreil" />
+	<meta property="og:url" content="https://data.info.graphics/flight-patterns" />
+	<meta property="og:title" content="Flight Patterns" />
+	<meta property="og:description" content="Airplanes create a dance of take-offs and landings around airports." />
+	<meta property="og:image" content="https://data.info.graphics/flight-patterns/assets/images/twittercard.png" />
+
+	<link rel="stylesheet" type="text/css" href="assets/style/main.css" />
+	<script type="text/javascript" src="assets/lib/jquery/jquery.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/three.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/OrbitControls.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/postprocessing/EffectComposer.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/postprocessing/RenderPass.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/postprocessing/ShaderPass.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/postprocessing/UnrealBloomPass.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/postprocessing/RaysPass.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/shaders/CopyShader.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/shaders/LuminosityHighPassShader.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/shaders/SuperShader.js"></script>
+	<script type="text/javascript" src="assets/lib/three.js/shaders/RaysShader.js"></script>
+	<script type="text/javascript" src="assets/script/main.js"></script>
+	<script type="text/javascript" src="assets/script/state_controller.js"></script>
+	<script type="text/javascript" src="assets/script/helper.js"></script>
+	<script type="text/javascript" src="assets/script/scene.js"></script>
+	<script type="text/javascript" src="assets/script/globe.js"></script>
+	<script type="text/javascript" src="assets/script/airport.js"></script>
 </head>
 <body>
 	<div id="wrapper_container" class="container">
