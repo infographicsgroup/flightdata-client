@@ -157,8 +157,6 @@ p {
 	opacity: 1.0;
 	border-width: 0.03em;
 	font-size: 2em;
-	left: 23em;
-	top: 23em;
 	transition: color 0.2s, background 0.2s;
 }
 	#btn_play:hover {
