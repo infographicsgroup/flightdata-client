@@ -148,7 +148,7 @@ FlightGlobal.Scene = function (wrapper) {
 					animate(500, 'out', {fov:45}, cb);
 				},
 				function () {
-					stateController.set({globeLegend:true});
+					//stateController.set({globeLegend:true});
 					airportGroup.destroy();
 					airportGroup = false;
 					globe.control.enabled = true;
