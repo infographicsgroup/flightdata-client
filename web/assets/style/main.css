@@ -61,15 +61,19 @@ p {
 		height: 100%;
 	}
 
-	.textbox {
+	#text_globeLegend {
 		background: rgba(0,86,89,0.5);
 		position: absolute;
 		left: 2em;
-		top: 18em;
-		width: 17em;
-		padding: 1.5em;
+		top: 17em;
+		width: 20em;
+		padding: 1.5em 1.5em 1em;
 		box-sizing: border-box;
 	}
+
+		#text_globeLegend p {
+			margin: 0em 0em 0.5em;
+		}
 
 	.btn_icon {
 		width:3em;
