@@ -181,17 +181,16 @@ p {
 }
 
 #credits_overlay {
-	padding-top: 10em;
 }
 	#credits_overlay h2 {
 		font-size: 2em;
 		text-align: center;
-		margin: 2em 0em 0.3em;
+		margin: 1.5em 0em 0.2em;
 	}
 
 	#credits_overlay p {
 		font-size: 1.5em;
-		margin: 0em 0em 0.3em;
+		margin: 0em 0em 0.2em;
 	}
 
 	#credits_overlay span {
