@@ -16,8 +16,12 @@ clearFolder(folderDst);
 scanFolder(folderSrc, folderDst);
 
 function clearFolder(folder) {
-	child_process.spawnSync('rm', ['-rf', folder]);
-	fs.mkdirSync(folder);
+	try {
+		child_process.spawnSync('rm', ['-rf', folder+'/*']);
+	} catch (e) {}
+	try {
+		fs.mkdirSync(folder);
+	} catch (e) {}
 }
 
 function scanFolder(src, dst) {
@@ -46,7 +50,6 @@ function scanFolder(src, dst) {
 				case 'css':
 				case 'eot':
 				case 'glsl':
-				case 'html':
 				case 'jpg':
 				case 'js':
 				case 'json':
@@ -55,9 +58,15 @@ function scanFolder(src, dst) {
 				case 'svg':
 				case 'woff':
 				case 'woff2':
-					console.log('copy + compress: '+path.relative(folderSrc, filenameSrc));
+					console.log(path.relative(folderSrc, filenameSrc));
 					ensureFolder(dst);
 					copyFile(filenameSrc, filenameDst);
+					compressFile(filenameDst);
+				break;
+
+				case 'html':
+					ensureFolder(dst);
+					compactHTMLFile(filenameSrc, filenameDst);
 					compressFile(filenameDst);
 				break;
 
@@ -84,3 +93,40 @@ function ensureFolder(folder) {
 	ensureFolder(path.dirname(folder));
 	fs.mkdirSync(folder);
 }
+
+function compactHTMLFile(src, dst) {
+	var html = fs.readFileSync(src, 'utf8');
+
+	html = html.replace(/\s{2,}/g,' ');
+
+	html = html.replace(/<link.*?rel=\"stylesheet\".*?>/gi, embedStylesheet);
+	
+	html = html.replace(/<script.*?src=".*?".*?<\/script>/gi, embedJavaScript);
+
+	fs.writeFileSync(dst, html, 'utf8');
+
+	function embedStylesheet(html) {
+		var link = html.match(/href=\"(.*?)\"/i);
+		if (!link) return html;
+
+		link = path.resolve(path.dirname(src), link[1]);
+		var style = fs.readFileSync(link, 'utf8');
+		style = style.replace(/\/\*.*\*\//g,'');
+		style = style.replace(/\s*[\r\n]\s*/g,'');
+		return '<style type="text/css"><![CDATA['+style+']]></style>';
+	}
+
+	function embedJavaScript(html) {
+		var link = html.match(/src=\"(.*?)\"/i);
+		if (!link) return html;
+
+		link = path.resolve(path.dirname(src), link[1]);
+		var script = child_process.spawnSync('uglifyjs', [link]);
+		//console.log(script.stderr.toString());
+		script = script.stdout.toString();
+		return '<script type="text/javascript"><![CDATA['+script+']]></script>';
+	}
+}
+
+
+
