@@ -12,6 +12,7 @@ FlightGlobal.Animation = function () {
 	var time = 0;
 	var timeline = [
 		[{},{},0],
+		[{},{},1000],
 		[{x:40,w:8,o:1}, {}, 500],
 		[{}, {o:1}, 100],
 		[{x:60}, {x:60}, 1000],
@@ -30,7 +31,17 @@ FlightGlobal.Animation = function () {
 		globe = _globe;
 		if (alreadyRun) return;
 		alreadyRun = true;
-		var timeoutHandler = setTimeout(start, 1000);
+		start();
+
+		document.addEventListener('mousedown', stop);
+		document.addEventListener('touchstart', stop);
+	}
+
+	function stop() {
+		alreadyRun = true;
+		startTime = -1e10;
+		finger1node.remove();
+		finger2node.remove();
 	}
 
 	function start() {
@@ -49,11 +60,8 @@ FlightGlobal.Animation = function () {
 			for (var i = timeline.length-1; i >= 0; i--) {
 				if (timeline[i][2] > time) entryIndex = i;
 			}
-			if (!entryIndex) {
-				finger1node.remove();
-				finger2node.remove();
-				return;
-			}
+
+			if (!entryIndex) return stop();
 
 			var entry0 = timeline[entryIndex-1];
 			var entry1 = timeline[entryIndex];
