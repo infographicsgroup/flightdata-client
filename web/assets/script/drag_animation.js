@@ -33,8 +33,10 @@ FlightGlobal.Animation = function () {
 		alreadyRun = true;
 		start();
 
-		document.addEventListener('mousedown', stop);
-		document.addEventListener('touchstart', stop);
+		setTimeout(function () {
+			document.addEventListener('mousedown', stop);
+			document.addEventListener('touchstart', stop);
+		}, 500);
 	}
 
 	function stop() {
