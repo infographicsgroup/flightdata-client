@@ -100,7 +100,7 @@ function ensureFolder(folder) {
 function compactHTMLFile(src, dst) {
 	var html = fs.readFileSync(src, 'utf8');
 
-	html = html.replace(/\s{2,}/g,' ');
+	html = html.replace(/\s*\n\s*/g,'\n');
 
 	html = html.replace(/<link.*?rel=\"stylesheet\".*?>/gi, embedStylesheet);
 	
