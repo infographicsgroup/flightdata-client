@@ -17,7 +17,7 @@ FlightGlobal.Globe = function () {
 	me.object3D = new THREE.Group();
 
 	var material = new THREE.SpriteMaterial({
-		map: new THREE.TextureLoader().load('assets/texture/earth-glow.png', markAsChanged),
+		map: new THREE.TextureLoader().load('assets/texture/earth-glow-small.png', markAsChanged),
 		transparent: true,
 		depthWrite:false,
 		opacity:0.6
