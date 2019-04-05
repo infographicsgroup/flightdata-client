@@ -5,7 +5,7 @@ const path = require('path');
 const child_process = require('child_process');
 
 const folderSrc = path.resolve(__dirname, '../web');
-const folderDst = path.resolve(__dirname, '../build');
+const folderDst = path.resolve(__dirname, '../dist');
 
 const fastCompression = false;
 
