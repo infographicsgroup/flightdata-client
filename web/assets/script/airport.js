@@ -206,9 +206,9 @@ FlightGlobal.Airport = function (airport, cbInit) {
 			var text = next[0].city.toUpperCase();
 
 			if (backwards) {
-				text = '◀\uFE0E '+value+' KM '+text;
+				text = '\u25C4\uFE0E '+value+' KM '+text;
 			} else {
-				text = text+' '+value+' KM ▶\uFE0E';
+				text = text+' '+value+' KM \u25BA\uFE0E';
 			}
 			ctx.fillText(text, backwards ? canvas.width : 0, canvas.height/2);
 
