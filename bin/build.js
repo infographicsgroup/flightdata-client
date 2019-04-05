@@ -102,22 +102,9 @@ function compactHTMLFile(src, dst) {
 
 	html = html.replace(/\s*\n\s*/g,'\n');
 
-	html = html.replace(/<link.*?rel=\"stylesheet\".*?>/gi, embedStylesheet);
-	
 	html = html.replace(/<script.*?src=".*?".*?<\/script>/gi, embedJavaScript);
 
 	fs.writeFileSync(dst, html, 'utf8');
-
-	function embedStylesheet(html) {
-		var link = html.match(/href=\"(.*?)\"/i);
-		if (!link) return html;
-
-		link = path.resolve(path.dirname(src), link[1]);
-		var style = fs.readFileSync(link, 'utf8');
-		style = style.replace(/\/\*.*\*\//g,'');
-		style = style.replace(/\s*[\r\n]\s*/g,'');
-		return '<style type="text/css">/*<![CDATA[*/'+style+'/*]]>*/</style>';
-	}
 
 	function embedJavaScript(html) {
 		var link = html.match(/src=\"(.*?)\"/i);
