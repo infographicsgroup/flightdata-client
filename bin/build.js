@@ -7,7 +7,10 @@ const child_process = require('child_process');
 const folderSrc = path.resolve(__dirname, '../web');
 const folderDst = path.resolve(__dirname, '../dist');
 
-const fastCompression = false;
+const compression = 0;
+// 0 = none
+// 1 = fast (gzip)
+// 2 = thorough (zopfli)
 
 
 
@@ -81,10 +84,10 @@ function copyFile(src, dst) {
 }
 
 function compressFile(filename) {
-	if (fastCompression) {
-		child_process.spawnSync('gzip', ['-k', filename]);
-	} else {
-		child_process.spawnSync('zopfli', ['--gzip', '--i15', filename]);
+	switch (compression) {
+		case 0: return;
+		case 1: return child_process.spawnSync('gzip', ['-k', filename]);
+		case 2: child_process.spawnSync('zopfli', ['--gzip', '--i15', filename]);
 	}
 }
 
