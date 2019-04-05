@@ -391,10 +391,12 @@ FlightGlobal.Globe = function () {
 			airport.onHover = hover;
 
 			function click() {
+				if (!me.enabled) return;
 				stateController.set({airport:airport});
 			}
 
 			function hover(hover) {
+				if (!me.enabled) return;
 				rayMaterial.opacity    = hover ? 1.0 : 0.5;
 				labelMaterial.opacity  = hover ? 1.0 : 0.2;
 				markerMaterial.opacity = hover ? 0.3 : 0.1;

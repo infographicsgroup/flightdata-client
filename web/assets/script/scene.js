@@ -157,6 +157,7 @@ FlightGlobal.Scene = function (wrapper) {
 		}
 
 		function animateAirport2Airport() {
+			globe.setVisibility(false);
 			var newAirportGroup;
 
 			getCurrentCam();
