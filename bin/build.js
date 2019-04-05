@@ -116,7 +116,7 @@ function compactHTMLFile(src, dst) {
 		var style = fs.readFileSync(link, 'utf8');
 		style = style.replace(/\/\*.*\*\//g,'');
 		style = style.replace(/\s*[\r\n]\s*/g,'');
-		return '<style type="text/css"><![CDATA['+style+']]></style>';
+		return '<style type="text/css">/*<![CDATA[*/'+style+'/*]]>*/</style>';
 	}
 
 	function embedJavaScript(html) {
@@ -125,9 +125,8 @@ function compactHTMLFile(src, dst) {
 
 		link = path.resolve(path.dirname(src), link[1]);
 		var script = child_process.spawnSync('uglifyjs', [link]);
-		//console.log(script.stderr.toString());
 		script = script.stdout.toString();
-		return '<script type="text/javascript"><![CDATA['+script+']]></script>';
+		return '<script type="text/javascript">/*<![CDATA[*/'+script+'/*]]>*/</script>';
 	}
 }
 
