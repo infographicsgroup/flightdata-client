@@ -12,6 +12,7 @@ FlightGlobal.Globe = function () {
 		hoverFocus:hoverFocus,
 		changed:true,
 		enabled:true,
+		rotateLeft:rotateLeft,
 	}
 
 	me.object3D = new THREE.Group();
@@ -146,6 +147,11 @@ FlightGlobal.Globe = function () {
 
 	function markAsChanged() {
 		me.changed = true;
+	}
+
+	function rotateLeft(angle) {
+		me.control.rotateLeft(angle);
+		markAsChanged();
 	}
 
 	function addControl(camera) {

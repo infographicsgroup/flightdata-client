@@ -6,6 +6,7 @@ var FlightGlobal = {};
 
 $(function () {
 	var scene, airports, containerWidth, containerHeight;
+	var runAnimation = FlightGlobal.Animation(scene);
 
 	if (FlightGlobal.helper.touchEvents) $('body').addClass('nohover');
 
@@ -71,6 +72,7 @@ $(function () {
 				$('#intro_overlay').fadeIn(500);
 			} else {
 				$('#intro_overlay').fadeOut(500);
+				runAnimation(scene.globe);
 			}
 		}, true);
 

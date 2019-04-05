@@ -288,6 +288,7 @@ FlightGlobal.Scene = function (wrapper) {
 		},
 		resize: resize,
 		setAutoRotate: setAutoRotate,
+		globe: globe,
 	}
 
 	return me;
