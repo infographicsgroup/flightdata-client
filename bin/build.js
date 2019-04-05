@@ -7,7 +7,7 @@ const child_process = require('child_process');
 const folderSrc = path.resolve(__dirname, '../web');
 const folderDst = path.resolve(__dirname, '../dist');
 
-const compression = 0;
+const compression = 2;
 // 0 = none
 // 1 = fast (gzip)
 // 2 = thorough (zopfli)
