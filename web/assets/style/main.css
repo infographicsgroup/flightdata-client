@@ -87,16 +87,14 @@ p {
 			opacity: 1.0;
 		}
 
-	#globe_overlay, #airport_overlay, #intro_overlay {
+	#globe_overlay, #airport_overlay, #intro_overlay, #credit_overlay {
 		display: none;
 	}
-
-	#airport_overlay, #intro_overlay {
-		pointer-events: none;
-	}
+	
 	#airport_overlay *, #intro_overlay * {
 		pointer-events: all;
 	}
+	
 
 
 #switch, #switch * {

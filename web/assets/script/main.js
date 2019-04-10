@@ -67,7 +67,8 @@ $(function () {
 		}, true);
 
 		stateController.on('intro', function (visible) {
-			scene.setAutoRotate(visible || stateController.get('credits'))
+			$('#wrapper_canvas').css('pointer-events', visible ? 'none' : 'auto');
+
 			if (visible) {
 				$('#intro_overlay').fadeIn(500);
 			} else {
@@ -77,7 +78,8 @@ $(function () {
 		}, true);
 
 		stateController.on('credits', function (visible) {
-			scene.setAutoRotate(visible || stateController.get('intro'))
+			$('#wrapper_canvas').css('pointer-events', visible ? 'none' : 'auto');
+
 			if (visible) {
 				$('#credits_overlay').fadeIn(500);
 			} else {
