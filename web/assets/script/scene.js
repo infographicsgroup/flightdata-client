@@ -7,10 +7,8 @@ FlightGlobal.Scene = function (wrapper) {
 	var scene = new THREE.Scene();
 	var autoRotate = false;
 	var sceneChanged = false;
-	//scene.background = new THREE.Color( 0x0c1a22 );
-	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
 
-	//var labelScene = new THREE.Scene();
+	scene.background = new THREE.TextureLoader().load('assets/texture/background.png');
 
 	var camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
 	camera.position.set(0,0,3);
@@ -22,7 +20,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 	var light = new THREE.DirectionalLight(0xffffff, 0.65);
 	light.position.set(5,3,5);
-	//scene.add(light);
+
 	camera.add(light);
 	scene.add(camera);
 
@@ -38,7 +36,6 @@ FlightGlobal.Scene = function (wrapper) {
 	var renderPass = new THREE.RenderPass(scene, camera);
 	renderPass.clearColor = new THREE.Color(0, 0, 0);
 	renderPass.clearAlpha = 0;
-	//renderPass.renderToScreen = true;
 
 	var glowPass = new THREE.ShaderPass( THREE.SuperShader );
 	glowPass.uniforms.glowAmount.value = 0.1;
@@ -148,7 +145,6 @@ FlightGlobal.Scene = function (wrapper) {
 					animate(500, 'out', {fov:45}, cb);
 				},
 				function () {
-					//stateController.set({globeLegend:true});
 					airportGroup.destroy();
 					airportGroup = false;
 					globe.control.enabled = true;
@@ -205,7 +201,6 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				function () {
 					stateController.set({airportLegend:true});
-					//airportGroup.control.enabled = true;
 					airportGroup.addControl(camera, renderer.domElement);
 				},
 			]);
