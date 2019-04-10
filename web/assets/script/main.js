@@ -67,7 +67,7 @@ $(function () {
 		}, true);
 
 		stateController.on('intro', function (visible) {
-			$('#wrapper_canvas').css('pointer-events', visible ? 'none' : 'auto');
+			$('#wrapper_canvas').css('pointer-events', visible || stateController.get('credits') ? 'none' : 'auto');
 
 			if (visible) {
 				$('#intro_overlay').fadeIn(500);
@@ -78,7 +78,7 @@ $(function () {
 		}, true);
 
 		stateController.on('credits', function (visible, wasVisible) {
-			$('#wrapper_canvas').css('pointer-events', visible ? 'none' : 'auto');
+			$('#wrapper_canvas').css('pointer-events', visible || stateController.get('intro') ? 'none' : 'auto');
 
 			if (visible) {
 				$('#credits_overlay').fadeIn(500);
