@@ -5,7 +5,9 @@ const path = require('path');
 const child_process = require('child_process');
 
 const folderSrc = path.resolve(__dirname, '../web');
+const folderTmp = path.resolve(__dirname, '../dist_tmp');
 const folderDst = path.resolve(__dirname, '../dist');
+const folderDel = path.resolve(__dirname, '../dist_del');
 
 const compression = 2;
 // 0 = none
@@ -14,18 +16,39 @@ const compression = 2;
 const embed = true;
 
 
+deleteFolder(folderDel);
+createFolder(folderTmp);
 
-clearFolder(folderDst);
+scanFolder(folderSrc, folderTmp);
 
-scanFolder(folderSrc, folderDst);
+renameFolder(folderDst, folderDel);
+renameFolder(folderTmp, folderDst);
 
-function clearFolder(folder) {
-	try {
-		child_process.spawnSync('rm', ['-rf', folder+'/*']);
-	} catch (e) {}
+deleteFolder(folderDel);
+
+function createFolder(folder) {
 	try {
 		fs.mkdirSync(folder);
 	} catch (e) {}
+}
+
+function renameFolder(folderOld, folderNew) {
+	if (fs.existsSync(folderNew)) throw Error('Can\'t rename "'+folderOld+'", because "'+folderNew+'" already exists.')
+	fs.renameSync(folderOld, folderNew);
+}
+
+function deleteFolder(folder) {
+	if (fs.existsSync(folder)) {
+		fs.readdirSync(folder).forEach(file => {
+			var curFolder = path.resolve(folder, file);
+			if (fs.lstatSync(curFolder).isDirectory()) {
+				deleteFolder(curFolder);
+			} else {
+				fs.unlinkSync(curFolder);
+			}
+		});
+		fs.rmdirSync(folder);
+	}
 }
 
 function scanFolder(src, dst) {
