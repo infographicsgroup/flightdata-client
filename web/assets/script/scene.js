@@ -27,7 +27,6 @@ FlightGlobal.Scene = function (wrapper) {
 	scene.add(camera);
 
 	var globe = new FlightGlobal.Globe();
-	globe.addControl(camera);
 	scene.add(globe.object3D);
 
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: false });
@@ -63,6 +62,7 @@ FlightGlobal.Scene = function (wrapper) {
 
 	wrapper.append(renderer.domElement);
 
+	globe.addControl(camera, renderer.domElement);
 	globe.initEvents(renderer.domElement, camera);
 
 	stateController.on('airport', function (airport, oldAirport) {	
@@ -93,7 +93,7 @@ FlightGlobal.Scene = function (wrapper) {
 					FlightGlobal.Airport(airport, function (group) {
 						airportGroup = group;
 						airportGroup.initEvents(renderer.domElement, camera);
-						airportGroup.addControl(camera);
+						airportGroup.addControl(camera, renderer.domElement);
 						airportGroup.setVisibility(false);
 						scene.add(airportGroup.object3D);
 						cb();
@@ -205,8 +205,8 @@ FlightGlobal.Scene = function (wrapper) {
 				},
 				function () {
 					stateController.set({airportLegend:true});
-					airportGroup.addControl(camera);
 					//airportGroup.control.enabled = true;
+					airportGroup.addControl(camera, renderer.domElement);
 				},
 			]);
 		}

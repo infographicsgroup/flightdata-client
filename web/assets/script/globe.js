@@ -154,8 +154,8 @@ FlightGlobal.Globe = function () {
 		markAsChanged();
 	}
 
-	function addControl(camera) {
-		me.control = new THREE.OrbitControls(camera);
+	function addControl(camera, domElement) {
+		me.control = new THREE.OrbitControls(camera, domElement);
 		me.control.enableDamping = true;
 		me.control.rotateSpeed = 0.18;
 		me.control.minRadius = 1;
