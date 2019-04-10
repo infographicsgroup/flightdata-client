@@ -46,8 +46,9 @@ var stateController = (function () {
 	function changeState(newState) {
 		Object.keys(newState).forEach(function (key) {
 			if (newState[key] === state[key]) return;
-			triggerListeners(key, newState[key], state[key]);
+			var oldValue = state[key];
 			state[key] = newState[key];
+			triggerListeners(key, newState[key], oldValue);
 		})
 	}
 })()
