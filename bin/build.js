@@ -11,6 +11,7 @@ const compression = 2;
 // 0 = none
 // 1 = fast (gzip)
 // 2 = thorough (zopfli)
+const embed = true;
 
 
 
@@ -100,9 +101,11 @@ function ensureFolder(folder) {
 function compactHTMLFile(src, dst) {
 	var html = fs.readFileSync(src, 'utf8');
 
-	html = html.replace(/\s*\n\s*/g,'\n');
+	if (embed) {
+		html = html.replace(/\s*\n\s*/g,'\n');
 
-	html = html.replace(/<script.*?src=".*?".*?<\/script>/gi, embedJavaScript);
+		html = html.replace(/<script.*?src=".*?".*?<\/script>/gi, embedJavaScript);
+	}
 
 	fs.writeFileSync(dst, html, 'utf8');
 
