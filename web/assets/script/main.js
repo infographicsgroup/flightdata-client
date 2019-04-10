@@ -73,17 +73,18 @@ $(function () {
 				$('#intro_overlay').fadeIn(500);
 			} else {
 				$('#intro_overlay').fadeOut(500);
-				runAnimation(scene.globe);
+				if (!stateController.get('credits')) runAnimation(scene.globe);
 			}
 		}, true);
 
-		stateController.on('credits', function (visible) {
+		stateController.on('credits', function (visible, wasVisible) {
 			$('#wrapper_canvas').css('pointer-events', visible ? 'none' : 'auto');
 
 			if (visible) {
 				$('#credits_overlay').fadeIn(500);
 			} else {
 				$('#credits_overlay').fadeOut(500);
+				if (wasVisible) runAnimation(scene.globe);
 			}
 		}, true);
 
