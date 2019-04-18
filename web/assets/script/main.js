@@ -14,29 +14,30 @@ $(function () {
 	$(window).resize(resize);
 	resize();
 	function resize() {
-		var wrapperWidth  = $('#wrapper_container').innerWidth();
-		var wrapperHeight = $('#wrapper_container').innerHeight();
-		var minSize = Math.min(wrapperWidth/16, wrapperHeight/9)
-		var newContainerWidth  = Math.round(minSize*16);
-		var newContainerHeight = Math.round(minSize* 9);
-
-		$('#container').css({
-			width: newContainerWidth,
-			height: newContainerHeight,
-			left: Math.round((wrapperWidth-newContainerWidth)/2),
-			top: Math.round((wrapperHeight-newContainerHeight)/2),
-			'font-size': newContainerWidth/100,
-		})
-
-		if (!scene) return;
-
-		if ((containerWidth === newContainerWidth) && (containerHeight === newContainerHeight)) return;
-
-		containerWidth  = newContainerWidth;
-		containerHeight = newContainerHeight;
-		
 		if (resizeTimeout) clearTimeout(resizeTimeout);
-		resizeTimeout = setTimeout(scene.resize, 250);
+		resizeTimeout = setTimeout(function () {
+			var wrapperWidth  = $('#wrapper_container').innerWidth();
+			var wrapperHeight = $('#wrapper_container').innerHeight();
+			var minSize = Math.min(wrapperWidth/16, wrapperHeight/9)
+			var newContainerWidth  = Math.round(minSize*16);
+			var newContainerHeight = Math.round(minSize* 9);
+
+			$('#container').css({
+				width: newContainerWidth,
+				height: newContainerHeight,
+				left: Math.round((wrapperWidth-newContainerWidth)/2),
+				top: Math.round((wrapperHeight-newContainerHeight)/2),
+				'font-size': newContainerWidth/100,
+			})
+
+			if (!scene) return;
+
+			if ((containerWidth === newContainerWidth) && (containerHeight === newContainerHeight)) return;
+
+			containerWidth  = newContainerWidth;
+			containerHeight = newContainerHeight;
+			scene.resize();
+		}, 100);
 	}
 
 	function init() {
