@@ -8,7 +8,8 @@ $(function () {
 	var scene, airports, containerWidth, containerHeight;
 	var runAnimation = FlightGlobal.Animation(scene);
 
-	if (FlightGlobal.helper.touchEvents) $('body').addClass('nohover');
+	var touchEvents = FlightGlobal.helper.touchEvents;
+	if (touchEvents) $('body').addClass('nohover');
 
 	var resizeTimeout = false;
 	$(window).resize(resize);
@@ -94,21 +95,23 @@ $(function () {
 			$('#airport_colormode_1').toggle(value === 1);
 		}, true);
 
-		$('#switch').on('click touchstart', function () {
+		var clickEventName = touchEvents ? 'touchstart' : 'click';
+
+		$('#switch').on(clickEventName, function () {
 			$('#switch').toggleClass('right');
 			stateController.set({colorMode:$('#switch').hasClass('right') ? 1 : 0})
 		})
 
-		$('#btn_play').on('click touchstart', function () {
+		$('#btn_play').on(clickEventName, function () {
 			stateController.set({intro:false, globeLegend:true})
 		})
 
-		$('#btn_credits,#btn_close_credits').on('click touchstart', function () {
+		$('#btn_credits,#btn_close_credits').on(clickEventName, function () {
 			stateController.set({credits:!stateController.get('credits'), intro:false})
 		})
 
 		if (document.getElementById('wrapper_container').requestFullscreen) {
-			$('#btn_fullscreen').on('click touchstart', function () {
+			$('#btn_fullscreen').on(clickEventName, function () {
 				var wrapper = document.getElementById('wrapper_container');
 				if (!document.fullscreenElement) {
 					wrapper.requestFullscreen();
@@ -120,7 +123,7 @@ $(function () {
 			$('#btn_fullscreen').remove();
 		}
 
-		$('#btn_globe').on('click touchstart', function () {
+		$('#btn_globe').on(clickEventName, function () {
 			stateController.set({airport:false})
 		})
 	}
