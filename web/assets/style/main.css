@@ -8,12 +8,12 @@ html, body {
 	width: 100%;
 	height: 100%;
 	-webkit-text-size-adjust: none;
+	color: #fff;
 }
 
 html, body, .container {
 	margin: 0;
 	padding: 0;
-	color: #fff;
 	position: absolute;
 }
 
@@ -200,5 +200,20 @@ p {
 		pointer-events: all;
 	}
 
+#turn_message {
+	display: none;
+}
+#turn_message .container {
+	font-size:4vw;
+	line-height: 1.2em;
+	color:#666;
+	background:#000;
+}
+
+@media (max-aspect-ratio:4/5) {
+	#turn_message {
+		display: block;
+	}
+}
 
 
