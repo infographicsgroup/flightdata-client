@@ -203,12 +203,13 @@ p {
 #turn_message {
 	display: none;
 }
-#turn_message .container {
-	font-size:4vw;
-	line-height: 1.2em;
-	color:#666;
-	background:#000;
-}
+
+	#turn_message .container {
+		font-size:4vw;
+		line-height: 1.2em;
+		color:#666 !important;
+		background:#000;
+	}
 
 @media (max-aspect-ratio:4/5) {
 	#turn_message {
