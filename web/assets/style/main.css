@@ -25,16 +25,8 @@ body {
 	font-weight: normal;
 }
 
-h2 {
-	font-size: 1.5em;
-	line-height: 1.5em;
-	text-transform: uppercase;
-	font-weight: normal;
-	margin: 0 0 0;
-}
-
 p {
-	font-size: 1.2em;
+	font-size: 1.5em;
 	line-height: 1.5em;
 	margin: 1em 0 0;
 }
@@ -65,8 +57,8 @@ p {
 		background: rgba(0,86,89,0.5);
 		position: absolute;
 		left: 2em;
-		top: 17em;
-		width: 20em;
+		top: 14em;
+		width: 25em;
 		padding: 1.5em 1.5em 1em;
 		box-sizing: border-box;
 	}
