@@ -4,14 +4,17 @@
 	src: url("../fonts/GravurLLWeb-CondRegular.woff2") format("woff2"), url("../fonts/GravurLLWeb-CondRegular.woff") format("woff");
 }
 
-html, body {
+html,
+body {
 	width: 100%;
 	height: 100%;
 	-webkit-text-size-adjust: none;
 	color: #fff;
 }
 
-html, body, .container {
+html,
+body,
+.container {
 	margin: 0;
 	padding: 0;
 	position: absolute;
@@ -46,7 +49,15 @@ p {
 
 #wrapper_html {
 	pointer-events: none;
+	user-select: none;
 }
+
+	#wrapper_html .btn_text,
+	#wrapper_html .btn_icon,
+	#wrapper_html a,
+	#switch {
+		pointer-events: all;
+	}
 
 	#wrapper_html:-webkit-full-screen {
 		width: 100%;
@@ -75,21 +86,21 @@ p {
 		cursor: pointer;
 	}
 
-		.nohover .btn_icon, .btn_icon:hover {
+		.nohover .btn_icon,
+		.btn_icon:hover {
 			opacity: 1.0;
 		}
 
-	#globe_overlay, #airport_overlay, #intro_overlay, #credit_overlay {
+	#globe_overlay,
+	#airport_overlay,
+	#intro_overlay,
+	#credit_overlay {
 		display: none;
 	}
-	
-	#airport_overlay *, #intro_overlay * {
-		pointer-events: all;
-	}
-	
 
 
-#switch, #switch * {
+#switch,
+#switch * {
 	position:absolute;
 }
 	#switch #switch_button {
