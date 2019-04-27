@@ -170,7 +170,7 @@ $(function () {
 			cb();
 		},
 		function (cb) {
-			resize();
+			forceResize();
 			cb();
 		},
 	])
